@@ -1,0 +1,77 @@
+@charset "UTF-8";
+#list_position .tblWrap {
+    height: 600px;
+    display: flex;
+}
+
+#list_position .tblWrap {
+	border-top: none;
+}
+
+#list_position .tblWrap th {
+	border-top: 1px solid #ebebeb;
+}
+
+.tab_part .colorWhite {
+	border: 1px solid #2365f2;
+    color: #1b57d7;
+    background-color: #fff;
+}
+
+.tab_part .colorGray {
+	border: 1px solid #787878;
+	color: #525252;
+	background-color: #fff;
+}
+
+.btnTxt {
+	width: 90px;
+}
+
+.btnTxt button {
+	font-size: 14px;
+    width: 70px;
+    margin-right: 9px;
+    margin-top: 5px;
+}
+
+.tblBtn {
+	position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: right;
+    right: 25px;
+}
+
+.tblBtn .btnSizeM{
+	width : 70px;
+	margin-left: 10px;
+}
+
+.box_right .btnSizeL{
+	width: 170px;
+}
+
+.searchTypoBox .sword{
+	width : 200px;
+	height : 32px;
+	margin-left : 5px;
+	margin-right : 5px;
+}
+
+.inpSel .stype{
+	width : 80px;
+	height : 32px;
+	padding : 0px;
+}
+
+.resumeBtn {
+	padding: 15px 0;
+    justify-content: space-between;
+    display: flex;
+	
+}
+
+.rightBtn {
+	float: right;
+}
