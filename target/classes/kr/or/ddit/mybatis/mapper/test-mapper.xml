@@ -1,3 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.ddit.mybatis.mapper.test-mapper"></mapper>
+<mapper namespace="kr.or.ddit.company.dao.TestDAO">
+
+<sql id="searchFlag">
+	<trim prefix="where" prefixOverrides="AND">
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.companyId)">
+			AND COMPANY_ID=#{detailCondition.companyId}
+		</if>
+		<if test='@org.apache.commons.lang3.StringUtils@equals(detailCondition.testType,"T01")'>
+			AND TEST_TYPE='T01'
+		</if>
+		<if test='@org.apache.commons.lang3.StringUtils@equals(detailCondition.testType,"T02")'>
+			AND TEST_TYPE='T02'
+		</if>
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testDate)">
+			AND TEST_DATE >= #{detailCondition.testDate}
+		</if>
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testDate)">
+			AND TEST_DATE >= #{detailCondition.testDate}
+		</if>
+	</trim>
+</sql>
+
+
+<select id="selectTotalRecordApt">
+	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE='T01'
+</select>
+
+<select id="selectTotalRecordTech">
+	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE='T02'
+</select>
+
+<select id="selectAptTestList" parameterType="PaginationInfo" resultType="TestVO">
+	SELECT B.*
+	FROM (
+	    SELECT ROWNUM RNUM, A.*
+	    FROM (
+	        SELECT 
+	            TEST_NO, COMPANY_ID
+	            , TEST_TITLE, TEST_TYPE, TEST_DATE
+	        FROM TEST
+	        <include refid="searchFlag" />
+	        ORDER BY TEST_DATE DESC
+	    ) A
+	) B 
+	<![CDATA[
+	WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+	]]>
+</select>
+
+<select id="selectTechTestList" parameterType="TestVO" resultType="TestVO">
+	SELECT 
+		TEST_NO, COMPANY_ID
+		, TEST_TITLE, TEST_TYPE, TEST_DATE
+		, ROWNUM RNUM
+	FROM TEST
+	WHERE
+		COMPANY_ID='lg001' AND TEST_TYPE='T02'
+	ORDER BY TEST_DATE DESC
+</select>
+
+<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
+	<id property="testNo" column="TEST_NO" />
+	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true"/>
+	<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+</resultMap>
+<select id="selectTestDetail" resultMap="testDetailMap" parameterType="string">
+	SELECT
+		TEST_NO
+		, QSTN_NO, QSTN_CONT, QSTN_ANSWER
+		, ITEM_NO, ITEM_CONT
+	FROM V_TESTDETAIL
+	WHERE TEST_NO=#{testNo}
+</select>
+
+</mapper>
