@@ -2,6 +2,7 @@ package kr.or.ddit.paging.vo;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -45,11 +46,16 @@ public class PaginationInfo<T> implements Serializable{
 	
 	private SearchVO simpleCondition;		// 단순 키워드 검색 조건
 	private T detailCondition;	// 상세 검색 조건
+	private Map<String, Object> variousCondition;
 	
 //	@JsonIgnore
 	private transient PaginationRenderer renderer = new DefaultPaginationRenderer();	// 페이지 링크 만들기 위해
 //	transient -> 직렬화X
 //	JsonIgnore -> 마셜링X
+	
+	public void setVariousCondition(Map<String, Object> variousCondition) {
+		this.variousCondition = variousCondition;
+	}
 	
 	public void setDetailCondition(T detailCondition) {
 		this.detailCondition = detailCondition;

@@ -1,8 +1,12 @@
 @charset "UTF-8";
 /* 채용절차 - recruit-process */
+.inTab{
+	cursor: pointer;
+}
+
 #list_position .tblWrap {
     height: 600px;
-    display: flex;
+/*     display: flex; */
 }
 
 #list_position .tblWrap {
@@ -27,6 +31,7 @@
 
 .btnTxt {
 	width: 90px;
+    display: inline-block;
 }
 
 .btnTxt button {
@@ -77,6 +82,10 @@
 	float: right;
 }
 
+.paging{
+	display: flex;
+    justify-content: center;
+}
 
 /* ------------------------------------------------------------------------------------------------------- */
 /* 시험 리스트 - testList */
@@ -85,7 +94,15 @@
 	width : 50%;
 }
 
+.test-tbody a:link{
+	text-decoration : underline;
+	color: blue;
+}
 
+.test-tbody a:visited{
+	text-decoration : underline;
+	color: blue;
+}
 /* ------------------------------------------------------------------------------------------------------- */
 
 /* 시험지 폼 - testForm */
@@ -151,6 +168,15 @@
 	font-size : 1rem;
 }
 
+.resumeTbl table {
+    width: 90%;
+    float: right; 
+}
+
+.resumeTxt {
+	display: inline-block;
+}
+
 .item_area{
 	min-height : 60px;
 	overflow : auto;
@@ -172,4 +198,23 @@
 .input_radio{
 	width:20px;
 	height:20px;
+}
+
+.divTypo{
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #222;
+    font-family: "Malgun Gothic",gulim,dotum,sans-serif;
+    font-size: 1rem;
+    letter-spacing: -1px;
+    line-height: 36px;
+    vertical-align: middle;
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+.title_wrap .test_type .saveBtn{
+	margin : 3px;
 }

@@ -97,6 +97,8 @@
 	<!-- test -->
 	<mvc:view-controller path="/aptitudeTestForm.do" view-name="company/test/aptitudeTestForm" />
 	<mvc:view-controller path="/technicalTestForm.do" view-name="company/test/technicalTestForm" />
+	<mvc:view-controller path="/aptitudeTestEdit.do" view-name="company/test/aptitudeTestEdit" />
+	<mvc:view-controller path="/technicalTestEdit.do" view-name="company/test/technicalTestEdit" />
 	<mvc:view-controller path="/testList.do" view-name="company/test/testList" />
 	
    

@@ -7,31 +7,31 @@
 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.companyId)">
 			AND COMPANY_ID=#{detailCondition.companyId}
 		</if>
-		<if test='@org.apache.commons.lang3.StringUtils@equals(detailCondition.testType,"T01")'>
-			AND TEST_TYPE='T01'
+		<if test='@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testType)'>
+			AND TEST_TYPE=#{detailCondition.testType}
 		</if>
-		<if test='@org.apache.commons.lang3.StringUtils@equals(detailCondition.testType,"T02")'>
-			AND TEST_TYPE='T02'
+		<if test='@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testTitle)'>
+			AND INSTR(TEST_TITLE,#{detailCondition.testTitle})>0
 		</if>
-		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testDate)">
-			AND TEST_DATE >= #{detailCondition.testDate}
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.sDate)">
+			<![CDATA[
+			AND TEST_DATE >= #{variousCondition.sDate}
+			]]>
 		</if>
-		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testDate)">
-			AND TEST_DATE >= #{detailCondition.testDate}
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.eDate)">
+			<![CDATA[
+			AND TEST_DATE <= #{variousCondition.eDate}
+			]]>
 		</if>
 	</trim>
 </sql>
 
 
-<select id="selectTotalRecordApt">
-	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE='T01'
+<select id="selectTotalRecord" parameterType="string" resultType="int">
+	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE=#{testType}
 </select>
 
-<select id="selectTotalRecordTech">
-	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE='T02'
-</select>
-
-<select id="selectAptTestList" parameterType="PaginationInfo" resultType="TestVO">
+<select id="selectTestList" parameterType="PaginationInfo" resultType="TestVO">
 	SELECT B.*
 	FROM (
 	    SELECT ROWNUM RNUM, A.*
@@ -49,16 +49,6 @@
 	]]>
 </select>
 
-<select id="selectTechTestList" parameterType="TestVO" resultType="TestVO">
-	SELECT 
-		TEST_NO, COMPANY_ID
-		, TEST_TITLE, TEST_TYPE, TEST_DATE
-		, ROWNUM RNUM
-	FROM TEST
-	WHERE
-		COMPANY_ID='lg001' AND TEST_TYPE='T02'
-	ORDER BY TEST_DATE DESC
-</select>
 
 <resultMap type="TestVO" id="testDetailMap" autoMapping="true">
 	<id property="testNo" column="TEST_NO" />
@@ -67,11 +57,12 @@
 </resultMap>
 <select id="selectTestDetail" resultMap="testDetailMap" parameterType="string">
 	SELECT
-		TEST_NO
+		TEST_NO, TEST_TITLE
 		, QSTN_NO, QSTN_CONT, QSTN_ANSWER
 		, ITEM_NO, ITEM_CONT
 	FROM V_TESTDETAIL
 	WHERE TEST_NO=#{testNo}
+	ORDER BY QSTN_NO, ITEM_NO
 </select>
 
 </mapper>

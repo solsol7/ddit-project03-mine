@@ -39,8 +39,8 @@
                       </div>
                     </div>
                 </div>
-                <div class="tblWrap">
-                    <div class="btnTxt">
+                <div class="tblWrap resumeTbl">
+                    <div class="btnTxt resumeTxt">
                     	<button type="button" class="btnSizeM colorBlue">미합격</button>
                     	<button type="button" class="btnSizeM colorBlack">합격</button>
                     	<button type="button" class="btnSizeM colorBlack">불합격</button>

@@ -9,14 +9,10 @@ import kr.or.ddit.paging.vo.PaginationInfo;
 
 @Mapper
 public interface TestDAO {
-	public int selectTotalRecordApt();
+	public int selectTotalRecord(String testType);
 	
-	public int selectTotalRecordTech();
-	
-	public List<TestVO> selectAptTestList(PaginationInfo<TestVO> paging);
-	
-	public List<TestVO> selectTechTestList(PaginationInfo<TestVO> paging);
+	public List<TestVO> selectTestList(PaginationInfo<TestVO> paging);
 
-	public List<TestVO> selectTestDetail(String testNo);
+	public TestVO selectTestDetail(String testNo);
 	
 }

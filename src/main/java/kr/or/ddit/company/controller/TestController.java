@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.or.ddit.company.service.TestService;
 import kr.or.ddit.company.vo.TestVO;
+import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 @Controller
@@ -25,56 +29,62 @@ public class TestController {
 	@Inject
 	private TestService service;
 	
-	@GetMapping("/test")
+	@GetMapping("test")
 	@ResponseBody
-	public Map<String, PaginationInfo<TestVO>> testListRetrieve(
+	public PaginationInfo<TestVO> testListRetrieve(
 			//@SessionAttribute("authId") String companyId
+			@ModelAttribute TestVO detailCondition
+			, @RequestParam("sDate") String sDate
+			, @RequestParam("eDate") String eDate			
 			) {
-		PaginationInfo<TestVO> aptPaging = new PaginationInfo<>();
-		aptPaging.setCurrentPage(1);
+		PaginationInfo<TestVO> paging = new PaginationInfo<>();
+		paging.setCurrentPage(1);
 		
-		TestVO aptTestVO = new TestVO();
-		aptTestVO.setCompanyId("lg001");	////////////////////////////// 하드코딩
-		aptTestVO.setTestType("T01");
-		aptPaging.setDetailCondition(aptTestVO);
+		TestVO testVO = new TestVO();
+		testVO.setCompanyId("lg001");	////////////////////////////// 하드코딩
+
+		paging.setDetailCondition(detailCondition);
 		
-		service.retrieveAptTestList(aptPaging);
+		Map<String, Object> variousCondition = new HashMap<>();
+		variousCondition.put("sDate", sDate);
+		variousCondition.put("eDate", eDate);
 		
-		PaginationInfo<TestVO> techPaging = new PaginationInfo<>();
-		techPaging.setCurrentPage(1);
+		paging.setVariousCondition(variousCondition);
 		
-		TestVO techTestVO = new TestVO();
-		techTestVO.setCompanyId("lg001");	////////////////////////////// 하드코딩
-		techTestVO.setTestType("T02");
-		techPaging.setDetailCondition(techTestVO);
+		paging.setRenderer(new BootstrapPaginationRenderer());
 		
-		service.retrieveTechTestList(techPaging);
+		service.retrieveTestList(paging);
 		
-		
-		/* 리스트로 맹글기
-		List<PaginationInfo<TestVO>> silverSols = new ArrayList<PaginationInfo<TestVO>>();
-		silverSols.add(aptPaging);
-		silverSols.add(techPaging);
-		*/
-		
-		Map<String, PaginationInfo<TestVO>> mapSols = new HashMap<String, PaginationInfo<TestVO>>();
-		
-		mapSols.put("apt", aptPaging);
-		mapSols.put("tech", techPaging);
-		
-		
-//		return aptPaging;
-		//model.addAttribute("aptPaging", aptPaging);
-		//model.addAttribute("techPaging", techPaging);
-		
-		//return silverSols;
-		return mapSols;
+		return paging;
 	}
 	
 	
 	
-	@GetMapping("{testNo}")
-	public void testRetrieve() {
-		
+	@GetMapping("test/{testType}/{testNo}")
+	public String testRetrieve(
+		@PathVariable String testNo
+		, @PathVariable String testType
+		, Model model
+	) {
+		TestVO testVO = service.retrieveTestDetail(testNo);
+		model.addAttribute(testVO);
+		if(testType.equals("T01")) {			
+			return "company/test/aptitudeTestView";
+		}else{
+			return "company/test/technicalTestView";
+		}
 	}
+	
+	@GetMapping("test/new/{testType}")
+	public String testForm() {
+		
+		return null;
+	}
+	
+	@PostMapping("test/new/{testType}")
+	public String insertTest() {
+		
+		return null;
+	}
+	
 }

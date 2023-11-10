@@ -17,27 +17,18 @@ public class TestServiceImpl implements TestService{
 	private TestDAO testDAO;
 
 	@Override
-	public void retrieveAptTestList(PaginationInfo<TestVO> paging) {
-		int totalRecord = testDAO.selectTotalRecordApt();
+	public void retrieveTestList(PaginationInfo<TestVO> paging) {
+		String testType = paging.getDetailCondition().getTestType();
+		int totalRecord = testDAO.selectTotalRecord(testType);
 		paging.setTotalRecord(totalRecord);
 		
-		List<TestVO> dataList = testDAO.selectAptTestList(paging);
+		List<TestVO> dataList = testDAO.selectTestList(paging);
 		
 		paging.setDataList(dataList);
 	}
 
 	@Override
-	public void retrieveTechTestList(PaginationInfo<TestVO> paging) {
-		int totalRecord = testDAO.selectTotalRecordTech();
-		paging.setTotalRecord(totalRecord);
-		
-		List<TestVO> dataList = testDAO.selectTechTestList(paging);
-		
-		paging.setDataList(dataList);
-	}
-
-	@Override
-	public List<TestVO> retrieveTestDetail(String testNo) {
+	public TestVO retrieveTestDetail(String testNo) {
 		return testDAO.selectTestDetail(testNo);
 	}
 

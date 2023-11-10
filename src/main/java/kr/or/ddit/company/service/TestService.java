@@ -6,9 +6,7 @@ import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 public interface TestService {
-	public void retrieveAptTestList(PaginationInfo<TestVO> paging);
+	public void retrieveTestList(PaginationInfo<TestVO> paging);
 	
-	public void retrieveTechTestList(PaginationInfo<TestVO> paging);
-	
-	public List<TestVO> retrieveTestDetail(String testNo);
+	public TestVO retrieveTestDetail(String testNo);
 }
