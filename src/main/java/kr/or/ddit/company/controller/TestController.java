@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.or.ddit.company.service.TestService;
+import kr.or.ddit.company.vo.TestItemVO;
+import kr.or.ddit.company.vo.TestQstnVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
@@ -28,6 +31,11 @@ import kr.or.ddit.paging.vo.PaginationInfo;
 public class TestController {
 	@Inject
 	private TestService service;
+	
+	@ModelAttribute("testVO")
+	public TestVO testVO(){
+		return new TestVO();
+	}
 	
 	@GetMapping("test")
 	@ResponseBody
@@ -76,15 +84,48 @@ public class TestController {
 	}
 	
 	@GetMapping("test/new/{testType}")
-	public String testForm() {
-		
-		return null;
+	public String testForm(@PathVariable String testType) {
+		if(testType.equals("T01")) {			
+			return "company/test/aptitudeTestForm";
+		}else{
+			return "company/test/technicalTestForm";
+		}
 	}
 	
-	@PostMapping("test/new/{testType}")
-	public String insertTest() {
+	@PostMapping("test/new")
+	public String insertTest(
+			@ModelAttribute TestVO testVO
+			, Errors errors
+	) {
 		
-		return null;
+		boolean valid = !errors.hasErrors();
+		
+		String viewName = null;
+		if(valid) {
+			// test insert(testNo, companyId, testTitle, testType, testDate)
+			service.createTest(testVO);
+			
+			// for문
+			for(TestQstnVO q : testVO.getQstnList()) {
+				// test qstn insert(testNo, qstnNo, qstnCont, qstnAnswer
+				// testVO에서 값 가져와서 testNo 셋팅
+				q.setTestNo(testVO.getTestNo());
+				service.createTestQstn(q);
+	
+				// for문(testNo, qstnNo, itemNo, itemCont)
+				for(TestItemVO i : q.getItemList()) {
+					// testVO에서 값 가져와서 testNo 셋팅
+					i.setTestNo(q.getTestNo());
+					// test item insert
+					service.createTestItem(i);
+					
+				}
+				
+			}
+		
+			
+		}
+		return viewName;
 	}
 	
 }

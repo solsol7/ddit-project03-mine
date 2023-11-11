@@ -20,10 +20,8 @@ class TestServiceImplTest extends AbstractRootContextTest{
 	
 	@Test
 	void test() {
-		List<TestVO> testDetailList = service.retrieveTestDetail("T000001");
-		for(TestVO t : testDetailList) {
-			log.info(t.getTestNo());
-		}
+		TestVO testDetailList = service.retrieveTestDetail("T000001");
+		
 	}
 
 }

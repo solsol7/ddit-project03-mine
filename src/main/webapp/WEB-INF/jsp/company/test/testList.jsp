@@ -25,7 +25,9 @@
         <div class="tab_part">
         	<div class="box_lookup">
                    <div class="box_right">
-                          <button type="button" class="btnSizeL colorWhtie" onclick="addTest()">시험지 생성</button>
+                   		  
+                          <button type="button" class="btnSizeL colorWhtie" onclick='addAptTest("T01")'>적성검사 생성</button>
+                          <button type="button" class="btnSizeL colorWhtie" onclick='addTechTest("T02")'>기술시험 생성</button>
                    </div>
             </div>
             <!-- 리스트 출력 영역 -->
@@ -56,11 +58,6 @@
 	                        <tr>
 	                            <th scope="col">시험제목</th>
 	                            <th scope="col">등록일</th>
-	                            <th scope="col">
-									<select name="">
-	                                 	 <option value="">점수순</option>
-	                             	 </select>
-								</th>
 	                        </tr>
                         </thead>
                         <tbody class="test-tbody" data-list-order="1">

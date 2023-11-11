@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.ddit.company.vo.TestItemVO;
+import kr.or.ddit.company.vo.TestQstnVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
@@ -15,4 +17,9 @@ public interface TestDAO {
 
 	public TestVO selectTestDetail(String testNo);
 	
+	public int insertTest(TestVO testVO);
+	
+	public int insertTestQstn(TestQstnVO qstnVO);
+	
+	public int insertTestItem(TestItemVO itemVO);
 }

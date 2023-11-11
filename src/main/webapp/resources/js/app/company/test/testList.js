@@ -76,14 +76,13 @@ $(function(){
 									<tr>
 										<td><a href="javascript:;" onclick="testDetail('${v.testType}','${v.testNo}');">${v.testTitle}</a></td>
 										<td>${v.testDate}</td>
-										<td></td>
 									</tr>
 								`;
 					})
 				}else{
 					result += `
 							<tr>
-		                        <td colspan="3" style="padding: 20">
+		                        <td colspan="2" style="padding: 20">
 		                        	검색 결과가 없습니다.
 		                        </td>
 		                     </tr>
@@ -160,14 +159,13 @@ $(function(){
 									<tr>
 										<td><a href="javascript:;" onclick="testDetail('${v.testType}','${v.testNo}');">${v.testTitle}</a></td>
 										<td>${v.testDate}</td>
-										<td></td>
 									</tr>
 								`;
 					})
 				}else{
 					result += `
 							<tr>
-		                        <td colspan="3" style="padding: 20">
+		                        <td colspan="2" style="padding: 20">
 		                        	검색 결과가 없습니다.
 		                        </td>
 		                     </tr>
@@ -190,8 +188,10 @@ $(function(){
 	})
 
 	/* 시험지 생성 */
-	addTest = () => {
-		location.href = `${cpath}/company/test/new`;
+	addAptTest = (testType) => {
+		location.href = `${cPath}/company/test/new/${testType}`;
 	}
+	
+	
 })
 

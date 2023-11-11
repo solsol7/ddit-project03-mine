@@ -8,9 +8,9 @@
 		<div class="title_wrap">
 			<div class="test_type">
 				적성검사
-				<button type="button" class="btnSizeS colorBlue saveBtn">삭제</button>
-				<button type="button" class="btnSizeS colorBlue saveBtn">수정</button>
-				<button type="button" class="btnSizeS colorBlue saveBtn">목록</button>
+				<button type="button" class="btnSizeS colorBlue saveBtn" onclick="">삭제</button>
+				<button type="button" class="btnSizeS colorBlue saveBtn" onclick="">수정</button>
+				<button type="button" class="btnSizeS colorBlue saveBtn" onclick="">목록</button>
 			</div>
 			
 			<div class="test_title">
@@ -36,7 +36,7 @@
 							<td class="is_answer">정답여부</td>
 						</tr>
 						<c:if test="${qstn.qstnNo eq status.count }">
-							<c:forEach items="${testVO.itemList}" var="item" >
+							<c:forEach items="${qstn.itemList}" var="item" >
 								<c:if test="${item.qstnNo eq qstn.qstnNo }">
 									<tr>
 										<td>${item.itemNo }</td>

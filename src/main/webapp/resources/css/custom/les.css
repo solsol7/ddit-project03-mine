@@ -103,6 +103,10 @@
 	text-decoration : underline;
 	color: blue;
 }
+
+.fff{
+	background-color: skyblue;
+}
 /* ------------------------------------------------------------------------------------------------------- */
 
 /* 시험지 폼 - testForm */
@@ -217,4 +221,8 @@
 
 .title_wrap .test_type .saveBtn{
 	margin : 3px;
+}
+
+.test_content .box_lookup{
+	background-color: white;
 }

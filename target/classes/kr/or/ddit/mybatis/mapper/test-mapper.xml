@@ -52,8 +52,10 @@
 
 <resultMap type="TestVO" id="testDetailMap" autoMapping="true">
 	<id property="testNo" column="TEST_NO" />
-	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true"/>
-	<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+		<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+	</collection>
+	
 </resultMap>
 <select id="selectTestDetail" resultMap="testDetailMap" parameterType="string">
 	SELECT
@@ -64,5 +66,52 @@
 	WHERE TEST_NO=#{testNo}
 	ORDER BY QSTN_NO, ITEM_NO
 </select>
+
+<insert id="insertTest" parameterType="TestVO">
+	<selectKey keyProperty="testNo" order="BEFORE" resultType="string">
+		select 'T'||LPAD(test_seq.nextval,6,'0') from dual
+	</selectKey>
+	INSERT INTO test (
+	    test_no
+	    , company_id
+	    , test_title
+	    , test_type
+	    , test_date
+	) VALUES (
+	      #{testNo}
+	    , #{companyId}
+	    , #{testTitle}
+	    , #{testType}
+	    , sysdate
+	)
+</insert>
+
+<insert id="insertTestQstn" parameterType="TestQstnVO">
+	INSERT INTO test_qstn (
+	    test_no
+	    , qstn_no
+	    , qstn_cont
+	    , qstn_answer
+	) VALUES (
+	      #{testNo}
+	    , #{qstnNo}
+	    , #{qstnCont}
+	    , #{qstnAnswer}
+	)
+</insert>
+
+<insert id="insertTestItem" parameterType="TestItemVO">
+	INSERT INTO test_item (
+	    test_no
+	    , qstn_no
+	    , item_no
+	    , item_cont
+	) VALUES (
+	   #{testNo}
+	    , #{qstnNo}
+	    , #{itemNo}
+	    , #{itemCont}
+	)
+</insert>
 
 </mapper>
