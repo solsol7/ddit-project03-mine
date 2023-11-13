@@ -53,9 +53,9 @@
 <resultMap type="TestVO" id="testDetailMap" autoMapping="true">
 	<id property="testNo" column="TEST_NO" />
 	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+		<id property="qstnNo" column="QSTN_NO"/>
 		<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
 	</collection>
-	
 </resultMap>
 <select id="selectTestDetail" resultMap="testDetailMap" parameterType="string">
 	SELECT
@@ -78,11 +78,11 @@
 	    , test_type
 	    , test_date
 	) VALUES (
-	      #{testNo}
-	    , #{companyId}
-	    , #{testTitle}
-	    , #{testType}
-	    , sysdate
+	    #{testNo,jdbcType=VARCHAR}
+		, #{companyId,jdbcType=VARCHAR}
+		, #{testTitle,jdbcType=VARCHAR}
+		, #{testType,jdbcType=VARCHAR}
+		, sysdate
 	)
 </insert>
 
@@ -93,10 +93,10 @@
 	    , qstn_cont
 	    , qstn_answer
 	) VALUES (
-	      #{testNo}
-	    , #{qstnNo}
-	    , #{qstnCont}
-	    , #{qstnAnswer}
+		#{testNo,jdbcType=VARCHAR}
+		, #{qstnNo,jdbcType=NUMERIC}
+		, #{qstnCont,jdbcType=VARCHAR}
+		, #{qstnAnswer,jdbcType=VARCHAR}
 	)
 </insert>
 
@@ -107,11 +107,29 @@
 	    , item_no
 	    , item_cont
 	) VALUES (
-	   #{testNo}
-	    , #{qstnNo}
-	    , #{itemNo}
-	    , #{itemCont}
+		#{testNo,jdbcType=VARCHAR}
+		, #{qstnNo,jdbcType=NUMERIC}
+		, #{itemNo,jdbcType=NUMERIC}
+		, #{itemCont,jdbcType=VARCHAR}
 	)
 </insert>
+
+<delete id="deleteTest" parameterType="string">
+	DELETE FROM test
+	WHERE
+        TEST_NO = #{testNo}
+</delete>
+
+<delete id="deleteTestQstn" parameterType="string">
+	DELETE FROM test_qstn
+	WHERE
+        TEST_NO = #{testNo}
+</delete>
+
+<delete id="deleteTestItem" parameterType="string">
+	DELETE FROM test_item
+	WHERE
+        TEST_NO = #{testNo}
+</delete>
 
 </mapper>

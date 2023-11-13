@@ -7,7 +7,6 @@ $(function(){
 	const cPath = this.body.dataset.contextPath;
 	
 	/*datepicker - 날짜선택 api*/
-
 	$("#sDate").datepicker({
            dateFormat: 'yy-mm-dd' //달력 날짜 형태
            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
@@ -50,17 +49,57 @@ $(function(){
 
 	$('#eDate').datepicker('setDate', 'today');
 
-
-
+/*
+	let settings = {
+		url:`${cPath}/company/test`,
+		type : "get",
+		data : $('#searchForm').serialize(),
+		dataType :"json",
+		success : function(resp){
+			console.log(resp);
+			result = ``;
+			if(resp.dataList.length>0){
+				$.each(resp.dataList,function(i,v){
+					result += `
+								<tr>
+									<td><a href="javascript:;" onclick="testDetail('${v.testType}','${v.testNo}');">${v.testTitle}</a></td>
+									<td>${v.testDate}</td>
+								</tr>
+							`;
+				})
+			}else{
+				result += `
+						<tr>
+	                        <td colspan="2" style="padding: 20">
+	                        	검색 결과가 없습니다.
+	                        </td>
+	                     </tr>
+						`;
+			}
+			// 탭 순서와 똑같은 tbody에 result 찍기
+			$(`.test-tbody[data-list-order=${order}]`).html(result);
+			
+			// paging ui 찍기
+			let paging = resp.pagingHTML;
+			$('#paging').html(paging);
+			
+		},
+		error : function(xhr){
+			console.log("상태 : ",xhr.status);
+		}
+	}
+*/
 	/* 탭 클릭 이벤트 */
 	$('.testClass').on("click",function(){
-		
+		// 모든 검색조건 초기화
 		$('#searchForm').find('input[name]').val("");
 		
+		// 테스트타입 셋팅
 		let testType = $(this).attr('id');
-		let order = $(this).data("tabOrder");
+		$('#searchForm').find('input[name=testType]').val(testType);
 		
-		$('#searchForm').find('input[name=testType]').val(testType)
+		// 현재 탭 번호 가져오기		
+		let order = $(this).data("tabOrder");
 		
 		$.ajax({
 			url:`${cPath}/company/test`,
@@ -88,8 +127,10 @@ $(function(){
 		                     </tr>
 							`;
 				}
+				// 탭 순서와 똑같은 tbody에 result 찍기
 				$(`.test-tbody[data-list-order=${order}]`).html(result);
 				
+				// paging ui 찍기
 				let paging = resp.pagingHTML;
 				$('#paging').html(paging);
 				
@@ -99,14 +140,16 @@ $(function(){
 			}
 		})	// ajax 끝
 		
+		
+		// select된 탭 select속성 다 지우기
 		$('.tabList').children('.select').removeClass('select')
-		$(this).addClass("select")
-
+		// tbody 전부 안보이게 하기
 		$('.test-tbody').attr('style','display:none');
 		
+		// 클릭한 탭에 select 속성 주기
+		$(this).addClass("select")
+		// 탭 번호와 똑같은 tbody 보이게 하기
 		$(`.test-tbody[data-list-order=${order}]`).attr('style','display:');
-		
-
 		
 	})
 	
@@ -144,7 +187,12 @@ $(function(){
 	/* 페이지 처리 또는 검색버튼 클릭 시 submit 이벤트 */
 	$(searchForm).on("submit",function(event){
 		event.preventDefault();
-		let data = $(this).serialize();
+		
+		// 현재 탭의 testType 가져오기
+		let testType = $('#searchForm').find('input[name=testType]').val();	
+		// 현재 탭 번호 가져오기			
+		let order = $('#'+testType).data("tabOrder");
+		
 		$.ajax({
 			url:`${cPath}/company/test`,
 			type : "get",
@@ -171,12 +219,10 @@ $(function(){
 		                     </tr>
 							`;
 				}
+				// 탭 순서와 똑같은 tbody에 result 찍기
+				$(`.test-tbody[data-list-order=${order}]`).html(result);
 				
-				let testType = $('#searchForm').find('input[name=testType]').val();
-				let listOrder = $('#'+testType).data("tabOrder");
-				
-				$(`.test-tbody[data-list-order=${listOrder}]`).html(result);
-				
+				// paging ui 찍기
 				let paging = resp.pagingHTML;
 				$('#paging').html(paging);
 				
@@ -184,11 +230,11 @@ $(function(){
 			error : function(xhr){
 				console.log("상태 : ",xhr.status);
 			}
-		});	// ajax 끝
+		});
 	})
 
 	/* 시험지 생성 */
-	addAptTest = (testType) => {
+	addTest = (testType) => {
 		location.href = `${cPath}/company/test/new/${testType}`;
 	}
 	

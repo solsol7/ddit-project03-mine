@@ -26,8 +26,8 @@
         	<div class="box_lookup">
                    <div class="box_right">
                    		  
-                          <button type="button" class="btnSizeL colorWhtie" onclick='addAptTest("T01")'>적성검사 생성</button>
-                          <button type="button" class="btnSizeL colorWhtie" onclick='addTechTest("T02")'>기술시험 생성</button>
+                          <button type="button" class="btnSizeL colorWhtie" onclick='addTest("T01")'>적성검사 생성</button>
+                          <button type="button" class="btnSizeL colorWhtie" onclick='addTest("T02")'>기술시험 생성</button>
                    </div>
             </div>
             <!-- 리스트 출력 영역 -->
@@ -76,11 +76,11 @@
 		       </div>
 		       
 				<form action="<%=request.getContextPath()%>/company/test" id="searchForm">
-					<input type="hidden" readonly name="testType" />
-					<input type="hidden" readonly name="sDate" />
-					<input type="hidden" readonly name="eDate" />
-					<input type="hidden" readonly name="testTitle" />
-					<input type="hidden" readonly name="page" />
+					<input type="text" readonly name="testType" />
+					<input type="text" readonly name="sDate" />
+					<input type="text" readonly name="eDate" />
+					<input type="text" readonly name="testTitle" />
+					<input type="text" readonly name="page" />
 				</form>
 		       
             </div>

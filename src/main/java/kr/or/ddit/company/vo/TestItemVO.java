@@ -3,6 +3,7 @@ package kr.or.ddit.company.vo;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import kr.or.ddit.validate.grouphint.UpdateGroup;
 import lombok.Data;
@@ -15,9 +16,10 @@ import lombok.ToString;
 public class TestItemVO implements Serializable{
 	@NotBlank(groups = UpdateGroup.class)
 	private String testNo;
-	@NotBlank
+	@NotNull
 	private Integer qstnNo;
-	@NotBlank
+	@NotNull
 	private Integer itemNo;
+	@NotBlank
 	private String itemCont;
 }

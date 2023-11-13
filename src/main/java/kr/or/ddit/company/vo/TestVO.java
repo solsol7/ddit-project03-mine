@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -30,6 +32,7 @@ public class TestVO implements Serializable{
 	private String testType;
 	private String testDate;
 	
-	private List<TestQstnVO> qstnList;
+	@Valid
+	private List<@NotNull TestQstnVO> qstnList;
 	
 }

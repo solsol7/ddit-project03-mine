@@ -14,8 +14,6 @@ public interface TestService {
 	public TestVO retrieveTestDetail(String testNo);
 	
 	public ServiceResult createTest(TestVO testVO);
-
-	public ServiceResult createTestQstn(TestQstnVO qstnVO);
 	
-	public ServiceResult createTestItem(TestItemVO itemVO);
+	public ServiceResult removeTest(String testNo);
 }
