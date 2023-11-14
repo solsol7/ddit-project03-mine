@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import kr.or.ddit.validate.grouphint.AptTestGroup;
 import kr.or.ddit.validate.grouphint.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,6 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "qstnNo")
 @ToString
 public class TestQstnVO implements Serializable{
-	@NotBlank(groups = UpdateGroup.class)
 	private String testNo;
 	@NotNull
 	private Integer qstnNo;
@@ -25,5 +25,6 @@ public class TestQstnVO implements Serializable{
 	@NotBlank
 	private String qstnAnswer;
 	
-	private List<TestItemVO> itemList;
+	@Valid
+	private List<@NotNull(groups = AptTestGroup.class) TestItemVO> itemList;
 }

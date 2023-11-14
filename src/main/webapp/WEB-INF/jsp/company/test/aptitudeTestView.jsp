@@ -10,7 +10,7 @@
 		<div class="test_type">
 			적성검사
 			<button type="button" id="testDelBtn" class="btnSizeS colorBlue saveBtn">삭제</button>
-			<button type="button" id="testModBtn" class="btnSizeS colorBlue saveBtn">수정</button>
+			<button type="button" id="testModBtn" data-test-type="${testType }" data-test-no="${testNo }" class="btnSizeS colorBlue saveBtn">수정</button>
 			<button type="button" id="testListBtn" class="btnSizeS colorBlue saveBtn">목록</button>
 		</div>
 		
@@ -64,6 +64,7 @@
 </div>
 <form id="deleteForm" method="post" action="<%=request.getContextPath()%>/company/test/${testNo}">
 	<input type="hidden" name="_method" value="delete" />
+	<input type="hidden" name="testNo" value="${testNo }" />
 	<input type="hidden" name="testType" value="T01" />
 	<input type="hidden" name="memPass" />
 </form>

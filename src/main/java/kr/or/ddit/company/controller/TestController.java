@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,7 @@ import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
 import kr.or.ddit.validate.grouphint.InsertGroup;
+import kr.or.ddit.validate.grouphint.UpdateGroup;
 
 @Controller
 @RequestMapping("/company")
@@ -59,15 +61,17 @@ public class TestController {
 			//@SessionAttribute("authId") String companyId
 			@ModelAttribute TestVO detailCondition
 			, @RequestParam("sDate") String sDate
-			, @RequestParam("eDate") String eDate			
+			, @RequestParam("eDate") String eDate
+			, @RequestParam(value = "page", defaultValue = "1") int currentPage
 			) {
-		PaginationInfo<TestVO> paging = new PaginationInfo<>();
+		PaginationInfo<TestVO> paging = new PaginationInfo<>(3,4);
 		paging.setCurrentPage(1);
 		
 		TestVO testVO = new TestVO();
 		testVO.setCompanyId("lg001");	////////////////////////////// 하드코딩
 
 		paging.setDetailCondition(detailCondition);
+		paging.setCurrentPage(currentPage);
 		
 		Map<String, Object> variousCondition = new HashMap<>();
 		variousCondition.put("sDate", sDate);
@@ -102,7 +106,7 @@ public class TestController {
 	
 	
 	/* 새 시험지 생성 */
-	@GetMapping("test/new/{testType}")
+	@GetMapping("test/{testType}/new")
 	public String testForm(@PathVariable String testType) {
 		if(testType.equals("T01")) {			
 			return "company/test/aptitudeTestForm";
@@ -136,7 +140,7 @@ public class TestController {
 				redirectAttributes.addFlashAttribute("testVO", testVO);
 //				 클래스 이름 위에 @SessionAttributes 어노테이션 없으면 이거라도 있어야함 -- session 통해 모델이 공유되도록
 				redirectAttributes.addFlashAttribute("message","등록 실패");
-				viewName = "redirect:/company/test/new/"+testVO.getTestType();
+				viewName = String.format("redirect:/company/test/%s/new", testVO.getTestType());
 				break;
 			}
 		}else {
@@ -144,17 +148,9 @@ public class TestController {
 			redirectAttributes.addFlashAttribute(attrName, errors);
 			redirectAttributes.addFlashAttribute("testVO", testVO);
 //			 클래스 이름 위에 @SessionAttributes 어노테이션 없으면 이거라도 있어야함 -- session 통해 모델이 공유되도록
-			viewName = "redirect:/company/test/new/"+testVO.getTestType();
+			viewName = String.format("redirect:/company/test/%s/new", testVO.getTestType());
 		}
 		return viewName;
-	}
-	
-	
-	/* 시험지 수정 */
-	@GetMapping("test/edit/{testNo}")
-	public String editForm() {
-		
-		return null;
 	}
 	
 	
@@ -163,8 +159,7 @@ public class TestController {
 	@DeleteMapping("test/{testNo}")
 	public String testDelete(
 			//@SessionAttribute("authId") String companyId
-			@PathVariable String testNo
-			, @RequestParam String testType
+			@ModelAttribute TestVO testVO
 			, @ModelAttribute MemberVO inputData
 			, RedirectAttributes redirectAttributes
 	) {
@@ -173,7 +168,7 @@ public class TestController {
 		
 		String viewName = null;
 		if(authResult==ServiceResult.OK) {
-			ServiceResult result = service.removeTest(testNo);
+			ServiceResult result = service.removeTest(testVO);
 			switch (result) {
 			case OK:
 				redirectAttributes.addFlashAttribute("message", "삭제 성공");
@@ -181,16 +176,77 @@ public class TestController {
 				break;
 			default:
 				redirectAttributes.addFlashAttribute("message", "삭제 실패");
-				viewName = String.format("redirect:/company/test/%s/{testNo}", testType);
+				viewName = String.format("redirect:/company/test/%s/{testNo}", testVO.getTestType());
 				break;
 			}
 		}else {
 			redirectAttributes.addFlashAttribute("message", "비밀번호 오류");
-			viewName = String.format("redirect:/company/test/%s/{testNo}", testType);
+			viewName = String.format("redirect:/company/test/%s/{testNo}", testVO.getTestType());
 		}
 		
 		
 		
 		return viewName;
 	}
+	
+	
+	
+	/* 시험지 수정 */
+	@GetMapping("test/{testType}/{testNo}/edit")
+	public String testEdit(
+			@PathVariable String testType
+			, @PathVariable String testNo
+			, Model model
+	) {
+		if(!model.containsAttribute("targetTest")) {
+			TestVO targetTest = service.retrieveTestDetail(testNo);
+			model.addAttribute("targetTest", targetTest);
+		}
+		if(testType.equals("T01")) {			
+			return "company/test/aptitudeTestEdit";
+		}else{
+			return "company/test/technicalTestEdit";
+		}
+	}
+	
+	@PutMapping("test/{testType}/{testNo}/edit")
+	public String testUpate(
+			//@SessionAttribute("authId") String companyId
+			@PathVariable String testNo
+			, @Validated(UpdateGroup.class) @ModelAttribute("targetTest") TestVO targetTest
+			, BindingResult errors
+			, RedirectAttributes redirectAttributes
+			, SessionStatus sessionStatus
+	) {
+		boolean valid = !errors.hasErrors();
+		
+		String viewName = null;
+		if(valid) {
+			targetTest.setCompanyId("lg001");		//////////////////////// 하드코딩
+			ServiceResult result = service.modifyTest(targetTest);
+			switch (result) {
+			case OK:
+				sessionStatus.setComplete();
+				viewName = String.format("redirect:/company/test/%s/%s", targetTest.getTestType(), targetTest.getTestNo());				
+				break;
+			default:
+				String attrName = BindingResult.MODEL_KEY_PREFIX+"targetTest";
+				redirectAttributes.addFlashAttribute(attrName, errors);
+				redirectAttributes.addFlashAttribute("targetTest", targetTest);
+//				 클래스 이름 위에 @SessionAttributes 어노테이션 없으면 이거라도 있어야함 -- session 통해 모델이 공유되도록
+				redirectAttributes.addFlashAttribute("message","수정 실패");
+				viewName = String.format("redirect:/company/test/%s/%s/edit", targetTest.getTestType(), targetTest.getTestNo());
+				break;
+			}
+		}else {
+			String attrName = BindingResult.MODEL_KEY_PREFIX+"targetTest";
+			redirectAttributes.addFlashAttribute(attrName, errors);
+			redirectAttributes.addFlashAttribute("targetTest", targetTest);
+//			 클래스 이름 위에 @SessionAttributes 어노테이션 없으면 이거라도 있어야함 -- session 통해 모델이 공유되도록
+			viewName = String.format("redirect:/company/test/%s/%s/edit", targetTest.getTestType(), targetTest.getTestNo());
+		}
+		return viewName;
+	}
+	
+	
 }

@@ -25,7 +25,7 @@ public class TestServiceImpl implements TestService{
 	@Override
 	public void retrieveTestList(PaginationInfo<TestVO> paging) {
 		String testType = paging.getDetailCondition().getTestType();
-		int totalRecord = testDAO.selectTotalRecord(testType);
+		int totalRecord = testDAO.selectTotalRecord(paging);
 		paging.setTotalRecord(totalRecord);
 		
 		List<TestVO> dataList = testDAO.selectTestList(paging);
@@ -93,13 +93,16 @@ public class TestServiceImpl implements TestService{
 	 * 시험지 삭제
 	 */
 	@Override
-	public ServiceResult removeTest(String testNo) {
+	public ServiceResult removeTest(TestVO testVO) {
 		
 		boolean successFlag = true;
+		String testNo = testVO.getTestNo();
+		int itemDeleteCnt = -1;
+		if(testVO.getTestType().equals("T01")) {
+			itemDeleteCnt = testDAO.deleteTestItem(testNo);
+		}
 		
-		int itemDeleteCnt = testDAO.deleteTestItem(testNo);
-		
-		if(itemDeleteCnt > 0) {
+		if(itemDeleteCnt > 0 && testVO.getTestType().equals("T01") || itemDeleteCnt == -1 && testVO.getTestType().equals("T02")) {
 			int qstnDeleteCnt = testDAO.deleteTestQstn(testNo);
 			if(qstnDeleteCnt > 0) {
 				int testDeleteCnt = testDAO.deleteTest(testNo);
@@ -110,6 +113,51 @@ public class TestServiceImpl implements TestService{
 				}
 			}else {
 				successFlag &= false;				
+			}
+		}else {
+			successFlag &= false;
+		}
+		
+		ServiceResult result = null;
+		if(successFlag) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ServiceResult modifyTest(TestVO testVO) {
+		boolean successFlag = true;
+		// 시험지 insert
+		int testUpdateCnt = testDAO.updateTest(testVO);
+		if(testUpdateCnt>0) {
+			// for문 - 시험문제 insert
+			for(TestQstnVO q : testVO.getQstnList()) {
+				// testVO에서 값 가져와서 testNo 셋팅
+				q.setTestNo(testVO.getTestNo());
+				int qstnUpdateCnt = testDAO.updateTestQstn(q);
+				
+				if(qstnUpdateCnt > 0 && testVO.getTestType().equals("T01")) {
+					// for문(testNo, qstnNo, itemNo, itemCont) - 시험문항 insert
+					for(TestItemVO i : q.getItemList()) {
+						// testVO에서 값 가져와서 testNo 셋팅
+						i.setTestNo(q.getTestNo());
+						// test item insert
+						int itemUpdateCnt = testDAO.updateTestItem(i);
+						if(itemUpdateCnt > 0) {
+							successFlag &= true;
+						}else {
+							successFlag &= false;
+						}
+					}
+				}else if(qstnUpdateCnt > 0 && testVO.getTestType().equals("T02")){
+					successFlag &= true;
+				}else {
+					successFlag &= false;
+				}
 			}
 		}else {
 			successFlag &= false;

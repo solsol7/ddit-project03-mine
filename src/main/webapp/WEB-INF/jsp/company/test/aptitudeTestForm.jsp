@@ -55,10 +55,20 @@
 									<form:textarea path="qstnList[${i }].itemList[${j }].itemCont" class="inpTypo item_area" />
 									<form:errors path="qstnList[${i }].itemList[${j }].itemCont" element="span" cssClass="error"/>
 								</td>
-								<td>
-									<input type="radio" class="input_radio" name="qstnList[${i }].qstnAnswer" value="${j+1 }"/>
-									<form:errors path="qstnList[${i }].qstnAnswer" element="span" cssClass="error"/>
-								</td>
+								<c:choose>
+									<c:when test="${j+1 eq targetTest.qstnList[i].qstnAnswer }">
+										<td>
+											<input class="input_radio" name="qstnList[${i }].qstnAnswer" type="radio"  value="${j+1 }" checked/>
+											<form:errors path="qstnList[${i }].qstnAnswer" element="span" cssClass="error"/>
+										</td>
+									</c:when>
+									<c:otherwise>
+										<td>
+											<input class="input_radio" name="qstnList[${i }].qstnAnswer" value="${j+1 }" type="radio"/>
+											<form:errors path="qstnList[${i }].qstnAnswer" element="span" cssClass="error"/>
+										</td>
+									</c:otherwise>
+								</c:choose>
 							</tr>
 						</c:forEach>
 					</table>

@@ -16,7 +16,7 @@
 	<!-- 채용 절차 탭 -->
     <div class="area_payment">
         <div class="area_tab">
-            <ul class="tabList testList" role="tablist">
+            <ul class="tabList twoList" role="tablist">
                 <li class="inner inTab testClass select" role="tab" data-tab-order="1" id="T01"><p class="inTab"><span>적성검사</span></p></li>
                 <li class="inner inTab testClass" role="tab" data-tab-order="2" id="T02"><p class="inTab"><span>기술시험</span></p></li>
             </ul>
@@ -33,6 +33,7 @@
             <!-- 리스트 출력 영역 -->
             <div id="list_position">
             	
+            	<!-- 검색 UI -->
             	<div id="searchUI">
 	                <div class="area_list_top">
 	                    <div class="box_center">
@@ -76,11 +77,11 @@
 		       </div>
 		       
 				<form action="<%=request.getContextPath()%>/company/test" id="searchForm">
-					<input type="text" readonly name="testType" />
-					<input type="text" readonly name="sDate" />
-					<input type="text" readonly name="eDate" />
-					<input type="text" readonly name="testTitle" />
-					<input type="text" readonly name="page" />
+					<input type="hidden" readonly name="testType" />
+					<input type="hidden" readonly name="sDate" />
+					<input type="hidden" readonly name="eDate" />
+					<input type="hidden" readonly name="testTitle" />
+					<input type="hidden" readonly name="page" />
 				</form>
 		       
             </div>

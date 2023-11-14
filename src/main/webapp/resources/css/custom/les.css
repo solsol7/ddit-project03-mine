@@ -1,4 +1,50 @@
 @charset "UTF-8";
+/* 채용 recruit */
+/* 채용공고 목록 - recruitList*/
+
+.recruitListContWrap .info_recruit {
+    padding-bottom: 28px;
+    min-height: 95px;
+}
+
+.recruitListContWrap{
+	margin-top : 30px;
+}
+
+.recruitListContWrap .recruitListBorder{
+	border:1px solid #ddd;
+	border-radius: 10px;
+	height : 150px;
+	margin-bottom : 30px;
+}
+
+.recruitListContWrap .row {
+    position: relative;
+    padding: 30px 30px 30px 30px;
+    box-sizing: border-box;
+}
+
+.recruitListContWrap .recruitList{
+	width : 50px;
+}
+
+.recruitListContWrap .status_type {
+	width: 300px !important;
+}
+
+.info_recruit .title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #4b81f4;
+    display : inline-block;
+}
+
+.info_recruit .date{
+	display : inline-block;
+	margin-left : 10px;
+	color : rgb(164, 164, 164);
+}
+
 /* 채용절차 - recruit-process */
 .inTab{
 	cursor: pointer;
@@ -6,7 +52,6 @@
 
 #list_position .tblWrap {
     height: 600px;
-/*     display: flex; */
 }
 
 #list_position .tblWrap {
@@ -88,9 +133,10 @@
 }
 
 /* ------------------------------------------------------------------------------------------------------- */
+/* 시험 test */
 /* 시험 리스트 - testList */
 
-.testList .inTab{
+.twoList .inTab{
 	width : 50%;
 }
 
@@ -107,7 +153,7 @@
 .fff{
 	background-color: skyblue;
 }
-/* ------------------------------------------------------------------------------------------------------- */
+
 
 /* 시험지 폼 - testForm */
 #tablewrap {

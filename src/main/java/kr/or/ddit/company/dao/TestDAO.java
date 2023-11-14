@@ -12,23 +12,22 @@ import kr.or.ddit.paging.vo.PaginationInfo;
 @Mapper
 public interface TestDAO {
 	/* select */
-	public int selectTotalRecord(String testType);
-	
+	public int selectTotalRecord(PaginationInfo<TestVO> paging);
 	public List<TestVO> selectTestList(PaginationInfo<TestVO> paging);
-
 	public TestVO selectTestDetail(String testNo);
 	
 	/* insert */
 	public int insertTest(TestVO testVO);
-	
 	public int insertTestQstn(TestQstnVO qstnVO);
-	
 	public int insertTestItem(TestItemVO itemVO);
 	
 	/* delete */
 	public int deleteTest(String testNo);
-	
 	public int deleteTestQstn(String testNo);
-	
 	public int deleteTestItem(String testNo);
+	
+	/* update */
+	public int updateTest(TestVO testVO);
+	public int updateTestQstn(TestQstnVO qstnVO);
+	public int updateTestItem(TestItemVO itemVO);
 }

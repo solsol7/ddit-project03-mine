@@ -14,7 +14,6 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "itemNo")
 @ToString
 public class TestItemVO implements Serializable{
-	@NotBlank(groups = UpdateGroup.class)
 	private String testNo;
 	@NotNull
 	private Integer qstnNo;

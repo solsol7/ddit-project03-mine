@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.ddit.company.dao.TestDAO">
 
+<!-- 시험지 목록 조회의 조건절 sql조각 -->
 <sql id="searchFlag">
 	<trim prefix="where" prefixOverrides="AND">
 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.companyId)">
@@ -27,10 +28,14 @@
 </sql>
 
 
-<select id="selectTotalRecord" parameterType="string" resultType="int">
-	SELECT COUNT(*) FROM TEST WHERE TEST_TYPE=#{testType}
+<!-- ==================================시험 조회 관련================================== -->
+<!-- 시험유형 별 총 레코드 수 조회 -->
+<select id="selectTotalRecord" parameterType="PaginationInfo" resultType="int">
+	SELECT COUNT(*) FROM TEST
+	<include refid="searchFlag" />
 </select>
 
+<!-- 시험지 목록 조회 -->
 <select id="selectTestList" parameterType="PaginationInfo" resultType="TestVO">
 	SELECT B.*
 	FROM (
@@ -49,7 +54,7 @@
 	]]>
 </select>
 
-
+<!-- 시험지 상세 조회 -->
 <resultMap type="TestVO" id="testDetailMap" autoMapping="true">
 	<id property="testNo" column="TEST_NO" />
 	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
@@ -67,6 +72,9 @@
 	ORDER BY QSTN_NO, ITEM_NO
 </select>
 
+
+<!-- ==================================시험 생성 관련================================== -->
+<!-- 시험지 생성 -->
 <insert id="insertTest" parameterType="TestVO">
 	<selectKey keyProperty="testNo" order="BEFORE" resultType="string">
 		select 'T'||LPAD(test_seq.nextval,6,'0') from dual
@@ -86,6 +94,7 @@
 	)
 </insert>
 
+<!-- 시험지 문제 생성 -->
 <insert id="insertTestQstn" parameterType="TestQstnVO">
 	INSERT INTO test_qstn (
 	    test_no
@@ -100,6 +109,7 @@
 	)
 </insert>
 
+<!-- 시험지 문항 생성 -->
 <insert id="insertTestItem" parameterType="TestItemVO">
 	INSERT INTO test_item (
 	    test_no
@@ -114,22 +124,60 @@
 	)
 </insert>
 
+
+<!-- ==================================시험 삭제 관련================================== -->
+<!-- 시험지 삭제 -->
 <delete id="deleteTest" parameterType="string">
 	DELETE FROM test
 	WHERE
         TEST_NO = #{testNo}
 </delete>
 
+<!-- 시험지 문제 삭제 -->
 <delete id="deleteTestQstn" parameterType="string">
 	DELETE FROM test_qstn
 	WHERE
         TEST_NO = #{testNo}
 </delete>
 
+<!-- 시험지 문항 삭제 -->
 <delete id="deleteTestItem" parameterType="string">
 	DELETE FROM test_item
 	WHERE
         TEST_NO = #{testNo}
 </delete>
+
+
+<!-- ==================================시험 수정 관련================================== -->
+<!-- 시험지 수정(제목) -->
+<update id="updateTest" parameterType="TestVO">
+	UPDATE test
+	SET
+	    test_title = #{testTitle}
+	WHERE
+	    test_no = #{testNo}
+</update>
+
+<!-- 시험문제 수정(문제내용, 정답) -->
+<update id="updateTestQstn" parameterType="TestQstnVO">
+	UPDATE test_qstn
+	SET
+		qstn_cont = #{qstnCont}
+	    ,qstn_answer = #{qstnAnswer}
+	WHERE
+	    test_no = #{testNo}
+	    AND qstn_no = #{qstnNo}
+</update>
+
+<!-- 시험문항 수정(항목내용) -->
+<update id="updateTestItem" parameterType="TestItemVO">
+	UPDATE test_item
+	SET
+	    item_cont = #{itemCont}
+	WHERE
+	    test_no = #{testNo}
+	    AND qstn_no = #{qstnNo}
+	    AND item_no = #{itemNo}
+</update>
 
 </mapper>
