@@ -3,6 +3,8 @@
  */
 $(function(){
 	
+	const cPath = this.body.dataset.contextPath;
+	
 	/* 리스트 출력 ajax settings */
 	let settings = {
 		url:`${cPath}/company/test`,
@@ -35,8 +37,8 @@ $(function(){
 	                     </tr>
 						`;
 			}
-			// 탭 순서와 똑같은 tbody에 result 찍기
-			$(`.test-tbody[data-list-order=${order}]`).html(result);
+			// 탭 순서와 똑같은 div에 result 찍기
+			$(`.recruitListContWrap[data-list-order=${order}]`).html(result);
 			
 			// paging ui 찍기
 			let paging = resp.pagingHTML;
@@ -63,13 +65,13 @@ $(function(){
 		
 		// select된 탭 select속성 다 지우기
 		$('.tabList').children('.select').removeClass('select')
-		// tbody 전부 안보이게 하기
-		$('.test-tbody').attr('style','display:none');
+		// div 전부 안보이게 하기
+		$('.recruitListContWrap').attr('style','display:none');
 		
 		// 클릭한 탭에 select 속성 주기
 		$(this).addClass("select")
-		// 탭 번호와 똑같은 tbody 보이게 하기
-		$(`.test-tbody[data-list-order=${order}]`).attr('style','display:');
+		// 탭 번호와 똑같은 div 보이게 하기
+		$(`.recruitListContWrap[data-list-order=${order}]`).attr('style','display:block');
 		
 	})
 	

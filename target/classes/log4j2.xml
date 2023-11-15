@@ -11,7 +11,7 @@
     </Console>
   </Appenders>
   <Loggers>
-   	<Logger name="com.springboard" level="info" additivity="false">
+   	<Logger name="kr.or.ddit" level="info" additivity="false">
       <AppenderRef ref="Console"/>
     </Logger>
    	<Logger name="org.springframework" level="info" additivity="false">

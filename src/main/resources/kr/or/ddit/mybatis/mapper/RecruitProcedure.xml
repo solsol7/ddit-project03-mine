@@ -1,3 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.ddit.mybatis.mapper.RecruitProcedure"></mapper>
+<mapper namespace="kr.or.ddit.company.dao.RecruitProcedureDAO">
+	<select id="selectRecruitList" resultType="HashMap" parameterType="string">
+		<!-- 총지원자 수 -->
+		WITH TOTALCOUNTVIEW AS
+		(
+		    SELECT A.RCRT_NO, COUNT(APL_NO) TOTALCOUNT
+		    FROM RECRUIT A LEFT OUTER JOIN APPLY B ON A.RCRT_NO=B.RCRT_NO
+		    GROUP BY A.RCRT_NO
+		)
+		<!-- 현재 절차 -->
+		, CURRPROCEDUREVIEW AS
+		(
+		    SELECT
+		        X.RCRT_NO
+		        , NVL((
+		                SELECT RPROC_ORDER
+		                FROM R_PROCEDURE
+		                WHERE RPROC_ORDER=CURRNUM AND X.RCRT_NO=RCRT_NO
+		            ), PREVNUM) CURRPROCEDURE
+		    FROM (
+		        SELECT RCRT_NO,PREVNUM, PREVNUM+1 CURRNUM
+		        FROM (
+		            SELECT RCRT_NO, MAX(RPROC_ORDER) PREVNUM
+		            FROM (
+		                SELECT A.RCRT_NO, B.RPROC_ORDER, RPROC_END
+		                FROM RECRUIT A LEFT OUTER JOIN R_PROCEDURE B ON A.RCRT_NO=B.RCRT_NO
+		            )
+		            WHERE RPROC_END='Y'
+		            GROUP BY RCRT_NO
+		        )
+		    ) X
+		)
+		
+		<!-- 확인 수 -->
+		, CHECKEDVIEW AS
+		(
+		    SELECT Y.RCRT_NO, COUNT(*) CHECKED
+		    FROM (
+		         <!-- 현재 절차 -->
+		        SELECT
+		            X.RCRT_NO
+		            , NVL((
+		                    SELECT RPROC_ORDER
+		                    FROM R_PROCEDURE
+		                    WHERE RPROC_ORDER=CURRNUM AND X.RCRT_NO=RCRT_NO
+		                ), PREVNUM) CURRPROCEDURE
+		        FROM (
+		            SELECT RCRT_NO,PREVNUM, PREVNUM+1 CURRNUM
+		            FROM (
+		                SELECT RCRT_NO, MAX(RPROC_ORDER) PREVNUM
+		                FROM (
+		                    SELECT A.RCRT_NO, B.RPROC_ORDER, RPROC_END
+		                    FROM RECRUIT A LEFT OUTER JOIN R_PROCEDURE B ON A.RCRT_NO=B.RCRT_NO
+		                )
+		                WHERE RPROC_END='Y'
+		                GROUP BY RCRT_NO
+		            )
+		        ) X
+		        <!-- 현재 절차 끝 -->
+		    ) Y  LEFT OUTER JOIN A_PROCEDURE AP ON AP.RCRT_NO=Y.RCRT_NO
+		    WHERE AP.RPROC_ORDER = Y.CURRPROCEDURE AND APROC_PASS IS NOT NULL
+		    GROUP BY Y.RCRT_NO
+		)
+		
+		<!-- 미확인 수 -->
+		, UNCHECKEDVIEW AS
+		(
+		    SELECT Y.RCRT_NO, COUNT(*) UNCHECKED
+		    FROM (
+		         <!-- 현재 절차 -->
+		        SELECT
+		            X.RCRT_NO
+		            , NVL((
+		                    SELECT RPROC_ORDER
+		                    FROM R_PROCEDURE
+		                    WHERE RPROC_ORDER=CURRNUM AND X.RCRT_NO=RCRT_NO
+		                ), PREVNUM) CURRPROCEDURE
+		        FROM (
+		            SELECT RCRT_NO,PREVNUM, PREVNUM+1 CURRNUM
+		            FROM (
+		                SELECT RCRT_NO, MAX(RPROC_ORDER) PREVNUM
+		                FROM (
+		                    SELECT A.RCRT_NO, B.RPROC_ORDER, RPROC_END
+		                    FROM RECRUIT A LEFT OUTER JOIN R_PROCEDURE B ON A.RCRT_NO=B.RCRT_NO
+		                )
+		                WHERE RPROC_END='Y'
+		                GROUP BY RCRT_NO
+		            )
+		        ) X
+		        <!-- 현재 절차 끝 -->
+		    ) Y  LEFT OUTER JOIN A_PROCEDURE AP ON AP.RCRT_NO=Y.RCRT_NO
+		    WHERE AP.RPROC_ORDER = Y.CURRPROCEDURE AND APROC_PASS IS NULL
+		    GROUP BY Y.RCRT_NO
+		)
+		
+		<!-- 최종합격자 수 -->
+		, FINALPASSVIEW AS
+		(
+		    SELECT F.RCRT_NO, COUNT(APL_NO) FINALPASS
+		    FROM (
+		            SELECT A.RCRT_NO, A.FINALORDER, B.RPROC_END
+		            FROM (
+		                    SELECT
+		                        A.RCRT_NO, MAX(RPROC_ORDER) FINALORDER
+		                    FROM
+		                        RECRUIT A LEFT OUTER JOIN R_PROCEDURE B ON A.RCRT_NO = B.RCRT_NO
+		                    GROUP BY A.RCRT_NO
+		                ) A
+		                LEFT OUTER JOIN
+		                (
+		                    SELECT
+		                        RCRT_NO, RPROC_ORDER, RPROC_END
+		                    FROM R_PROCEDURE
+		                ) B
+		                ON A.RCRT_NO=B.RCRT_NO AND A.FINALORDER=B.RPROC_ORDER
+		            WHERE RPROC_END = 'Y'
+		        ) F
+		        LEFT OUTER JOIN A_PROCEDURE AP ON F.RCRT_NO=AP.RCRT_NO AND FINALORDER=RPROC_ORDER
+		        WHERE AP.APROC_PASS='Y'
+		        GROUP BY F.RCRT_NO
+		)
+		SELECT
+		    A.rcrt_no
+		    ,company_id
+		    ,rcrt_title
+		    ,rcrt_hit
+		    ,rcrt_keywordnm
+		    ,rcrt_field
+		    ,rcrt_person
+		    ,rcrt_career
+		    ,rcrt_condition
+		    ,rcrt_edu
+		    ,rcrt_loc
+		    ,rcrt_type
+		    ,rcrt_salary
+		    ,rcrt_week
+		    ,rcrt_date
+		    ,rcrt_sdate
+		    ,rcrt_edate
+		    ,rcrt_nm
+		    ,rcrt_tel
+		    ,rcrt_mail
+		    ,rcrt_wlfr
+		    ,rcrt_rectype
+		    ,rcrt_stime
+		    ,rcrt_etime
+		    ,rcrt_delete
+		    , TOTALCOUNT
+		    , CURRPROCEDURE
+		    , CHECKED
+		    , UNCHECKED
+		    , FINALPASS
+		FROM
+		    recruit A LEFT OUTER JOIN TOTALCOUNTVIEW B ON (A.RCRT_NO=B.RCRT_NO)
+		        LEFT OUTER JOIN CURRPROCEDUREVIEW C ON (A.RCRT_NO=C.RCRT_NO)
+		        LEFT OUTER JOIN CHECKEDVIEW D ON (A.RCRT_NO=D.RCRT_NO)
+		        LEFT OUTER JOIN UNCHECKEDVIEW E ON (A.RCRT_NO=E.RCRT_NO)
+		        LEFT OUTER JOIN FINALPASSVIEW F ON (A.RCRT_NO=F.RCRT_NO)
+		WHERE
+		    COMPANY_ID=#{companyId}
+	</select>
+</mapper>

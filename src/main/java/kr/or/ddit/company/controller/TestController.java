@@ -64,7 +64,7 @@ public class TestController {
 			, @RequestParam("eDate") String eDate
 			, @RequestParam(value = "page", defaultValue = "1") int currentPage
 			) {
-		PaginationInfo<TestVO> paging = new PaginationInfo<>(3,4);
+		PaginationInfo<TestVO> paging = new PaginationInfo<>();
 		paging.setCurrentPage(1);
 		
 		TestVO testVO = new TestVO();

@@ -56,13 +56,8 @@ $(function(){
 		type : "get",
 		dataType :"json",
 		success : function(resp){
-			console.log(resp);
+			console.log(this);
 			
-			// 가지고 온 결과의 타입 받기
-			let testType = resp.dataList[0].testType
-			// 현재 탭 번호 가져오기
-			let order = $('#'+testType).data("tabOrder");
-		
 			result = ``;
 			if(resp.dataList.length>0){
 				$.each(resp.dataList,function(i,v){
@@ -83,7 +78,7 @@ $(function(){
 						`;
 			}
 			// 탭 순서와 똑같은 tbody에 result 찍기
-			$(`.test-tbody[data-list-order=${order}]`).html(result);
+			$(`.test-tbody[data-list-order=${this.order}]`).html(result);
 			
 			// paging ui 찍기
 			let paging = resp.pagingHTML;
@@ -106,7 +101,7 @@ $(function(){
 		
 
 		// 현재 탭 번호 가져오기		
-		let order = $(this).data("tabOrder");
+		settings.order = $(this).data("tabOrder");
 
 		settings.data = $('#searchForm').serialize();
 		$.ajax(settings)	// ajax 끝
@@ -120,7 +115,7 @@ $(function(){
 		// 클릭한 탭에 select 속성 주기
 		$(this).addClass("select")
 		// 탭 번호와 똑같은 tbody 보이게 하기
-		$(`.test-tbody[data-list-order=${order}]`).attr('style','display:');
+		$(`.test-tbody[data-list-order=${settings.order}]`).attr('style','display:');
 		
 	})
 	
@@ -158,13 +153,11 @@ $(function(){
 	/* 페이지 처리 또는 검색버튼 클릭 시 submit 이벤트 */
 	$(searchForm).on("submit",function(event){
 		event.preventDefault();
-		/*
+		
 		// 현재 탭의 testType 가져오기
 		let testType = $('#searchForm').find('input[name=testType]').val();	
 		// 현재 탭 번호 가져오기			
-		let order = $('#'+testType).data("tabOrder");
-		*/
-		
+		settings.order = $('#'+testType).data("tabOrder");
 		settings.data = $('#searchForm').serialize();
 		$.ajax(settings);
 	})
@@ -174,6 +167,26 @@ $(function(){
 		location.href = `${cPath}/company/test/${testType}/new`;
 	}
 	
+	
+	
+	/* 시험지 목록 조회 버튼 클릭 */
+	$('#testListBtn').on("click",function(){
+		location.href = `${cPath}/company/testListUI`;
+	})
+	
+	/* 시험지 수정 버튼 클릭  */
+	$('#testModBtn').on("click",function(){
+		let testType = $(this).data("testType");
+		let testNo = $(this).data("testNo");
+		location.href = `${cPath}/company/test/${testType}/${testNo}/edit`;
+	})
+	
+	/* 시험지 삭제 버튼 클릭 */
+	$('#testDelBtn').on("click",function(){
+		let password = prompt("비밀번호 입력 : ");
+		deleteForm.memPass.value = password;
+		deleteForm.requestSubmit();
+	})
 	
 })
 

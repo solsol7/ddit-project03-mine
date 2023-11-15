@@ -4,7 +4,8 @@
 	prefix="security"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<script src="<%=request.getContextPath()%>/resources/js/app/company/test/testDetail.js"></script>
+
+<script src="<%=request.getContextPath()%>/resources/js/app/company/test/testDetail.js"></script>"></script>
 
 <div class="test_content">
 	<form:form modelAttribute="testVO" action="${pageContext.request.contextPath}/company/test/new">

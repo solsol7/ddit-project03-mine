@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of = "qstnNo")
+@EqualsAndHashCode(of = {"testNo","qstnNo"})
 @ToString
 public class TestQstnVO implements Serializable{
 	private String testNo;

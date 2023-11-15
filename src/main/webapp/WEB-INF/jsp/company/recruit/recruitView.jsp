@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
-<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitList.js"></script>
-
 <div id="content" class="basic_wide vix_main">
    <div class="wrap_content">
 	<!-- 채용 절차 탭 -->
@@ -44,10 +42,8 @@
 	                </div>
                 </div>
                 
-                <div class="tblWrap">
-                <!--  리스트 출력되는 곳 -->
-                <div class="recruitListContWrap" data-list-order="1">
-                	<!-- 진행중 공고 출력되는곳 -->
+                <div class="tblWrap recruitListContWrap">
+                	<!-- 리스트 출력되는 곳 -->
 					<div class="recruitListBorder">
 						<ul>
 							<li class="row ">
@@ -92,54 +88,7 @@
 							</li>
 						</ul>
 					</div>
-				</div>
-				<div class="recruitListContWrap" data-list-order="2" style="display:none">
-					<!-- 마감 공고 출력되는곳 -->
-					<div class="recruitListBorder">
-						<ul>
-							<li class="row ">
-								<div class="info_recruit"> 
-									<a href="#" class="title"> [정부뭐시기 지원 사업] </a>
-									<div class="date">2023.12.02</div>
-									<div class="period">
-										<dl>
-											<dd>23.09.21 ~ 23.10.21</dd>
-										</dl>
-									</div>
-									<div class="use_product"></div>
-									<div class="area_status">
-										<div class="box_status">
-											<strong class="txt_status "><a href="#">공고 확인</a></strong>
-										</div>
-	
-										<div class="status_type">
-											<a href="#" class="division">
-												총지원자
-												<strong class="data_count ">36</strong>
-											</a>
-											<a href="#" class="division">
-												현재절차
-												<strong class="data_count ">3차</strong>
-											</a>
-											<a href="#" class="division">
-												확인
-												<strong class="data_count ">9</strong>
-											</a>
-											<a href="#" class="division">
-												미확인
-												<strong class="data_count ">27</strong>
-											</a>
-											<a href="#" class="division">
-												최종합격
-												<strong class="data_count point_color">0</strong>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
+
                 </div>
                 
                 

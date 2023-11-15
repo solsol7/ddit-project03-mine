@@ -4,7 +4,9 @@
 	prefix="security"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <script src="<%=request.getContextPath()%>/resources/js/app/company/test/testDetail.js"></script>
+
 <div class="test_content">
 	<form:form modelAttribute="testVO" action="${pageContext.request.contextPath}/company/test/new">
 	<input type="hidden" name="testType" value="T01"/>

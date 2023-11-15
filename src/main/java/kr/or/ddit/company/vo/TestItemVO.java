@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(of = "itemNo")
+@EqualsAndHashCode(of = {"testNo","qstnNo","itemNo"})
 @ToString
 public class TestItemVO implements Serializable{
 	private String testNo;

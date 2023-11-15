@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 $(function(){
 	
 	const cPath = this.body.dataset.contextPath;
@@ -23,4 +24,6 @@ $(function(){
 		deleteForm.memPass.value = password;
 		deleteForm.requestSubmit();
 	})
+	
 })
+

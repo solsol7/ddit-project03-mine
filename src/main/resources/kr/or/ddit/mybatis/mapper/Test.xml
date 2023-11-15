@@ -92,6 +92,15 @@
 		, #{testType,jdbcType=VARCHAR}
 		, sysdate
 	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </insert>
 
 <!-- 시험지 문제 생성 -->

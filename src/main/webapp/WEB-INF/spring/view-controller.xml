@@ -90,7 +90,6 @@
    <mvc:view-controller path="/aptitudeScoreList.do" view-name="company/recruit/aptitudeScoreList" />
    <mvc:view-controller path="/interviewList.do" view-name="company/recruit/interviewList" />
    <mvc:view-controller path="/recruitForm.do" view-name="company/recruit/recruitForm" />
-   <mvc:view-controller path="/recruitList.do" view-name="company/recruit/recruitList" />
    <mvc:view-controller path="/resumeScore.do" view-name="company/recruit/resumeScore" />
    <mvc:view-controller path="/resumeScoreList.do" view-name="company/recruit/resumeScoreList" />
    <mvc:view-controller path="/technicalScore.do" view-name="company/recruit/technicalScore" />
