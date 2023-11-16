@@ -23,8 +23,6 @@ public interface TestDAO {
 	
 	/* delete */
 	public int deleteTest(String testNo);
-	public int deleteTestQstn(String testNo);
-	public int deleteTestItem(String testNo);
 	
 	/* update */
 	public int updateTest(TestVO testVO);

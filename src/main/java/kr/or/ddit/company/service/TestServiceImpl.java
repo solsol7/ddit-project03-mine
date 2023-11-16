@@ -95,31 +95,9 @@ public class TestServiceImpl implements TestService{
 	@Override
 	public ServiceResult removeTest(TestVO testVO) {
 		
-		boolean successFlag = true;
-		String testNo = testVO.getTestNo();
-		int itemDeleteCnt = -1;
-		if(testVO.getTestType().equals("T01")) {
-			itemDeleteCnt = testDAO.deleteTestItem(testNo);
-		}
-		
-		if(itemDeleteCnt > 0 && testVO.getTestType().equals("T01") || itemDeleteCnt == -1 && testVO.getTestType().equals("T02")) {
-			int qstnDeleteCnt = testDAO.deleteTestQstn(testNo);
-			if(qstnDeleteCnt > 0) {
-				int testDeleteCnt = testDAO.deleteTest(testNo);
-				if(testDeleteCnt > 0) {
-					successFlag &= true;
-				}else {
-					successFlag &= false;									
-				}
-			}else {
-				successFlag &= false;				
-			}
-		}else {
-			successFlag &= false;
-		}
-		
 		ServiceResult result = null;
-		if(successFlag) {
+		
+		if(testDAO.deleteTest(testVO.getTestNo())>0) {
 			result = ServiceResult.OK;
 		}else {
 			result = ServiceResult.FAIL;

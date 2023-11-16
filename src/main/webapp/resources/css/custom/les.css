@@ -51,7 +51,8 @@
 }
 
 #list_position .tblWrap {
-    height: 600px;
+	margin-top: 30px;
+    height: 550px;
 }
 
 #list_position .tblWrap {
@@ -135,6 +136,10 @@
 /* ------------------------------------------------------------------------------------------------------- */
 /* 시험 test */
 /* 시험 리스트 - testList */
+
+.tab_part .box_lookup{
+	height : 80px;
+}
 
 .twoList .inTab{
 	width : 50%;

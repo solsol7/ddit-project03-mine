@@ -24,6 +24,7 @@
 			AND TEST_DATE <= #{variousCondition.eDate}
 			]]>
 		</if>
+		AND TEST_DELETE='N'
 	</trim>
 </sql>
 
@@ -137,25 +138,12 @@
 <!-- ==================================시험 삭제 관련================================== -->
 <!-- 시험지 삭제 -->
 <delete id="deleteTest" parameterType="string">
-	DELETE FROM test
+	UPDATE test
+	SET
+	    TEST_DELETE = 'Y'
 	WHERE
-        TEST_NO = #{testNo}
+	    test_no = #{testNo}
 </delete>
-
-<!-- 시험지 문제 삭제 -->
-<delete id="deleteTestQstn" parameterType="string">
-	DELETE FROM test_qstn
-	WHERE
-        TEST_NO = #{testNo}
-</delete>
-
-<!-- 시험지 문항 삭제 -->
-<delete id="deleteTestItem" parameterType="string">
-	DELETE FROM test_item
-	WHERE
-        TEST_NO = #{testNo}
-</delete>
-
 
 <!-- ==================================시험 수정 관련================================== -->
 <!-- 시험지 수정(제목) -->

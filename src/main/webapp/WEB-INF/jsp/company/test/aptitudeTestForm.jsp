@@ -91,16 +91,6 @@
 $(function(){
 	
 	
-	$("#btnModify").click(function(){
-		
-		var frm = $("#frm");
-		
-		alert(frm.serialize());
-		
-		frm.submit();
-		
-	});
-	
 	$('#testAutoInsert').on("click",function(){
 		// 1번 문제
 		$("[name='qstnList[0].qstnCont']").val("새로운 도전에 임하게 되었습니다. 이때, 당신은 어떻게 준비하고 나갈 것인가요?");

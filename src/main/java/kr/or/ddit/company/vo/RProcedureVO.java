@@ -34,5 +34,7 @@ public class RProcedureVO implements Serializable{
 	private String rprocEnd;     //마감여부
 	
 	private String testNo;         //시험번호
+	
+	private String comCodeNm;
 
 }
