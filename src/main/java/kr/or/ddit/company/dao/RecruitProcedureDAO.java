@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
@@ -30,4 +31,8 @@ public interface RecruitProcedureDAO {
 	 */
 	public RProcedureVO selectCurrentProcedureInfo(Map<String, Object> paramMap);
 	
+	/**
+	 * 서류전형의 지원자 목록 조회
+	 */
+	public List<AProcedureVO> selectResumeApplicantList(AProcedureVO aProcVO);
 }

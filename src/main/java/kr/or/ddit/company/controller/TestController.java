@@ -63,9 +63,8 @@ public class TestController {
 		PaginationInfo<TestVO> paging = new PaginationInfo<>();
 		paging.setCurrentPage(1);
 		
-		TestVO testVO = new TestVO();
-		testVO.setCompanyId("lg001");	////////////////////////////// 하드코딩
-
+		detailCondition.setCompanyId("lg001");	////////////////////////////// 하드코딩
+		
 		paging.setDetailCondition(detailCondition);
 		paging.setCurrentPage(currentPage);
 		

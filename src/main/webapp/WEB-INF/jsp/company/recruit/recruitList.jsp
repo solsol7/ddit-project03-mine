@@ -40,7 +40,7 @@
 	                              <button type="button" class="btnSizeS colorBlue" id="recruitListSearchBtn">검색</button>
 	                          </div>
                               <select name="sortCategory" id="sortCategory">
-                              	<option value="date">등록일순</option>
+                              	<option value="date" selected>등록일순</option>
                               	<option value="eDate">마감일순</option>
                               </select>
 	                      </div>

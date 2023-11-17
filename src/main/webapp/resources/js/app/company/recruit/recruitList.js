@@ -200,7 +200,7 @@ $(function(){
 	})
 	
 	
-	/*  */
+	/* 정렬 셀렉트박스 change 이벤트 */
 	$('#sortCategory').on("change",function(){
 		let sortCategory =$(this).val();
 		$(searchForm).find(`:input[name=sortCategory]`).val(sortCategory);
