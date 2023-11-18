@@ -160,6 +160,44 @@
 }
 
 
+
+/* 면접 버튼 스타일 */
+.intrvwForm .box_lookup{
+	height: 60px;
+    padding: 0;
+}
+
+.intrvwForm .btnSlt{
+	float: left;
+    width: 25%;
+    height: 100%;
+    border: 1px solid #dedede;
+    border-right: 0;
+    box-sizing: border-box;
+    color: #222;
+    font-size: 16px;
+    vertical-align: top;
+    background: #fbfbfb;
+}
+
+.intrvwForm .btnSlt:last-child {
+    border-right: 1px solid #dedede;
+}
+
+.intrvwForm .inSelect {
+    position: relative;
+    z-index: 1;
+    border-color: #f1e4e4;
+    border-right: 1px solid #f1e4e4;
+    border-bottom-color: #fff;
+    border-left: 1px solid #f1e4e4;
+    font-weight: bold;
+    background: #fff;
+    color: #0472d1;
+}
+
+
+
 /* 시험지 폼 - testForm */
 #tablewrap {
 	width: 900px;

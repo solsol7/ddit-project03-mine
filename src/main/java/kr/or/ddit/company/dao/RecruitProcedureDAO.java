@@ -32,7 +32,22 @@ public interface RecruitProcedureDAO {
 	public RProcedureVO selectCurrentProcedureInfo(Map<String, Object> paramMap);
 	
 	/**
+	 * 지원자 레코드 수 조회
+	 */
+	public int selectApplicantTotalRecord(PaginationInfo<AProcedureVO> paging);
+	
+	/**
 	 * 서류전형의 지원자 목록 조회
 	 */
-	public List<AProcedureVO> selectResumeApplicantList(AProcedureVO aProcVO);
+	public List<AProcedureVO> selectResumeApplicantList(PaginationInfo<AProcedureVO> paging);
+	
+	/**
+	 * 적성검사, 기술시험 지원자 목록 조회
+	 */
+	public List<AProcedureVO> selectTestApplicantList(PaginationInfo<AProcedureVO> paging);
+
+	/**
+	 * 면접 지원자 목록 조회
+	 */
+	public List<AProcedureVO> selectInterviewApplicantList(PaginationInfo<AProcedureVO> paging);
 }

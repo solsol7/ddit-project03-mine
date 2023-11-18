@@ -13,4 +13,11 @@ let cPath = this.body.dataset.contextPath;
 	selectTab = (rcrtNo,rprocOrder) => {
 		location.href = `${cPath}/company/recruit/${rcrtNo}/${rprocOrder }`;
 	}
+
+
+/*  */
+
+
+
+
 })

@@ -19,5 +19,4 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/company/{1}.jsp" />
 	</definition>
 	
-</tiles-definitions>       
-
+</tiles-definitions>

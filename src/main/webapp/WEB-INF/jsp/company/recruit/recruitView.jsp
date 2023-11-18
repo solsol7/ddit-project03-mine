@@ -4,30 +4,35 @@
 	prefix="security"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
+<script
+	src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
 
 <div id="content" class="basic_wide vix_main">
 	<div class="wrap_content">
 		<%-- 채용 절차 탭 --%>
 		<div class="area_payment">
 			<div class="area_tab">
-				<ul class="tabList" role="tablist">
-					<c:forEach items="${dataList }" var="data">
-						<c:choose>
-							<c:when test="${data.rprocOrder eq rprocOrder}">
-<!-- 							컨트롤러에서 PathVariable로 받은 변수명 그대로 el로 사용할 수 있음 -->
-								<li class="inner select" role="tab">
-									<a href="javascript:;" onclick="selectTab('${data.rcrtNo}','${data.rprocOrder }');" class="inTab"><span>${data.comCodeNm }</span></a>
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li class="inner" role="tab">
-									<a href="javascript:;" onclick="selectTab('${data.rcrtNo}','${data.rprocOrder }');" class="inTab"><span>${data.comCodeNm }</span></a>
-								</li>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</ul>
+				<c:forEach items="${dataList }" var="data" varStatus="status">
+					<c:if test="${status.index%4==0 }">
+						<ul class="tabList" role="tablist">
+					</c:if>
+					<c:choose>
+						<c:when test="${data.rprocOrder eq rprocOrder}">
+							<!-- 							컨트롤러에서 PathVariable로 받은 변수명 그대로 el로 사용할 수 있음 -->
+							<li class="inner select" role="tab"><a href="javascript:;"
+								onclick="selectTab('${data.rcrtNo}','${data.rprocOrder }');"
+								class="inTab"><span>${data.comCodeNm }</span></a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="inner" role="tab"><a href="javascript:;"
+								onclick="selectTab('${data.rcrtNo}','${data.rprocOrder }');"
+								class="inTab"><span>${data.comCodeNm }</span></a></li>
+						</c:otherwise>
+					</c:choose>
+					<c:if test="${status.index%4==3 }">
+						</ul>
+					</c:if>
+				</c:forEach>
 			</div>
 
 			<%-- --------------------------------------------------서류전형 폼-------------------------------------------------- --%>
@@ -61,7 +66,7 @@
 							<div class="tblWrap resumeTbl">
 								<div class="btnTxt resumeTxt">
 									<button type="button" class="btnSizeM colorBlue">미확인</button>
-<%-- 											pass/fail/unconfirmed --%>
+									<%-- 											pass/fail/unconfirmed --%>
 									<button type="button" class="btnSizeM colorBlack">합격</button>
 									<button type="button" class="btnSizeM colorBlack">불합격</button>
 								</div>
@@ -278,8 +283,11 @@
 
 				<%-- --------------------------------------------------면접전형 폼-------------------------------------------------- --%>
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE04' }">
-					<div class="tab_part">
-						<div class="box_lookup"></div>
+					<div class="tab_part intrvwForm">
+						<div class="box_lookup">
+							<button type="button" class="btnSlt inSelect">지원자목록</button>
+							<button type="button" class="btnSlt">면접일정관리</button>
+						</div>
 
 						<%-- 리스트 출력 영역 --%>
 						<div id="list_position">

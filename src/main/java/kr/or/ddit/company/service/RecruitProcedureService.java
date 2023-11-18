@@ -26,5 +26,6 @@ public interface RecruitProcedureService {
 	/**
 	 * 서류전형의 지원자 목록 조회
 	 */
-	public List<AProcedureVO> retrieveResumeApplicantList(AProcedureVO aProcVO);
+	public void retrieveApplicantList(PaginationInfo<AProcedureVO> paging);
+	
 }
