@@ -7,14 +7,14 @@
 <script
 	src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
 
-<div id="content" class="basic_wide vix_main">
+<div id="content" class="basic_wide vix_main recruit-content" data-rcrt-no=${rcrtNo } data-rproc-order=${rprocOrder }>
 	<div class="wrap_content">
 		<%-- 채용 절차 탭 --%>
 		<div class="area_payment">
 			<div class="area_tab">
 				<c:forEach items="${dataList }" var="data" varStatus="status">
 					<c:if test="${status.index%4==0 }">
-						<ul class="tabList" role="tablist">
+						<ul class="tabList recruitTab" role="tablist">
 					</c:if>
 					<c:choose>
 						<c:when test="${data.rprocOrder eq rprocOrder}">
@@ -48,30 +48,33 @@
 
 						<%-- 리스트 출력 영역 --%>
 						<div id="list_position">
-							<div class="area_list_top">
-								<div class="box_center">
-									<div class="search_right">
-										<span class="inpSel"> <select name="stype"
-											class="stype">
-												<option value="">전체</option>
-										</select>
-										</span>
-										<div class="searchTypoBox">
-											<input type="text" name="company_nm" class="inpTypo sword">
-											<button type="submit" class="btnSizeS colorBlue">검색</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<!-- 검색 UI -->
+			            	<div class="searchUI">
+				                <div class="area_list_top">
+				                    <div class="box_center">
+				                       <div class="search_right">
+					                        <span class="inpSel">
+						                        <select name="usersGen" class="stype">
+													<option value>전체</option>
+													<option value="M">남</option>
+													<option value="F">여</option>
+												</select>
+											</span>
+											<div class="searchTypoBox">
+												<input type="text" name="usersNm" class="inpTypo sword">
+												<button type="submit" class="btnSizeS colorBlue recruitViewSearchBtn">검색</button>
+											</div>
+				                      </div>
+				                    </div>
+				                </div>
+			                </div>
 							<div class="tblWrap resumeTbl">
-								<div class="btnTxt resumeTxt">
-									<button type="button" class="btnSizeM colorBlue">미확인</button>
-									<%-- 											pass/fail/unconfirmed --%>
-									<button type="button" class="btnSizeM colorBlack">합격</button>
-									<button type="button" class="btnSizeM colorBlack">불합격</button>
+								<div class="btnTxt resumeTxt confirmStatus">
+									<button type="button" class="btnSizeM colorBlue resumeStatus" data-confirm-status="unconfirmed">미확인</button>
+									<button type="button" class="btnSizeM resumeStatus" data-confirm-status="pass">합격</button>
+									<button type="button" class="btnSizeM resumeStatus" data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown">
-
+								<table class="sms-breakdown recruitViewTbl">
 									<thead>
 										<tr>
 											<th scope="col">이름</th>
@@ -85,12 +88,8 @@
 											</select></th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td colspan="7" style="padding: 20">검색 결과가 없습니다.<br>
-
-											</td>
-										</tr>
+									<tbody class="resume-tbody">
+										<!-- 지원자 목록 출력하는 곳 -->
 									</tbody>
 								</table>
 								<div class="tblBtn">
@@ -99,9 +98,10 @@
 
 								</div>
 							</div>
-							<%-- 페이징 시작 --%>
-
-							<%-- 페이징 끝 --%>
+							
+							<div class="paging" id="paging">
+			                    <!-- 페이지 출력하는 곳 -->
+					       </div>
 
 						</div>
 						<div class="resumeBtn">
@@ -129,28 +129,33 @@
 
 						<%-- 리스트 출력 영역 --%>
 						<div id="list_position">
-							<div class="area_list_top">
-								<div class="box_center">
-									<div class="search_right">
-										<span class="inpSel"> <select name="stype"
-											class="stype">
-												<option value="">전체</option>
-										</select>
-										</span>
-										<div class="searchTypoBox">
-											<input type="text" name="company_nm" class="inpTypo sword">
-											<button type="submit" class="btnSizeS colorBlue">검색</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<!-- 검색 UI -->
+			            	<div class="searchUI">
+				                <div class="area_list_top">
+				                    <div class="box_center">
+				                       <div class="search_right">
+					                        <span class="inpSel">
+						                        <select name="usersGen" class="stype">
+													<option value>전체</option>
+													<option value="M">남</option>
+													<option value="F">여</option>
+												</select>
+											</span>
+											<div class="searchTypoBox">
+												<input type="text" name="usersNm" class="inpTypo sword">
+												<button type="submit" class="btnSizeS colorBlue recruitViewSearchBtn">검색</button>
+											</div>
+				                      </div>
+				                    </div>
+				                </div>
+			                </div>
 							<div class="tblWrap resumeTbl">
-								<div class="btnTxt resumeTxt">
-									<button type="button" class="btnSizeM colorBlue">미확인</button>
-									<button type="button" class="btnSizeM colorBlack">합격</button>
-									<button type="button" class="btnSizeM colorBlack">불합격</button>
+								<div class="btnTxt resumeTxt confirmStatus">
+									<button type="button" class="btnSizeM colorBlue aptStatus" data-confirm-status="unconfirmed">미확인</button>
+									<button type="button" class="btnSizeM aptStatus" data-confirm-status="pass">합격</button>
+									<button type="button" class="btnSizeM aptStatus" data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown">
+								<table class="sms-breakdown recruitViewTbl">
 
 									<thead>
 										<tr>
@@ -165,12 +170,8 @@
 											</select></th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td colspan="7" style="padding: 20">검색 결과가 없습니다.<br>
-
-											</td>
-										</tr>
+									<tbody class="apt-tbody">
+										<!-- 지원자 목록 출력하는 곳 -->
 									</tbody>
 								</table>
 								<div class="tblBtn">
@@ -179,9 +180,9 @@
 
 								</div>
 							</div>
-							<%-- 페이징 시작 --%>
-
-							<%-- 페이징 끝 --%>
+							<div class="paging" id="paging">
+			                    <!-- 페이지 출력하는 곳 -->
+					        </div>
 
 						</div>
 						<div class="resumeBtn">
@@ -209,28 +210,33 @@
 
 						<%-- 리스트 출력 영역 --%>
 						<div id="list_position">
-							<div class="area_list_top">
-								<div class="box_center">
-									<div class="search_right">
-										<span class="inpSel"> <select name="stype"
-											class="stype">
-												<option value="">전체</option>
-										</select>
-										</span>
-										<div class="searchTypoBox">
-											<input type="text" name="company_nm" class="inpTypo sword">
-											<button type="submit" class="btnSizeS colorBlue">검색</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<!-- 검색 UI -->
+			            	<div class="searchUI">
+				                <div class="area_list_top">
+				                    <div class="box_center">
+				                       <div class="search_right">
+					                        <span class="inpSel">
+						                        <select name="usersGen" class="stype">
+													<option value>전체</option>
+													<option value="M">남</option>
+													<option value="F">여</option>
+												</select>
+											</span>
+											<div class="searchTypoBox">
+												<input type="text" name="usersNm" class="inpTypo sword">
+												<button type="submit" class="btnSizeS colorBlue recruitViewSearchBtn">검색</button>
+											</div>
+				                      </div>
+				                    </div>
+				                </div>
+			                </div>
 							<div class="tblWrap resumeTbl">
-								<div class="btnTxt resumeTxt">
-									<button type="button" class="btnSizeM colorBlue">미확인</button>
-									<button type="button" class="btnSizeM colorBlack">합격</button>
-									<button type="button" class="btnSizeM colorBlack">불합격</button>
+								<div class="btnTxt resumeTxt confirmStatus">
+									<button type="button" class="btnSizeM colorBlue techStatus" data-confirm-status="unconfirmed">미확인</button>
+									<button type="button" class="btnSizeM techStatus" data-confirm-status="pass">합격</button>
+									<button type="button" class="btnSizeM techStatus" data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown">
+								<table class="sms-breakdown recruitViewTbl">
 
 									<thead>
 										<tr>
@@ -245,12 +251,8 @@
 											</select></th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td colspan="7" style="padding: 20">검색 결과가 없습니다.<br>
-
-											</td>
-										</tr>
+									<tbody class="tech-tbody">
+										<!-- 지원자 목록 출력하는 곳 -->
 									</tbody>
 								</table>
 								<div class="tblBtn">
@@ -259,9 +261,9 @@
 
 								</div>
 							</div>
-							<%-- 페이징 시작 --%>
-
-							<%-- 페이징 끝 --%>
+							<div class="paging" id="paging">
+			                    <!-- 페이지 출력하는 곳 -->
+					       </div>
 
 						</div>
 						<div class="resumeBtn">
@@ -291,28 +293,33 @@
 
 						<%-- 리스트 출력 영역 --%>
 						<div id="list_position">
-							<div class="area_list_top">
-								<div class="box_center">
-									<div class="search_right">
-										<span class="inpSel"> <select name="stype"
-											class="stype">
-												<option value="">전체</option>
-										</select>
-										</span>
-										<div class="searchTypoBox">
-											<input type="text" name="company_nm" class="inpTypo sword">
-											<button type="submit" class="btnSizeS colorBlue">검색</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<!-- 검색 UI -->
+			            	<div class="searchUI">
+				                <div class="area_list_top">
+				                    <div class="box_center">
+				                       <div class="search_right">
+					                        <span class="inpSel">
+						                        <select name="usersGen" class="stype">
+													<option value>전체</option>
+													<option value="M">남</option>
+													<option value="F">여</option>
+												</select>
+											</span>
+											<div class="searchTypoBox">
+												<input type="text" name="usersNm" class="inpTypo sword">
+												<button type="submit" class="btnSizeS colorBlue recruitViewSearchBtn">검색</button>
+											</div>
+				                      </div>
+				                    </div>
+				                </div>
+			                </div>
 							<div class="tblWrap resumeTbl">
-								<div class="btnTxt resumeTxt">
-									<button type="button" class="btnSizeM colorBlue">미확인</button>
-									<button type="button" class="btnSizeM colorBlack">합격</button>
-									<button type="button" class="btnSizeM colorBlack">불합격</button>
+								<div class="btnTxt resumeTxt confirmStatus">
+									<button type="button" class="btnSizeM colorBlue intrApplStatus" data-confirm-status="unconfirmed">미확인</button>
+									<button type="button" class="btnSizeM intrApplStatus" data-confirm-status="pass">합격</button>
+									<button type="button" class="btnSizeM intrApplStatus" data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown">
+								<table class="sms-breakdown recruitViewTbl">
 
 									<thead>
 										<tr>
@@ -327,12 +334,8 @@
 											</select></th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td colspan="7" style="padding: 20">검색 결과가 없습니다.<br>
-
-											</td>
-										</tr>
+									<tbody class="intrAppl-tbody">
+										<!-- 지원자 목록 출력하는 곳 -->
 									</tbody>
 								</table>
 								<div class="tblBtn">
@@ -341,9 +344,67 @@
 
 								</div>
 							</div>
-							<%-- 페이징 시작 --%>
+							<div class="paging" id="paging">
+			                    <!-- 페이지 출력하는 곳 -->
+					       </div>
 
-							<%-- 페이징 끝 --%>
+						</div>
+						<%-- 리스트 출력 영역 --%>
+						<div id="list_position">
+							<!-- 검색 UI -->
+			            	<div class="searchUI">
+				                <div class="area_list_top">
+				                    <div class="box_center">
+				                       <div class="search_right">
+					                        <span class="inpSel">
+						                        <select name="usersGen" class="stype">
+													<option value>전체</option>
+													<option value="M">남</option>
+													<option value="F">여</option>
+												</select>
+											</span>
+											<div class="searchTypoBox">
+												<input type="text" name="usersNm" class="inpTypo sword">
+												<button type="submit" class="btnSizeS colorBlue recruitViewSearchBtn">검색</button>
+											</div>
+				                      </div>
+				                    </div>
+				                </div>
+			                </div>
+							<div class="tblWrap resumeTbl">
+								<div class="btnTxt resumeTxt confirmStatus">
+									<button type="button" class="btnSizeM colorBlue intrSchdStatus" data-confirm-status="unconfirmed">미확인</button>
+									<button type="button" class="btnSizeM intrSchdStatus" data-confirm-status="pass">합격</button>
+									<button type="button" class="btnSizeM intrSchdStatus" data-confirm-status="fail">불합격</button>
+								</div>
+								<table class="sms-breakdown recruitViewTbl">
+
+									<thead>
+										<tr>
+											<th scope="col">이름</th>
+											<th scope="col">생년월일</th>
+											<th scope="col">성별</th>
+											<th scope="col">이력서제목</th>
+											<th scope="col">제출일</th>
+											<th scope="col">점수</th>
+											<th scope="col"><select name="">
+													<option value="">점수순</option>
+											</select></th>
+										</tr>
+									</thead>
+									<tbody class="intrSchd-tbody">
+										<!-- 지원자 목록 출력하는 곳 -->
+									</tbody>
+								</table>
+								<div class="tblBtn">
+									<button type="button" class="btnSizeM colorGreen">확정</button>
+									<button type="button" class="btnSizeM colorBlue">저장</button>
+
+								</div>
+							</div>
+							<div class="paging" id="paging">
+			                    <!-- 페이지 출력하는 곳 -->
+					       </div>
 
 						</div>
 						<div class="resumeBtn">
@@ -361,6 +422,14 @@
 					</div>
 				</c:when>
 			</c:choose>
+			
+			<form action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}" id="searchForm">
+				<input type="text" readonly name="aprocPass" />
+				<input type="text" readonly name="usersGen" />
+				<input type="text" readonly name="usersNm" />
+				<input type="text" readonly name="page" />
+			</form>
+				
 		</div>
 	</div>
 </div>

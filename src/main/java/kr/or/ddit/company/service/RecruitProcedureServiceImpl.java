@@ -55,7 +55,7 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		RProcedureVO currProcedureInfo = retrieveCurrentProcedureInfo(paramMap);
 		
-		String comCodeNm = currProcedureInfo.getComCodeNm();
+		String comCodeNm = currProcedureInfo.getRprocTypeno();
 		
 		List<AProcedureVO> dataList = null;
 		// 어떤 데이터? ->// 지원-사용자아이디로 users 조인 -> 인적사항 조회

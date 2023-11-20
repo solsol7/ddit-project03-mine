@@ -77,14 +77,17 @@ public class RecruitProcedureController {
 	public PaginationInfo<AProcedureVO> recruitViewData(
 			@PathVariable String rcrtNo
 			, @PathVariable int rprocOrder
+			, @RequestParam(value="page", defaultValue = "1", required = false) int currentPage
 			, @RequestParam Map<String, Object> variousCondition
 	) {
 		// 채용절차유형에 따라 service에서 실행할 메소드 달라짐
 		
 		PaginationInfo<AProcedureVO> paging = new PaginationInfo<>();
+		paging.setCurrentPage(currentPage);
 		variousCondition.put("rcrtNo", rcrtNo);
 		variousCondition.put("rprocOrder", rprocOrder);
 		paging.setVariousCondition(variousCondition);
+		paging.setRenderer(new BootstrapPaginationRenderer());
 		
 		service.retrieveApplicantList(paging);
 		

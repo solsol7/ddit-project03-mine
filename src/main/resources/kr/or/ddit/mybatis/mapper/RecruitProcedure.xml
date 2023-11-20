@@ -265,12 +265,12 @@
 		WHERE
 		    AP.RCRT_NO=#{variousCondition.rcrtNo}
 		    AND AP.RPROC_ORDER=#{variousCondition.rprocOrder}
-		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.aprocPass)">
+		    <if test="variousCondition.aprocPass neq null">
 			    <choose>
-			    	<when test='detailCondition.aprocPass.equals("pass")'>
+			    	<when test='variousCondition.aprocPass.equals("pass")'>
 			    		AND APROC_PASS='Y'
 			    	</when>
-			    	<when test='detailCondition.aprocPass.equals("fail")'>
+			    	<when test='variousCondition.aprocPass.equals("fail")'>
 			    		AND  APROC_PASS='N'
 			    	</when>
 			    	<otherwise>
@@ -278,19 +278,22 @@
 			    	</otherwise>
 			    </choose>
 		    </if>
-		    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition)">
+		    <if test="variousCondition neq null">
 			    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersGen)">
 			    	AND USERS_GEN=#{variousCondition.usersGen}
 			    </if>
 			    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersNm)">
-			    	AND USERS_NM=#{variousCondition.usersNm}
+			    	AND INSTR(USERS_NM,#{variousCondition.usersNm})>0
 			    </if>
 		    </if>
 	</sql>
 	
 	<!-- 각 전형별 지원자 레코드 수 조회 -->
 	<select id="selectApplicantTotalRecord">
-		SELECT COUNT(*) FROM A_PROCEDURE
+		SELECT
+			COUNT(*)
+		FROM
+			A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 		<include refid="viewSearchFlag" />
 	</select>
 	

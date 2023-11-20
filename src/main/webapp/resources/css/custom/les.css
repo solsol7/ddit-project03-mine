@@ -133,6 +133,14 @@
     justify-content: center;
 }
 
+
+/* 채용과정 - recruitProcedure */
+.recruitViewTbl a:link, a:visited{
+	text-decoration : underline;
+	color: blue;
+}
+
+
 /* ------------------------------------------------------------------------------------------------------- */
 /* 시험 test */
 /* 시험 리스트 - testList */
@@ -163,7 +171,7 @@
 
 /* 면접 버튼 스타일 */
 .intrvwForm .box_lookup{
-	height: 60px;
+	height: 50px;
     padding: 0;
 }
 
@@ -196,7 +204,39 @@
     color: #0472d1;
 }
 
+.recruitTab>li {
+	display: flex;
+    align-items: center;
+    position: relative;
+    margin: 2px;
+    width: 306px;
+    height: 48px;
+    border: 1px solid var(--gray70);
+    box-sizing: border-box;
+    background: var(--white);
+    border-radius: 5px !important;
+}
 
+.recruitTab>li.select {
+	border-color: var(--gray100);
+    background-color: var(--gray100);
+}
+
+.recruitTab>li .inTab {
+	line-height: 1;
+}
+
+.recruitTab>li.select .inTab {
+    color: #fff;
+}
+
+.recruitTab>li:last-child {
+    border-right: 1px solid #8491a7;
+}
+
+.recruitTab>li.select+li {
+    border-left: 1px solid var(--gray100);
+}
 
 /* 시험지 폼 - testForm */
 #tablewrap {
