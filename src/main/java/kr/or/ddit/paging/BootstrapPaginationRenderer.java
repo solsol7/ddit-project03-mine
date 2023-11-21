@@ -44,7 +44,7 @@ public class BootstrapPaginationRenderer implements PaginationRenderer {
 			);
 		}else {
 			html.append(
-				String.format(PATTERN, startPage-1, "이전", "disabled")
+				String.format(PATTERN, startPage-1, "이후", "disabled")
 			);
 		}
 		

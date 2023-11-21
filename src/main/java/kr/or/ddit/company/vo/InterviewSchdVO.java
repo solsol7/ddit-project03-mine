@@ -17,4 +17,6 @@ public class InterviewSchdVO implements Serializable {
 	private String intrIntdate;
 	private String intrPlace;
 	private String intrDate;
+	
+	private String intrTypeNm;
 }

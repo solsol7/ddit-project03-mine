@@ -311,14 +311,15 @@
 		    AP.apl_no
 		    , rcrt_no
 		    , rproc_order
-		    , aproc_date
+		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
 		    , aproc_pass
 		    , aproc_scr
 		    , USERS_ID
 		    , USERS_NM
-		    , USERS_BIR
+		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 		    , USERS_GEN
 		    , RESUME_TITLE
+		    , RESATT_NO
 		FROM
 		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 		        LEFT OUTER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
@@ -332,12 +333,12 @@
 		    AP.apl_no
 		    , AP.rcrt_no
 		    , AP.rproc_order
-		    , aproc_date
+		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
 		    , aproc_pass
 		    , aproc_scr
 		    , USERS_ID
 		    , USERS_NM
-		    , USERS_BIR
+		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 		    , USERS_GEN
 		    , RSLT_NO
 		FROM
@@ -353,39 +354,40 @@
 		    SELECT
 		        I.INTR_NO
 		        , APL_NO
-		        , INTR_INTDATE 
+		        , INTR_INTDATE
 		        , INTR_PLACE
-		        , INTR_TYPE
+		        , COM_CODE_NM "INTRTYPENM"
 		        , INTR_DATE
 		        , COUNT(CASE WHEN I_ALARM_TYPE='Z01' THEN 1 END) MAILCOUNT
 		        , COUNT(CASE WHEN I_ALARM_TYPE='Z02' THEN 1 END) ALARMCOUNT
 		    FROM
 		        INTERVIEW_SCHD I LEFT OUTER JOIN INTERVIEW_ALARM IA ON I.INTR_NO=IA.INTR_NO
+		        	LEFT OUTER JOIN TB_COM_CODE ON INTR_TYPE=COM_CODE
 		    GROUP BY 
 		       I.INTR_NO
 		       , APL_NO
-		       ,INTR_INTDATE 
+		       , INTR_INTDATE
 		       , INTR_PLACE
-		       , INTR_TYPE
 		       , INTR_DATE
+		       , COM_CODE_NM
 		)
 		SELECT
 		    AP.apl_no
 		    , AP.rcrt_no
 		    , AP.rproc_order
-		    , aproc_date
+		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
 		    , aproc_pass
 		    , aproc_scr
 		    , USERS_ID
 		    , USERS_NM
-		    , USERS_BIR
+		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 		    , USERS_GEN
-		    , INTR_INTDATE
+		    , TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate"
 		    , INTR_PLACE
-		    , INTR_TYPE
-		    , INTR_DATE
+		    , INTRTYPENM "intrTypeNm"
+		    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
 		    , NVL(MAILCOUNT,0) "mailCount"
-		    , NVL(ALARMCOUNT,0) "alarmCout"
+		    , NVL(ALARMCOUNT,0) "alarmCount"
 		FROM
 		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 		        LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO

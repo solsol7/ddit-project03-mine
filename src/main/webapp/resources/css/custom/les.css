@@ -135,7 +135,7 @@
 
 
 /* 채용과정 - recruitProcedure */
-.recruitViewTbl a:link, a:visited{
+.recruitViewTbl a:link,.recruitViewTbl a:visited{
 	text-decoration : underline;
 	color: blue;
 }

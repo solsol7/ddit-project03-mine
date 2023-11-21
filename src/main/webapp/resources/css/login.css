@@ -35,7 +35,7 @@
 
 .login_input_wrap .login-form {display:flex;flex-flow:column nowrap}
 .login_input_wrap .login-form .id-input-box,
-.login_input_wrap .login-form .pw-input-box {position: relative}
+.login_input_wrap .login-form .pw-input-box {position: relative; margin-bottom: 8px;}
 .login_input_wrap .login-form .id-input-box {margin-bottom:8px}
 .login_input_wrap .login-form input {width:100%;border:1px solid #8491a7;background:#fff;color:#373f57;border-radius:4px;padding:24px 12px 8px 12px;font-size:16px;font-weight:bold;letter-spacing:-1px;box-sizing:border-box}
 .login_input_wrap .login-form label {position: absolute;left:12px;top:18px;font-size:16px;color:#5c667b;transition:all 300ms ease}
@@ -45,8 +45,8 @@
 .login_input_wrap .login-form input:focus,
 .login_input_wrap .login-form input:valid,
 .login_input_wrap .login-form input:-webkit-autofill {padding:24px 12px 9px 12px}
-.login_input_wrap .login-form .btn-login {margin:12px 0;width:100%;color:#fff;font-size:16px;letter-spacing:-1px;font-weight:bold;background:#2d65f2;border-radius:4px}
-.login_input_wrap .signup-forgotten {margin-bottom:24px;display:flex;flex-flow:row wrap;position:relative;width:100%;font-size:13px;line-height:24px;letter-spacing:-1px}
+.login_input_wrap .login-form .btn-login {margin:12px 0;width:100%;height: 35px;color:#fff;font-size:16px;letter-spacing:-1px;font-weight:bold;background:#2d65f2;border-radius:4px}
+.login_input_wrap .signup-forgotten {margin-bottom:24px;display:flex;flex-flow:row wrap;position:relative;width:100%;height: 35px;font-size:13px;line-height:24px;letter-spacing:-1px}
 .login_input_wrap .signup-forgotten .sign_up,
 .login_input_wrap .signup-forgotten .forgotten,
 .login_input_wrap .signup-forgotten .link_rater {color:#373f57}

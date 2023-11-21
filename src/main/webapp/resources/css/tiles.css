@@ -165,7 +165,6 @@
 }
 
 #sri_header .utility .layer_member {
-    display: none;
     position: absolute;
     top: 48px;
     right: 0;
@@ -363,7 +362,9 @@
 
 #sri_header .utility .layer_member.person {
     padding: 0;
-    width: 184px
+    width: 184px;
+    display: none !important;
+/*     기웅 여기 알람 부분 display : none 주석하고 해 */
 }
 
 #sri_header .utility .layer_member.person .stat {
@@ -1310,7 +1311,7 @@
 
 /* 알림 */
 .top_layer_assist {
-	display: none; 
+	display: none;
     overflow: hidden; 
     padding-top: 23px;
     width: 376px;
@@ -1318,6 +1319,7 @@
     letter-spacing: -1px;
     background-color: #fff;
     box-shadow: 2px 6px 16px 0 rgba(17, 42, 128, 0.08);
+    /*     기웅 여기 알람 부분 display : none 주석하고 해 */
 }
 
 .top_layer_assist>.title {
@@ -2163,9 +2165,9 @@
     clear: both;
     position: relative;
     z-index: 1;
-    margin-top: 110px;
     width: 100%;
     min-width: 960px;
+    margin-top: 100px;
 }
 
 .sri_footer .wrap_footer {

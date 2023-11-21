@@ -20,9 +20,10 @@ public class AProcedureVO implements Serializable{
 	
 	/* 채용절차별 지원자 목록 조회에 필요한 필드 */
 	private String resumeTitle;
+	private String resattNo;
 	private String rsltNo;
 	private int mailCount;
-	private int alarmCout;
+	private int alarmCount;
 	private InterviewSchdVO interviewVO;
 	
 	private UsersVO users;
