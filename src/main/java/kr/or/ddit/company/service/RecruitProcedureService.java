@@ -3,6 +3,8 @@ package kr.or.ddit.company.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.ddit.common.enumpkg.ServiceResult;
+import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
@@ -27,5 +29,15 @@ public interface RecruitProcedureService {
 	 * 서류전형의 지원자 목록 조회
 	 */
 	public void retrieveApplicantList(PaginationInfo<AProcedureVO> paging);
+	
+	/**
+	 * 합불여부 저장
+	 */
+	public ServiceResult modifyPassStatus(AProcedureOuterVO outerVO);
+	
+	/**
+	 * 마감여부 저장
+	 */
+	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO);
 	
 }

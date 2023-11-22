@@ -11,17 +11,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.service.RecruitProcedureService;
+import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/company")
 public class RecruitProcedureController {
@@ -61,7 +67,6 @@ public class RecruitProcedureController {
 		// rcrtNo 의 채용절차 정보 가져오기 -> forEach문 돌려서 채용절차정보만큼 탭 만들기, rprocOrder에 해당하는 탭에 select 주기
 		List<RProcedureVO> dataList = service.retrieveRecruitProcedure(rcrtNo);
 		
-		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("rcrtNo", rcrtNo);
 		paramMap.put("rprocOrder", rprocOrder);
@@ -96,5 +101,48 @@ public class RecruitProcedureController {
 		
 	}
 	
-//	@PutMapping("recruit/")
+	@PutMapping("recruit/passStatus")
+	@ResponseBody
+	public String passStatusUpdate(
+			@ModelAttribute AProcedureOuterVO outerVO
+			, RedirectAttributes redirectAttribute
+	) {
+		ServiceResult result = service.modifyPassStatus(outerVO);
+		
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
+	
+	@PutMapping("recruit/closeStatus")
+	public String closeStateUpdate(
+			@ModelAttribute AProcedureOuterVO outerVO
+			, RedirectAttributes redirectAttribute
+	) {
+		ServiceResult result = service.modifyCloseStatus(outerVO);
+		
+		switch (result) {
+		case OK:
+			redirectAttribute.addFlashAttribute("message","채용절차 마감 성공");
+			break;
+		default:
+			redirectAttribute.addFlashAttribute("message","채용절차 마감 실패");
+			break;
+		}
+		
+		String rcrtNo = outerVO.getAprocVO().get(0).getRcrtNo();
+		int rprocOrder = outerVO.getAprocVO().get(0).getRprocOrder();
+		
+		return String.format("redirect:/company/recruit/%s/%d", rcrtNo, rprocOrder);
+	}
+	
+	
 }

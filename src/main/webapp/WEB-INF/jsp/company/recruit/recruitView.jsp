@@ -5,17 +5,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- 채점표 생성 모달 --%>
-<div id="resumeScoreModal" class="modal fade">
+<div id="resumeScoreModal" class="modal fade modal-les">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
 			<!-- Modal Header -->
-			<div class="modal-header">
+			<div class="modal-header modalHeader-les">
 				<div class="resumeScore">채점표 생성</div>
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body modalBody"></div>
+			<div class="modal-body modalBody modalBody-les" id="resumeScore-modal-body"></div>
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
@@ -57,7 +57,8 @@
 
 <div id="content" class="basic_wide vix_main recruit-content"
 	data-rcrt-no=${rcrtNo } data-rproc-order=${rprocOrder }
-	data-rproc-typeno="${currProcedureInfo.rprocTypeno }">
+	data-rproc-typeno="${currProcedureInfo.rprocTypeno }"
+	data-rproc-end="${currProcedureInfo.rprocEnd }">
 	<div class="wrap_content">
 		<%-- 채용 절차 탭 --%>
 		<div class="area_payment">
@@ -90,11 +91,13 @@
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE01' }">
 					<div class="tab_part resume_part">
 						<div class="box_lookup">
-							<div class="box_right">
-								<button type="button" class="btnSizeL colorWhtie"
-									data-bs-toggle="modal" data-bs-target="#resumeScoreModal">채점표
-									생성</button>
-							</div>
+							<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+								<div class="box_right">
+									<button type="button" id="resumeScoreForm" class="btnSizeL colorWhtie"
+										data-bs-toggle="modal" data-bs-target="#resumeScoreModal">채점표
+										생성</button>
+								</div>
+							</c:if>
 						</div>
 
 						<%-- 리스트 출력 영역 --%>
@@ -129,7 +132,8 @@
 									<button type="button" class="btnSizeM resumeStatus"
 										data-confirm-status="fail">불합격</button>
 								</div>
-								<form id="passStatusForm">
+								<form id="confirmStatusForm" class="tblWrapForm" method="post">
+									<input type="hidden" name="_method" value="put" />
 									<table class="sms-breakdown recruitViewTbl">
 										<thead>
 											<tr>
@@ -149,10 +153,14 @@
 										</tbody>
 									</table>
 								</form>
-								<div class="tblBtn">
-									<button type="button" class="btnSizeM colorGreen">확정</button>
-									<button type="button" class="btnSizeM colorBlue">저장</button>
-								</div>
+								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+									<div class="tblBtn">
+										<button type="button" class="btnSizeM colorGreen"
+											id="procedureCloseBtn">마감</button>
+										<button type="button" class="btnSizeM colorBlue"
+											id="passStatusSaveBtn">저장</button>
+									</div>
+								</c:if>
 							</div>
 
 							<div class="paging" id="paging">
@@ -216,30 +224,36 @@
 									<button type="button" class="btnSizeM aptStatus"
 										data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown recruitViewTbl">
+								<form id="confirmStatusForm" class="tblWrapForm" method="post">
+									<input type="hidden" name="_method" value="put" />
+									<table class="sms-breakdown recruitViewTbl">
+										<thead>
+											<tr>
+												<th scope="col">이름</th>
+												<th scope="col">생년월일</th>
+												<th scope="col">성별</th>
+												<th scope="col">검사결과지</th>
+												<th scope="col">제출일</th>
+												<th scope="col">점수</th>
+												<th scope="col"><select name="">
+														<option value="">점수순</option>
+												</select></th>
+											</tr>
+										</thead>
+										<tbody class="apt-tbody">
+											<!-- 지원자 목록 출력하는 곳 -->
+										</tbody>
+									</table>
+								</form>
+								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+									<div class="tblBtn">
+										<button type="button" class="btnSizeM colorGreen"
+											id="procedureCloseBtn">마감</button>
+										<button type="button" class="btnSizeM colorBlue"
+											id="passStatusSaveBtn">저장</button>
 
-									<thead>
-										<tr>
-											<th scope="col">이름</th>
-											<th scope="col">생년월일</th>
-											<th scope="col">성별</th>
-											<th scope="col">검사결과지</th>
-											<th scope="col">제출일</th>
-											<th scope="col">점수</th>
-											<th scope="col"><select name="">
-													<option value="">점수순</option>
-											</select></th>
-										</tr>
-									</thead>
-									<tbody class="apt-tbody">
-										<!-- 지원자 목록 출력하는 곳 -->
-									</tbody>
-								</table>
-								<div class="tblBtn">
-									<button type="button" class="btnSizeM colorGreen">확정</button>
-									<button type="button" class="btnSizeM colorBlue">저장</button>
-
-								</div>
+									</div>
+								</c:if>
 							</div>
 							<div class="paging" id="paging">
 								<!-- 페이지 출력하는 곳 -->
@@ -301,30 +315,36 @@
 									<button type="button" class="btnSizeM techStatus"
 										data-confirm-status="fail">불합격</button>
 								</div>
-								<table class="sms-breakdown recruitViewTbl">
+								<form id="confirmStatusForm" class="tblWrapForm" method="post">
+									<input type="hidden" name="_method" value="put" />
+									<table class="sms-breakdown recruitViewTbl">
 
-									<thead>
-										<tr>
-											<th scope="col">이름</th>
-											<th scope="col">생년월일</th>
-											<th scope="col">성별</th>
-											<th scope="col">검사결과지</th>
-											<th scope="col">제출일</th>
-											<th scope="col">점수</th>
-											<th scope="col"><select name="">
-													<option value="">점수순</option>
-											</select></th>
-										</tr>
-									</thead>
-									<tbody class="tech-tbody">
-										<!-- 지원자 목록 출력하는 곳 -->
-									</tbody>
-								</table>
-								<div class="tblBtn">
-									<button type="button" class="btnSizeM colorGreen">확정</button>
-									<button type="button" class="btnSizeM colorBlue">저장</button>
-
-								</div>
+										<thead>
+											<tr>
+												<th scope="col">이름</th>
+												<th scope="col">생년월일</th>
+												<th scope="col">성별</th>
+												<th scope="col">검사결과지</th>
+												<th scope="col">제출일</th>
+												<th scope="col">점수</th>
+												<th scope="col"><select name="">
+														<option value="">점수순</option>
+												</select></th>
+											</tr>
+										</thead>
+										<tbody class="tech-tbody">
+											<!-- 지원자 목록 출력하는 곳 -->
+										</tbody>
+									</table>
+								</form>
+								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+									<div class="tblBtn">
+										<button type="button" class="btnSizeM colorGreen"
+											id="procedureCloseBtn">마감</button>
+										<button type="button" class="btnSizeM colorBlue"
+											id="passStatusSaveBtn">저장</button>
+									</div>
+								</c:if>
 							</div>
 							<div class="paging" id="paging">
 								<!-- 페이지 출력하는 곳 -->
@@ -381,73 +401,78 @@
 									</div>
 								</div>
 							</div>
-							<div class="tblWrap resumeTbl intrTbl" data-intr-list-idx="1">
-								<div class="btnTxt resumeTxt confirmStatus">
-									<button type="button" class="btnSizeM colorBlue intrApplStatus"
-										data-confirm-status="unconfirmed">미확인</button>
-									<button type="button" class="btnSizeM intrApplStatus"
-										data-confirm-status="pass">합격</button>
-									<button type="button" class="btnSizeM intrApplStatus"
-										data-confirm-status="fail">불합격</button>
-								</div>
-								<table class="sms-breakdown recruitViewTbl">
-									<thead>
-										<tr>
-											<th scope="col">이름</th>
-											<th scope="col">생년월일</th>
-											<th scope="col">성별</th>
-											<th scope="col">면접일정 등록여부</th>
-											<th scope="col"><select name="">
-													<option value="">점수순</option>
-											</select></th>
-										</tr>
-									</thead>
-									<tbody class="intrAppl-tbody" id="intrATbody">
-										<!-- 지원자 목록 출력하는 곳 -->
-									</tbody>
-								</table>
-								<div class="tblBtn">
-									<button type="button" class="btnSizeM colorGreen">확정</button>
-									<button type="button" class="btnSizeM colorBlue">저장</button>
+							<div class="tblWrap resumeTbl">
+								<div class="intrTbl" data-intr-list-idx="1">
+									<div class="btnTxt resumeTxt confirmStatus">
+										<button type="button"
+											class="btnSizeM colorBlue intrApplStatus"
+											data-confirm-status="unconfirmed">미확인</button>
+										<button type="button" class="btnSizeM intrApplStatus"
+											data-confirm-status="pass">합격</button>
+										<button type="button" class="btnSizeM intrApplStatus"
+											data-confirm-status="fail">불합격</button>
+									</div>
+									<table class="sms-breakdown recruitViewTbl tbl90">
+										<thead>
+											<tr>
+												<th scope="col">이름</th>
+												<th scope="col">생년월일</th>
+												<th scope="col">성별</th>
+												<th scope="col">면접일정 등록여부</th>
+												<th scope="col"><select name="">
+														<option value="">점수순</option>
+												</select></th>
+											</tr>
+										</thead>
+										<tbody class="intrAppl-tbody" id="intrATbody">
+											<!-- 지원자 목록 출력하는 곳 -->
+										</tbody>
+									</table>
 
 								</div>
+								<div class="intrTbl" data-intr-list-idx="2"
+									style="display: none;">
+									<div class="btnTxt resumeTxt confirmStatus">
+										<button type="button"
+											class="btnSizeM colorBlue intrSchdStatus"
+											data-confirm-status="unconfirmed">미확인</button>
+										<button type="button" class="btnSizeM intrSchdStatus"
+											data-confirm-status="pass">합격</button>
+										<button type="button" class="btnSizeM intrSchdStatus"
+											data-confirm-status="fail">불합격</button>
+									</div>
+									<form id="confirmStatusForm" class="tblWrapForm" method="post">
+										<input type="hidden" name="_method" value="put" />
+										<table class="sms-breakdown recruitViewTbl">
+
+											<thead>
+												<tr>
+													<th scope="col">이름</th>
+													<th scope="col">생년월일</th>
+													<th scope="col">성별</th>
+													<th scope="col">면접일시</th>
+													<th scope="col">메일</th>
+													<th scope="col">알림</th>
+													<th scope="col" colspan="2"><select name="">
+															<option value="">점수순</option>
+													</select></th>
+												</tr>
+											</thead>
+											<tbody class="intrSchd-tbody">
+												<!-- 면접일정 목록 출력하는 곳 -->
+											</tbody>
+										</table>
+									</form>
+								</div>
+								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+									<div class="tblBtn">
+										<button type="button" class="btnSizeM colorGreen"
+											id="procedureCloseBtn">마감</button>
+										<button type="button" class="btnSizeM colorBlue"
+											id="passStatusSaveBtn">저장</button>
+									</div>
+								</c:if>
 							</div>
-							<div class="tblWrap resumeTbl intrTbl" data-intr-list-idx="2"
-								style="display: none;">
-								<div class="btnTxt resumeTxt confirmStatus">
-									<button type="button" class="btnSizeM colorBlue intrSchdStatus"
-										data-confirm-status="unconfirmed">미확인</button>
-									<button type="button" class="btnSizeM intrSchdStatus"
-										data-confirm-status="pass">합격</button>
-									<button type="button" class="btnSizeM intrSchdStatus"
-										data-confirm-status="fail">불합격</button>
-								</div>
-								<table class="sms-breakdown recruitViewTbl">
-
-									<thead>
-										<tr>
-											<th scope="col">이름</th>
-											<th scope="col">생년월일</th>
-											<th scope="col">성별</th>
-											<th scope="col">면접일시</th>
-											<th scope="col">메일</th>
-											<th scope="col">알림</th>
-											<th scope="col" colspan="2"><select name="">
-													<option value="">점수순</option>
-											</select></th>
-										</tr>
-									</thead>
-									<tbody class="intrSchd-tbody">
-										<!-- 면접일정 목록 출력하는 곳 -->
-									</tbody>
-								</table>
-								<div class="tblBtn">
-									<button type="button" class="btnSizeM colorGreen">확정</button>
-									<button type="button" class="btnSizeM colorBlue">저장</button>
-
-								</div>
-							</div>
-
 							<div class="paging" id="paging">
 								<!-- 페이지 출력하는 곳 -->
 							</div>

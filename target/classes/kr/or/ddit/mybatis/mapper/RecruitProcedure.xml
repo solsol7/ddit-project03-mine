@@ -258,7 +258,7 @@
 			RCRT_NO=#{rcrtNo}
 			AND RPROC_ORDER=#{rprocOrder}
 	</select>
-	
+
 	
 	<!-- ==================================채용절차 조회 관련==================================  -->
 	<sql id="viewSearchFlag">
@@ -304,8 +304,8 @@
 	</resultMap>
 	<select id="selectResumeApplicantList" resultMap="ApplicantListMap" parameterType="PaginationInfo">
 		WITH RESATTVIEW AS(
-		    SELECT DISTINCT A.APL_NO, A.RESATT_NO, RESUME_TITLE
-		    FROM APPLY A LEFT OUTER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+		    SELECT DISTINCT A.APL_NO, A.RESSC_NO, RESUME_TITLE
+		    FROM APPLY A LEFT OUTER JOIN RESUME_SC R ON A.RESSC_NO=R.RESSC_NO
 		)
 		SELECT
 		    AP.apl_no
@@ -319,7 +319,7 @@
 		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 		    , USERS_GEN
 		    , RESUME_TITLE
-		    , RESATT_NO
+		    , RESSC_NO
 		FROM
 		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 		        LEFT OUTER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
@@ -395,4 +395,36 @@
 		ORDER BY APROC_DATE DESC
 	</select>
 	
+	
+	<!-- ==================================채용절차 관리 관련==================================  -->
+	<!-- 합불 여부 저장 -->
+	<update id="updatePassStatus" parameterType="AProcedureVO">
+		UPDATE
+			A_PROCEDURE
+		SET
+			<if test='aprocPass eq "unconfirmed"'>
+				APROC_PASS=NULL
+			</if>
+			<if test='aprocPass eq "pass"'>
+				APROC_PASS='Y'
+			</if>
+			<if test='aprocPass eq "fail"'>
+				APROC_PASS='N'
+			</if>
+		WHERE
+			APL_NO=#{aplNo}
+				AND RCRT_NO=#{rcrtNo}
+				AND RPROC_ORDER=#{rprocOrder}
+	</update>
+	
+	<!-- 채용절차 마감 -->
+	<update id="updateCloseStatus" parameterType="HashMap">
+		UPDATE
+			R_PROCEDURE
+		SET
+			RPROC_END = 'Y'
+		WHERE
+			RCRT_NO=#{rcrtNo}
+			AND RPROC_ORDER=#{rprocOrder}
+	</update>
 </mapper>

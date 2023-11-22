@@ -10,6 +10,8 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = "intrNo")
 public class InterviewSchdVO implements Serializable {
+	private int rnum;
+	
 	private String intrNo;
 	private String aplNo;
 	private Integer rprocOrder;
@@ -19,4 +21,7 @@ public class InterviewSchdVO implements Serializable {
 	private String intrDate;
 	
 	private String intrTypeNm;
+
+	private RecruitVO recruit;
+	private ApplyVO apply;
 }

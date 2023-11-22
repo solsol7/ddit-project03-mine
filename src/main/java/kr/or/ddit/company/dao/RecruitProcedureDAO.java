@@ -50,4 +50,14 @@ public interface RecruitProcedureDAO {
 	 * 면접 지원자 목록 조회
 	 */
 	public List<AProcedureVO> selectInterviewApplicantList(PaginationInfo<AProcedureVO> paging);
+	
+	/**
+	 * 합불 여부 저장
+	 */
+	public int updatePassStatus(AProcedureVO aprocVO);
+	
+	/**
+	 * 마감 여부 저장
+	 */
+	public int updateCloseStatus(Map<String, Object> paramMap);
 }

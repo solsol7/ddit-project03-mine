@@ -20,6 +20,7 @@ $(function(){
 	
 	let rcrtNo = $('.recruit-content').data("rcrtNo");
 	let rprocOrder = $('.recruit-content').data("rprocOrder");
+	let rprocEnd = $('.recruit-content').data("rprocEnd");
 	
 	/* 서류전형 settings */
 	let resumeSettings ={
@@ -35,14 +36,30 @@ $(function(){
 									<td>${v.users.usersNm}</td>
 									<td>${v.users.usersBir}</td>
 									<td>${v.users.usersGen=='F'?"여":"남"}</td>
-									<td><a href="javascript:;" onclick="resumeView(${v.resattNo})">${v.resumeTitle}</a></td>
+									<td class="ellipsis"><a href="javascript:;" onclick="resumeView(${v.resattNo})">${v.resumeTitle}</a></td>
 									<td>${v.aprocDate}</td>
 									<td>${v.aprocScr}</td>
+								`;
+							
+						// 마감일 시 초기화면 합불여부 관리 disabled 처리
+						if(rprocEnd=='Y'){
+							result +=`
+										<td>
+											<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
+												<option value="unconfirmed">미확인</option>
+												<option value="pass">합격</option>
+												<option value="fail">불합격</option>
+											</select>
+										</td>
+									</tr>
+								`;
+						}else{
+							result +=`
 									<td>
-										<input type="hidden" name="aprocVO[i].aplNo" value="${v.aplNo}"/>
-										<input type="hidden" name="aprocVO[i].rcrtNo" value="${v.rcrtNo}"/>
-										<input type="hidden" name="aprocVO[i].rprocOrder" value="${v.rprocOrder}"/>
-										<select class="aprocPass" name="aprocVO[i].aprocPass">
+										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
 											<option value="unconfirmed">미확인</option>
 											<option value="pass">합격</option>
 											<option value="fail">불합격</option>
@@ -50,6 +67,7 @@ $(function(){
 									</td>
 								</tr>
 							`;
+						}
 					}); // $.each 끝
 				}else{
 					result += `
@@ -90,18 +108,36 @@ $(function(){
 								<td><a href="javascript:;" onclick="rsltLink('${v.rsltNo}')">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
-								<td>
-									<input type="hidden" name="aprocVO[i].aplNo" value="${v.aplNo}"/>
-									<input type="hidden" name="aprocVO[i].rcrtNo" value="${v.rcrtNo}"/>
-									<input type="hidden" name="aprocVO[i].rprocOrder" value="${v.rprocOrder}"/>
-									<select class="aprocPass" name="aprocVO[i].aprocPass">
-										<option value="unconfirmed">미확인</option>
-										<option value="pass">합격</option>
-										<option value="fail">불합격</option>
-									</select>
-								</td>
-							</tr>
 						`;
+							
+						// 마감일 시 초기화면 합불여부 관리 disabled 처리
+						if(rprocEnd=='Y'){
+							result +=`
+									<td>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+								</tr>
+							`;
+						}else{
+							result +=`
+									<td>
+										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+								</tr>
+							`;
+						}
+						
 				}); // $.each 끝
 			}else{
 				result += `
@@ -142,18 +178,35 @@ $(function(){
 								<td><a href="javascript:;" onclick="rsltLink('${v.rsltNo}')">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
-								<td>
-									<input type="hidden" name="aprocVO[i].aplNo" value="${v.aplNo}"/>
-									<input type="hidden" name="aprocVO[i].rcrtNo" value="${v.rcrtNo}"/>
-									<input type="hidden" name="aprocVO[i].rprocOrder" value="${v.rprocOrder}"/>
-									<select class="aprocPass" name="aprocVO[i].aprocPass">
-										<option value="unconfirmed">미확인</option>
-										<option value="pass">합격</option>
-										<option value="fail">불합격</option>
-									</select>
-								</td>
-							</tr>
 						`;
+							
+						// 마감일 시 초기화면 합불여부 관리 disabled 처리
+						if(rprocEnd=='Y'){
+							result +=`
+									<td>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+								</tr>
+							`;
+						}else{
+							result +=`
+									<td>
+										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+								</tr>
+							`;
+						}
 				}); // $.each 끝
 			}else{
 				result += `
@@ -211,23 +264,40 @@ $(function(){
 								</td>
 								<td>${v.mailCount}</td>
 								<td>${v.alarmCount}</td>
-								<td>
-									<buttton type="button" class="btnSizeS colorBlue">안내발송</buttton><br>
-									<input type="hidden" name="aprocVO[i].aplNo" value="${v.aplNo}"/>
-									<input type="hidden" name="aprocVO[i].rcrtNo" value="${v.rcrtNo}"/>
-									<input type="hidden" name="aprocVO[i].rprocOrder" value="${v.rprocOrder}"/>
-									<select class="aprocPass" name="aprocVO[i].aprocPass">
-										<option value="unconfirmed">미확인</option>
-										<option value="pass">합격</option>
-										<option value="fail">불합격</option>
-									</select>
-								</td>
-								<td>
-									<buttton type="button" class="btnSizeS colorBlue">수정</buttton><br>
-									<buttton type="button" class="btnSizeS colorBlue">삭제</buttton>
-								</td>
-							</tr>
 						`;
+							
+						// 마감일 시 초기화면 합불여부 관리 disabled 처리
+						if(rprocEnd=='Y'){
+							schdResult +=`
+									<td>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+								</tr>
+							`;
+						}else{
+							schdResult +=`
+									<td>
+										<buttton type="button" class="btnSizeS colorBlue">안내발송</buttton><br>
+										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
+											<option value="unconfirmed">미확인</option>
+											<option value="pass">합격</option>
+											<option value="fail">불합격</option>
+										</select>
+									</td>
+									<td>
+										<buttton type="button" class="btnSizeS colorBlue">수정</buttton><br>
+										<buttton type="button" class="btnSizeS colorBlue">삭제</buttton>
+									</td>
+								</tr>
+							`;
+						}
 				}); // $.each 끝
 			}else{
 				applResult += `
@@ -373,14 +443,29 @@ $(function(){
 		$(searchForm).submit();
 	})
 	
-	/* 이력서 폼 만들기 */
-	resumeView = (rsltNo) => {
-		let resumeViewHTML = `
-					<table class="table table-bordered">
-
-					</table>
-			`;
-	}
+	/* 이력서 채점표 만들기 */
+	$('#resumeScoreForm').on("click",function(){
+		formTag = `
+			<div class="resumeScoreModalCont">
+				<div class="resumeScoreItem divTypo">학력</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">어학</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">경력</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">자격증</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">대외활동</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">해외연수</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+				<div class="resumeScoreItem divTypo">기타</div>
+				<input type="checkbox" name="resumeScoreItem" class="resumeScoreCheckbox" />
+			</div>
+		`;
+		
+		$('#resumeScore-modal-body').html(formTag);
+	})
 	
 	
 	/* 페이지 처리 */
@@ -439,6 +524,39 @@ $(function(){
 	$(".techStatus").eq(0).trigger("click");
 	$(".intrApplStatus").eq(0).trigger("click");
 	$(".intrSchdStatus").eq(0).trigger("click");
+
 	
+	/* 저장 버튼 클릭 */
+	$("#passStatusSaveBtn").on("click",function(){
+		let data = $(confirmStatusForm).serialize();
+		console.log(data);
+		$.ajax({
+			url : `${cPath}/company/recruit/passStatus`,
+			type : "post",
+			data : data,
+			success : function(resp){
+				if(resp=="OK"){
+					alert("수정 성공")
+				}else{
+					alert("수정 실패")
+				}
+				let confirmStatus = $(searchForm).find(":input[name=aprocPass]").val();
+				$('.confirmStatus').children(`[data-confirm-status=${confirmStatus}]`).trigger("click");
+				
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		});
+	})
+	
+	/* 마감 버튼 클릭 */
+	$('#procedureCloseBtn').on("click",function(){
+		let closeConfirm = confirm("마지막 상태가 저장된 후 마감됩니다. 채용절차를 마감하시겠습니까?");
+		if(closeConfirm){
+			confirmStatusForm.action = `${cPath}/company/recruit/closeStatus`;
+			confirmStatusForm.requestSubmit();			
+		}
+	})
 
 })

@@ -8,7 +8,9 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.dao.RecruitProcedureDAO;
+import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.TestVO;
@@ -82,6 +84,67 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		}
 		
 		paging.setDataList(dataList);
+	}
+
+	@Override
+	public ServiceResult modifyPassStatus(AProcedureOuterVO outerVO) {
+		
+		boolean successFlag = true;
+		
+		for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
+			int rowcnt = dao.updatePassStatus(aprocVO);
+			if(rowcnt > 0) {
+				successFlag &= true;
+			}else {
+				successFlag &= false;
+			}
+		}
+		
+		ServiceResult result = null;
+		if(successFlag) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO) {
+
+		boolean successFlag = true;
+		
+		for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
+			int rowcnt = dao.updatePassStatus(aprocVO);
+			if(rowcnt > 0) {
+				successFlag &= true;
+			}else {
+				successFlag &= false;
+			}
+		}
+		
+		if(successFlag) {
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("rcrtNo", outerVO.getAprocVO().get(0).getRcrtNo());
+			paramMap.put("rprocOrder", outerVO.getAprocVO().get(0).getRprocOrder());
+			
+			int rowcnt = dao.updateCloseStatus(paramMap);
+			if(rowcnt > 0) {
+				successFlag &= true;
+			}else {
+				successFlag &= false;
+			}
+		}
+		
+		ServiceResult result = null;
+		if(successFlag) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
 	}
 	
 }
