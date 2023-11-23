@@ -12,7 +12,9 @@ import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.dao.RecruitProcedureDAO;
 import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
@@ -91,8 +93,45 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		boolean successFlag = true;
 		
-		for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
-			int rowcnt = dao.updatePassStatus(aprocVO);
+		if(outerVO.getAprocVO()!=null) {
+			for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
+				int rowcnt = dao.updatePassStatus(aprocVO);
+				if(rowcnt > 0) {
+					successFlag &= true;
+				}else {
+					successFlag &= false;
+				}
+			}
+		}
+		
+		ServiceResult result = null;
+		if(successFlag) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO, Map<String, Object> paramMap) {
+
+		boolean successFlag = true;
+		
+		if(outerVO.getAprocVO()!=null) {
+			for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
+				int rowcnt = dao.updatePassStatus(aprocVO);
+				if(rowcnt > 0) {
+					successFlag &= true;
+				}else {
+					successFlag &= false;
+				}
+			}
+		}
+		
+		if(successFlag) {
+			int rowcnt = dao.updateCloseStatus(paramMap);
 			if(rowcnt > 0) {
 				successFlag &= true;
 			}else {
@@ -110,35 +149,34 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		return result;
 	}
 
+	/* 채점표 생성 */
 	@Override
-	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO) {
-
-		boolean successFlag = true;
-		
-		for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
-			int rowcnt = dao.updatePassStatus(aprocVO);
-			if(rowcnt > 0) {
-				successFlag &= true;
-			}else {
-				successFlag &= false;
-			}
-		}
-		
-		if(successFlag) {
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("rcrtNo", outerVO.getAprocVO().get(0).getRcrtNo());
-			paramMap.put("rprocOrder", outerVO.getAprocVO().get(0).getRprocOrder());
-			
-			int rowcnt = dao.updateCloseStatus(paramMap);
-			if(rowcnt > 0) {
-				successFlag &= true;
-			}else {
-				successFlag &= false;
-			}
-		}
+	public ServiceResult createResumeScoreForm(ResumeFormVO resumeFormVO) {
+		int rowcnt = dao.insertResumeScoreForm(resumeFormVO);
 		
 		ServiceResult result = null;
-		if(successFlag) {
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+	
+	/* 채점표 개수 조회 */
+	@Override
+	public int retrieveResumeScoreFormCount(Map<String, Object> paramMap) {
+		return dao.selectResumeScoreFormCount(paramMap);
+	}
+	
+	/* 면접일정 등록 */
+	@Override
+	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO) {
+		int rowcnt = dao.insertInterviewSchd(interviewSchdVO);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
 			result = ServiceResult.OK;
 		}else {
 			result = ServiceResult.FAIL;

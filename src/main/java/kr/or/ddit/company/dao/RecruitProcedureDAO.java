@@ -6,7 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 @Mapper
@@ -60,4 +62,19 @@ public interface RecruitProcedureDAO {
 	 * 마감 여부 저장
 	 */
 	public int updateCloseStatus(Map<String, Object> paramMap);
+	
+	/**
+	 * 채점표 갯수 조회
+	 */
+	public int selectResumeScoreFormCount(Map<String, Object> paramMap);
+	
+	/**
+	 * 채점표 생성
+	 */
+	public int insertResumeScoreForm(ResumeFormVO resumeFormVO);
+	
+	/**
+	 * 면접일정 등록
+	 */
+	public int insertInterviewSchd(InterviewSchdVO interviewSchdVO);
 }

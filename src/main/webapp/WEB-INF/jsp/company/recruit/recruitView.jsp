@@ -15,13 +15,15 @@
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body modalBody modalBody-les" id="resumeScore-modal-body"></div>
+			<div class="modal-body modalBody modalBody-les" id="resumeScore-modal-body">
+				<!-- 양식 체크박스 출력되는 곳 -->
+			</div>
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
+				<button type="button" class="btn btn-secondary closeModal"
 					data-bs-dismiss="modal">취소</button>
-				<button type="submit" class="btn btn-primary">확인</button>
+				<button type="button" class="btn btn-primary" id="resumeScoreFormBtn">확인</button>
 			</div>
 		</div>
 	</div>
@@ -29,28 +31,33 @@
 <%-- 채점표 생성 모달 끝 --%>
 
 <%-- 면접일정 생성 모달 --%>
-<div id="intrSchdModal" class="modal fade">
+<div id="intrSchdModal" class="modal fade modal-les">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
 			<!-- Modal Header -->
-			<div class="modal-header">
+			<div class="modal-header  modalHeader-les">
 				<div class="resumeScore">면접일정 생성</div>
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body modalBody"></div>
+			<div class="modal-body modalBody  modalBody-les" id="intrSchd-modal-body">
+				<!-- 면접일정 등록 양식 출력되는 곳 -->
+			</div>
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
+				<button type="button" class="btn btn-secondary closeModal"
 					data-bs-dismiss="modal">취소</button>
-				<button type="submit" class="btn btn-primary">확인</button>
+				<button type="submit" class="btn btn-primary" id="intrSchdBtn">확인</button>
 			</div>
 		</div>
 	</div>
 </div>
 <%-- 면접일정 생성 모달 끝 --%>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <script
 	src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
@@ -91,9 +98,9 @@
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE01' }">
 					<div class="tab_part resume_part">
 						<div class="box_lookup">
-							<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
+							<c:if test="${currProcedureInfo.rprocEnd eq 'N' && resumeScoreFormCount==0}">
 								<div class="box_right">
-									<button type="button" id="resumeScoreForm" class="btnSizeL colorWhtie"
+									<button type="button" id="createResumeScoreFormBtn" class="btnSizeL colorWhtie"
 										data-bs-toggle="modal" data-bs-target="#resumeScoreModal">채점표
 										생성</button>
 								</div>
@@ -109,7 +116,7 @@
 										<div class="search_right">
 											<span class="inpSel"> <select name="usersGen"
 												class="stype">
-													<option value>전체</option>
+													<option value>성별</option>
 													<option value="M">남</option>
 													<option value="F">여</option>
 											</select>
@@ -134,6 +141,8 @@
 								</div>
 								<form id="confirmStatusForm" class="tblWrapForm" method="post">
 									<input type="hidden" name="_method" value="put" />
+									<input type="hidden" name="rcrtNo" value="${rcrtNo }" />
+									<input type="hidden" name="rprocOrder" value="${rprocOrder }" />
 									<table class="sms-breakdown recruitViewTbl">
 										<thead>
 											<tr>
@@ -141,10 +150,11 @@
 												<th scope="col">생년월일</th>
 												<th scope="col">성별</th>
 												<th scope="col">이력서제목</th>
-												<th scope="col">제출일</th>
+												<th scope="col">지원일</th>
 												<th scope="col">점수</th>
-												<th scope="col"><select name="">
-														<option value="">점수순</option>
+												<th scope="col"><select name="sortCategory">
+														<option value="date">지원일순</option>
+														<option value="score">점수순</option>
 												</select></th>
 											</tr>
 										</thead>
@@ -201,7 +211,7 @@
 										<div class="search_right">
 											<span class="inpSel"> <select name="usersGen"
 												class="stype">
-													<option value>전체</option>
+													<option value>성별</option>
 													<option value="M">남</option>
 													<option value="F">여</option>
 											</select>
@@ -226,6 +236,8 @@
 								</div>
 								<form id="confirmStatusForm" class="tblWrapForm" method="post">
 									<input type="hidden" name="_method" value="put" />
+									<input type="hidden" name="rcrtNo" value="${rcrtNo }" />
+									<input type="hidden" name="rprocOrder" value="${rprocOrder }" />
 									<table class="sms-breakdown recruitViewTbl">
 										<thead>
 											<tr>
@@ -233,10 +245,11 @@
 												<th scope="col">생년월일</th>
 												<th scope="col">성별</th>
 												<th scope="col">검사결과지</th>
-												<th scope="col">제출일</th>
+												<th scope="col">지원일</th>
 												<th scope="col">점수</th>
-												<th scope="col"><select name="">
-														<option value="">점수순</option>
+												<th scope="col"><select name="sortCategory">
+														<option value="date">지원일순</option>
+														<option value="score">점수순</option>
 												</select></th>
 											</tr>
 										</thead>
@@ -292,7 +305,7 @@
 										<div class="search_right">
 											<span class="inpSel"> <select name="usersGen"
 												class="stype">
-													<option value>전체</option>
+													<option value>성별</option>
 													<option value="M">남</option>
 													<option value="F">여</option>
 											</select>
@@ -317,6 +330,8 @@
 								</div>
 								<form id="confirmStatusForm" class="tblWrapForm" method="post">
 									<input type="hidden" name="_method" value="put" />
+									<input type="hidden" name="rcrtNo" value="${rcrtNo }" />
+									<input type="hidden" name="rprocOrder" value="${rprocOrder }" />
 									<table class="sms-breakdown recruitViewTbl">
 
 										<thead>
@@ -325,10 +340,11 @@
 												<th scope="col">생년월일</th>
 												<th scope="col">성별</th>
 												<th scope="col">검사결과지</th>
-												<th scope="col">제출일</th>
+												<th scope="col">지원일</th>
 												<th scope="col">점수</th>
-												<th scope="col"><select name="">
-														<option value="">점수순</option>
+												<th scope="col"><select name="sortCategory">
+														<option value="date">지원일순</option>
+														<option value="score">점수순</option>
 												</select></th>
 											</tr>
 										</thead>
@@ -387,7 +403,7 @@
 										<div class="search_right">
 											<span class="inpSel"> <select name="usersGen"
 												class="stype">
-													<option value>전체</option>
+													<option value>성별</option>
 													<option value="M">남</option>
 													<option value="F">여</option>
 											</select>
@@ -419,8 +435,10 @@
 												<th scope="col">생년월일</th>
 												<th scope="col">성별</th>
 												<th scope="col">면접일정 등록여부</th>
-												<th scope="col"><select name="">
-														<option value="">점수순</option>
+												<th scope="col"><select name="intrStatus">
+														<option value>등록여부</option>
+														<option value="NotNull">등록</option>
+														<option value="Null">미등록</option>
 												</select></th>
 											</tr>
 										</thead>
@@ -443,6 +461,8 @@
 									</div>
 									<form id="confirmStatusForm" class="tblWrapForm" method="post">
 										<input type="hidden" name="_method" value="put" />
+										<input type="hidden" name="rcrtNo" value="${rcrtNo }" />
+										<input type="hidden" name="rprocOrder" value="${rprocOrder }" />
 										<table class="sms-breakdown recruitViewTbl">
 
 											<thead>
@@ -453,9 +473,10 @@
 													<th scope="col">면접일시</th>
 													<th scope="col">메일</th>
 													<th scope="col">알림</th>
-													<th scope="col" colspan="2"><select name="">
-															<option value="">점수순</option>
-													</select></th>
+													<th scope="col"><select name="sortCategory">
+														<option value="date">지원일순</option>
+														<option value="intrDate">면접일순</option>
+												</select></th>
 												</tr>
 											</thead>
 											<tbody class="intrSchd-tbody">
@@ -496,10 +517,13 @@
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="text" readonly name="rprocTypeno" /> <input
-					type="text" readonly name="aprocPass" /> <input type="text"
-					readonly name="usersGen" /> <input type="text" readonly
-					name="usersNm" /> <input type="text" readonly name="page" />
+				<input type="text" readonly name="rprocTypeno" />
+				<input type="text" readonly name="aprocPass" />
+				<input type="text" readonly name="usersGen" />
+				<input type="text" readonly name="usersNm" />
+				<input type="text" readonly name="sortCategory" />
+				<input type="text" readonly name="intrStatus" />
+				<input type="text" readonly name="page" />
 			</form>
 
 		</div>

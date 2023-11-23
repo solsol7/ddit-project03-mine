@@ -51,6 +51,30 @@
 }
 
 /* 채용절차 - recruit-process */
+.alarmArea {
+    width: 181px;
+    display: inline-flex;
+    vertical-align: bottom;
+    margin-top: 8px;
+}
+
+.alarmSecond {
+	margin-left: 107px;
+}
+
+.txtAStyle {
+	width: 100%;
+    min-height: 200px;
+    border-color: #ddd;
+    border-radius: 5px;
+    margin-top: 18px;
+}
+
+.alarmArea input {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
 
 .modal-les{
 	text-align: center;
@@ -62,7 +86,32 @@
 }
 
 .modalBody-les{
-	min-height : 500px;
+	height : 500px;
+	overflow : auto;
+}
+
+#intrSchdModal .modalBody-les{
+	text-align: left;
+}
+
+.intrItemTitle{
+	display: inline-block;
+	width : 100px;
+}
+
+.intrSchdItem{
+	padding: 0 13px 2px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #222;
+    font-family: "Malgun Gothic",gulim,dotum,sans-serif;
+    letter-spacing: -1px;
+    line-height: 36px;
+    vertical-align: middle;
+    background-color: #fff;
+    margin : 5px;
 }
 
 .resumeScoreItem{

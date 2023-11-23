@@ -81,19 +81,19 @@ $(function(){
 													<div class="status_type">
 														<a href="#" class="division">
 															총지원자
-															<strong class="data_count ">${v.totalCount??"-"}</strong>
+															<strong class="data_count ">${v.totalCount??"0"}</strong>
 														</a>
 														<a href="#" class="division">
 															현재절차
-															<strong class="data_count ">${v.currprocedure??"-"}</strong>
+															<strong class="data_count ">${v.currprocedure??"-"}${v.currprocedure?"차":""}</strong>
 														</a>
 														<a href="#" class="division">
 															확인
-															<strong class="data_count ">${v.checked??"-"}</strong>
+															<strong class="data_count ">${v.checked??"0"}</strong>
 														</a>
 														<a href="#" class="division">
 															미확인
-															<strong class="data_count ">${v.unchecked??"-"}</strong>
+															<strong class="data_count ">${v.unchecked??"0"}</strong>
 														</a>
 														<a href="#" class="division">
 															최종합격

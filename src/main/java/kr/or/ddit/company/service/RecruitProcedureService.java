@@ -6,7 +6,9 @@ import java.util.Map;
 import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 public interface RecruitProcedureService {
@@ -38,6 +40,20 @@ public interface RecruitProcedureService {
 	/**
 	 * 마감여부 저장
 	 */
-	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO);
+	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO, Map<String, Object> paramMap);
 	
+	/**
+	 * 채점표 갯수 조회
+	 */
+	public int retrieveResumeScoreFormCount(Map<String, Object> paramMap);
+	
+	/**
+	 * 채점표 생성
+	 */
+	public ServiceResult createResumeScoreForm(ResumeFormVO resumeFormVO);
+	
+	/**
+	 * 면접일정 등록
+	 */
+	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO);
 }

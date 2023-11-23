@@ -22,7 +22,9 @@ import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.service.RecruitProcedureService;
 import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -67,13 +69,18 @@ public class RecruitProcedureController {
 		// rcrtNo 의 채용절차 정보 가져오기 -> forEach문 돌려서 채용절차정보만큼 탭 만들기, rprocOrder에 해당하는 탭에 select 주기
 		List<RProcedureVO> dataList = service.retrieveRecruitProcedure(rcrtNo);
 		
+		// 한 채용절차의 상세정보
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("rcrtNo", rcrtNo);
 		paramMap.put("rprocOrder", rprocOrder);
 		RProcedureVO currProcedureInfo = service.retrieveCurrentProcedureInfo(paramMap);
 		
+		// 채점표 존재유무 판단
+		int resumeScoreFormCount = service.retrieveResumeScoreFormCount(paramMap);
+		
 		model.addAttribute("dataList",dataList);
 		model.addAttribute("currProcedureInfo",currProcedureInfo);
+		model.addAttribute("resumeScoreFormCount",resumeScoreFormCount);
 		
 		return "company/recruit/recruitView";
 	}
@@ -101,6 +108,7 @@ public class RecruitProcedureController {
 		
 	}
 	
+	/* 합불여부 수정 */
 	@PutMapping("recruit/passStatus")
 	@ResponseBody
 	public String passStatusUpdate(
@@ -122,12 +130,14 @@ public class RecruitProcedureController {
 		return message;
 	}
 	
+	/* 마감여부 수정 */
 	@PutMapping("recruit/closeStatus")
 	public String closeStateUpdate(
 			@ModelAttribute AProcedureOuterVO outerVO
+			, @RequestParam Map<String, Object> paramMap
 			, RedirectAttributes redirectAttribute
 	) {
-		ServiceResult result = service.modifyCloseStatus(outerVO);
+		ServiceResult result = service.modifyCloseStatus(outerVO, paramMap);
 		
 		switch (result) {
 		case OK:
@@ -138,11 +148,54 @@ public class RecruitProcedureController {
 			break;
 		}
 		
-		String rcrtNo = outerVO.getAprocVO().get(0).getRcrtNo();
-		int rprocOrder = outerVO.getAprocVO().get(0).getRprocOrder();
+		String rcrtNo = String.valueOf(paramMap.get("rcrtNo"));
+		int rprocOrder = Integer.parseInt(String.valueOf(paramMap.get("rprocOrder")));
 		
 		return String.format("redirect:/company/recruit/%s/%d", rcrtNo, rprocOrder);
 	}
 	
+	
+	/* 이력서 채점표 생성 */
+	@PostMapping("recruit/resume/scoreForm")
+	@ResponseBody
+	public String resumeScoreFormCreate(
+			@ModelAttribute ResumeFormVO resumeFormVO
+	) {
+		log.info("{}",resumeFormVO);
+		ServiceResult result =service.createResumeScoreForm(resumeFormVO);
+		
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
+	
+	/* 면접일정 등록 */
+	@PostMapping("recruit/interviewSchd")
+	@ResponseBody
+	public String interviewSchdCreate(
+			@ModelAttribute InterviewSchdVO interviewSchdVO
+	) {
+		ServiceResult result =service.createInterviewSchd(interviewSchdVO);
+		
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
 	
 }

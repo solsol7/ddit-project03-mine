@@ -16,4 +16,7 @@ public class ApplyVO implements Serializable{
 	private String usersId;
 	private String aplCdate;
 	private String aplCancel;
+
+	private RecruitVO recruit;
+	private CompanyVO company;
 }
