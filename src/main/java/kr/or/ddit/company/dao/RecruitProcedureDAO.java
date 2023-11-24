@@ -9,6 +9,8 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.TestResultVO;
+import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 @Mapper
@@ -34,9 +36,14 @@ public interface RecruitProcedureDAO {
 	public RProcedureVO selectCurrentProcedureInfo(Map<String, Object> paramMap);
 	
 	/**
-	 * 지원자 레코드 수 조회
+	 * 지원자 레코드 수 조회 (면접 제외)
 	 */
 	public int selectApplicantTotalRecord(PaginationInfo<AProcedureVO> paging);
+	
+	/**
+	 * 지원자 레코드 수 조회 (면접 전형)
+	 */
+	public int selectIntrApplicantTotalRecord(PaginationInfo<AProcedureVO> paging);
 	
 	/**
 	 * 서류전형의 지원자 목록 조회
@@ -77,4 +84,14 @@ public interface RecruitProcedureDAO {
 	 * 면접일정 등록
 	 */
 	public int insertInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 시험결과 조회
+	 */
+	public List<TestVO> selectTestResult(TestResultVO testResultVO);
+	
+	/**
+	 * 기술시험점수 등록
+	 */
+	public int updateTechScore(AProcedureVO aprocVO);
 }

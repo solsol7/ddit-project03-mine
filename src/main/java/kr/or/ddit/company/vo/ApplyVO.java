@@ -18,5 +18,4 @@ public class ApplyVO implements Serializable{
 	private String aplCancel;
 
 	private RecruitVO recruit;
-	private CompanyVO company;
 }

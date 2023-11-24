@@ -15,6 +15,7 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
@@ -76,6 +77,8 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 			dataList = dao.selectTestApplicantList(paging);
 			break;
 		default:
+			totalRecord = dao.selectIntrApplicantTotalRecord(paging);
+			paging.setTotalRecord(totalRecord);
 			// 면접
 			// 지원자목록 - 이름, 생년월일, 성별, 면접일정 등록여부
 			// 면접일정 등록여부 -> 그 지원번호와 채용공고번호와 채용공고순서에 해당하는 레코드가 있으면 등록된것
@@ -174,6 +177,25 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 	@Override
 	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO) {
 		int rowcnt = dao.insertInterviewSchd(interviewSchdVO);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<TestVO> retrieveTestResult(TestResultVO testResultVO) {
+		return dao.selectTestResult(testResultVO);
+	}
+
+	@Override
+	public ServiceResult modifyTechScore(AProcedureVO aprocVO) {
+		int rowcnt = dao.updateTechScore(aprocVO);
 		
 		ServiceResult result = null;
 		if(rowcnt > 0) {

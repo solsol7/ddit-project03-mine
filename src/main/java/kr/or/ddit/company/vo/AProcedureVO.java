@@ -1,6 +1,7 @@
 package kr.or.ddit.company.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import kr.or.ddit.users.vo.UsersVO;
 import lombok.Data;
@@ -20,8 +21,7 @@ public class AProcedureVO implements Serializable{
 	
 	/* 채용절차별 지원자 목록 조회에 필요한 필드 */
 	private String resumeTitle;
-	private String resattNo;
-	private String rsltNo;
+	private String testNo;
 	private int mailCount;
 	private int alarmCount;
 	private InterviewSchdVO interviewVO;

@@ -43,7 +43,7 @@ $(function() {
 									<td>${v.users.usersNm}</td>
 									<td>${v.users.usersBir}</td>
 									<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
-									<td class="ellipsis"><a href="javascript:;" onclick="resumeView(${v.resattNo})">${v.resumeTitle}</a></td>
+									<td class="ellipsis"><a href="javascript:;" class="resumeDetail" data-resatt-no="${v.resattNo}" data-users-nm="${v.users.usersNm}">${v.resumeTitle}</a></td>
 									<td>${v.aprocDate}</td>
 									<td>${v.aprocScr}</td>
 								`;
@@ -112,7 +112,7 @@ $(function() {
 								<td><a href="javascript:;">${v.users.usersNm}</a></td>
 								<td>${v.users.usersBir}</td>
 								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
-								<td><a href="javascript:;" onclick="rsltLink('${v.rsltNo}')">결과지확인</a></td>
+								<td><a href="javascript:;" class="aptTestDetail" data-test-no="${v.testNo}" data-users-nm="${v.users.usersNm}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
 						`;
@@ -121,6 +121,9 @@ $(function() {
 					if (rprocEnd == 'Y') {
 						result += `
 									<td>
+										<input type="hidden" name="aprocVO[${i}].aplNo" class="aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" class="rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" class="rprocOrder" value="${v.rprocOrder}"/>
 										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
 											<option value="unconfirmed">미확인</option>
 											<option value="pass">합격</option>
@@ -132,9 +135,9 @@ $(function() {
 					} else {
 						result += `
 									<td>
-										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<input type="hidden" name="aprocVO[${i}].aplNo" class="aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" class="rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" class="rprocOrder" value="${v.rprocOrder}"/>
 										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
 											<option value="unconfirmed">미확인</option>
 											<option value="pass">합격</option>
@@ -182,7 +185,7 @@ $(function() {
 								<td><a href="javascript:;">${v.users.usersNm}</a></td>
 								<td>${v.users.usersBir}</td>
 								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
-								<td><a href="javascript:;" onclick="rsltLink('${v.rsltNo}')">결과지확인</a></td>
+								<td><a href="javascript:;" class="techTestDetail" data-test-no="${v.testNo}" data-users-nm="${v.users.usersNm}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
 						`;
@@ -191,6 +194,9 @@ $(function() {
 					if (rprocEnd == 'Y') {
 						result += `
 									<td>
+										<input type="hidden" name="aprocVO[${i}].aplNo" class="aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" class="rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" class="rprocOrder" value="${v.rprocOrder}"/>
 										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
 											<option value="unconfirmed">미확인</option>
 											<option value="pass">합격</option>
@@ -202,9 +208,9 @@ $(function() {
 					} else {
 						result += `
 									<td>
-										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+										<input type="hidden" name="aprocVO[${i}].aplNo" class="aplNo" value="${v.aplNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rcrtNo" class="rcrtNo" value="${v.rcrtNo}"/>
+										<input type="hidden" name="aprocVO[${i}].rprocOrder" class="rprocOrder" value="${v.rprocOrder}"/>
 										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
 											<option value="unconfirmed">미확인</option>
 											<option value="pass">합격</option>
@@ -259,7 +265,8 @@ $(function() {
 								</td>
 							</tr>
 						`;
-					schdResult += `
+					if(v.interviewVO.intrDate){
+						schdResult += `
 							<tr>
 								<td>
 									<a href="javascript:;">${v.users.usersNm}</a><br>
@@ -274,39 +281,41 @@ $(function() {
 								<td>${v.mailCount}</td>
 								<td>${v.alarmCount}</td>
 						`;
-
-					// 마감일 시 초기화면 합불여부 관리 disabled 처리
-					if (rprocEnd == 'Y') {
-						schdResult += `
-									<td>
-										<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
-											<option value="unconfirmed">미확인</option>
-											<option value="pass">합격</option>
-											<option value="fail">불합격</option>
-										</select>
-									</td>
-								</tr>
-							`;
-					} else {
-						schdResult += `
-									<td>
-										<buttton type="button" class="btnSizeS colorBlue">안내발송</buttton><br>
-										<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
-										<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
-										<select class="aprocPass" name="aprocVO[${i}].aprocPass">
-											<option value="unconfirmed">미확인</option>
-											<option value="pass">합격</option>
-											<option value="fail">불합격</option>
-										</select>
-									</td>
-									<td>
-										<buttton type="button" class="btnSizeS colorBlue">수정</buttton><br>
-										<buttton type="button" class="btnSizeS colorBlue">삭제</buttton>
-									</td>
-								</tr>
-							`;
+	
+						// 마감일 시 초기화면 합불여부 관리 disabled 처리
+						if (rprocEnd == 'Y') {
+							schdResult += `
+										<td>
+											<select class="aprocPass" name="aprocVO[${i}].aprocPass" disabled>
+												<option value="unconfirmed">미확인</option>
+												<option value="pass">합격</option>
+												<option value="fail">불합격</option>
+											</select>
+										</td>
+									</tr>
+								`;
+						} else {
+							schdResult += `
+										<td>
+											<buttton type="button" class="btnSizeS colorBlue">안내발송</buttton><br>
+											<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
+											<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
+											<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
+											<select class="aprocPass" name="aprocVO[${i}].aprocPass">
+												<option value="unconfirmed">미확인</option>
+												<option value="pass">합격</option>
+												<option value="fail">불합격</option>
+											</select>
+										</td>
+										<td>
+											<buttton type="button" class="btnSizeS colorBlue">수정</buttton><br>
+											<buttton type="button" class="btnSizeS colorBlue">삭제</buttton>
+										</td>
+									</tr>
+								`;
+						}
 					}
+					
 				}); // $.each 끝
 			} else {
 				applResult += `
@@ -407,12 +416,20 @@ $(function() {
 		$(".intrInfoBtn").removeClass("inSelect");
 		$(this).addClass("inSelect");
 
+		$(searchForm).find(":input[name=intrStatus]").val("");
+
 		let idx = $(this).data("intrTabIdx");
 
 		// 지원자목록, 면접일정관리 내용 보이게 하기
 		$(".intrTbl").attr("style", "display: none");
 		$(`.intrTbl[data-intr-list-idx=${idx}]`).attr("style", "display: block");
-
+		
+		if(idx==1){
+			$(".intrApplStatus").eq(0).trigger("click");
+		}else{
+			$(".intrSchdStatus").eq(0).trigger("click");
+		}
+		
 	})
 
 
@@ -733,4 +750,185 @@ $(function() {
 		}
 	})
 
+
+	/* ================================================== 상세정보 클릭 ================================================== */
+	
+	/* 이력서 상세보기 */
+	$(document).on("click",".resumeDetail", function(){
+		let resattNo = $(this).data("resattNo");
+		
+		$.ajax({
+			url : `${cPath}/company/recruit/resume`,
+			data : ``,
+			success : function(resp){
+				scoreTbl = ``;
+				
+				scoreTbl += `
+						<tr>
+							<td class="td-score-title"></td>
+							<td class="td-score">
+								<input type="number" class="inpTypo input-score" />
+							</td>
+						</tr>
+					`;
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		})
+		
+		
+		let resumeScoreItem = ``;
+		
+		
+		resumeScoreItem += `
+							<tr>
+								<td class="td-score-title">dd</td>
+								<td class="td-score">
+									<input type="number" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+	})
+
+	/* 적성검사 - 시험지 조회 */
+	$(document).on("click",".aptTestDetail", function(){
+		let testNo = $(this).data("testNo");
+		let usersNm = $(this).data("usersNm");
+		let aplNo = $(this).parents("tr").find("input[class=aplNo]").val();
+		let rcrtNo = $(this).parents("tr").find("input[class=rcrtNo]").val();
+		let rprocOrder = $(this).parents("tr").find("input[class=rprocOrder]").val();
+		
+		$('.apt_part').attr("style","display:none");
+		$('.apt_part[data-idx=2]').attr("style","display:block");
+		
+		
+		$.ajax({
+			url : `${cPath}/company/recruit/test/${rcrtNo}/${rprocOrder}/${aplNo}`,
+			data : {"testNo":testNo},
+			success : function(resp){
+				console.log(resp);
+				
+				let result = ``;
+				
+				$.each(resp[0].qstnList,function(idx,val){
+					result += `
+							<div>
+								<div class="qstn-area">${idx+1}.${val.qstnCont}<div>
+									<div class="item-area">
+						`;
+						$.each(val.itemList, function(i,v){
+							if(val.rsltSelect==i+1){
+								result += `<div style="color:#4876ef">(${i+1}) ${v.itemCont}</div>`;
+							}else{
+								result += `<div>(${i+1}) ${v.itemCont}</div>`;
+							}
+						});	// 내부 each문 끝
+					result += `
+							</div>
+						<div class="astnOk">정답 : <span> ${val.qstnAnswer} </span>  </div>`
+					result += `</div>`;
+				}) // each문 끝
+				
+				$('.apt-detailName').html(usersNm);
+				$('#apt-test-result').html(result);
+				
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		});
+		})
+		
+		/* 적성검사 시험지 - 목록버튼 클릭 */
+		$("#aptPartReturnBtn").on("click",function(){
+			$('.apt_part').attr("style","display:none");
+			$('.apt_part[data-idx=1]').attr("style","display:block");
+		})
+		
+	/* 기술시험 - 시험지 조회 */
+	$(document).on("click",".techTestDetail", function(){
+		let testNo = $(this).data("testNo");
+		let usersNm = $(this).data("usersNm");
+		let aplNo = $(this).parents("tr").find("input[class=aplNo]").val();
+		let rcrtNo = $(this).parents("tr").find("input[class=rcrtNo]").val();
+		let rprocOrder = $(this).parents("tr").find("input[class=rprocOrder]").val();
+		
+		$('.tech_part').attr("style","display:none");
+		$('.tech_part[data-idx=2]').attr("style","display:block");
+		
+		
+		$.ajax({
+			url : `${cPath}/company/recruit/test/${rcrtNo}/${rprocOrder}/${aplNo}`,
+			data : {"testNo":testNo},
+			success : function(resp){
+				console.log(resp);
+				
+				let result = ``;
+				
+				$.each(resp[0].qstnList,function(idx,val){
+					result += `
+							<div>
+								<div class="qstn-area">${idx+1}.${val.qstnCont}<div>
+								<div class="item-area">답안 : ${val.rsltSelect}</div>
+						`;
+					result += `
+							<span class="astnOk item-area techAnswer">모범답안 : <span> ${val.qstnAnswer} </span><br/> 
+						</div>`;
+				}) // each문 끝
+				
+				$('.tech-detailName').html(usersNm);
+				$('#tech-test-result').html(result);
+				
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		});
+		
+		scoreTbl = `
+				<input type="hidden" name="_method" value="put" />
+				<input type="hidden" name="aplNo" value="${aplNo }" />
+				<input type="hidden" name="rcrtNo" value="${rcrtNo }" />
+				<input type="hidden" name="rprocOrder" value="${rprocOrder }" />
+			`;
+		for(let i=1; i<=10; i++){
+			scoreTbl += `
+				<tr>
+					<td class="td-score-title">${i}</td>
+					<td class="td-score">
+						<input type="number" name="techScore" class="inpTypo input-score" />
+					</td>
+				</tr>
+			`;
+		}
+		
+		$('.tech-score-tbody').html(scoreTbl);
+		
+		})
+		
+		/* 기술시험 시험지 - 목록버튼 클릭 */
+		$("#techPartReturnBtn").on("click",function(){
+			$('.tech_part').attr("style","display:none");
+			$('.tech_part[data-idx=1]').attr("style","display:block");
+		})
+		
+		/* 기술시험 시험지 - 저장버튼 클릭 */
+		$('#techScoreSubmitBtn').on("click",function(){
+			let data = $(techScoreSubmitForm).serialize();
+			console.log(data);
+			$.ajax({
+				url : `${cPath}/company/recruit/techScore`,
+				data : data,
+				type: "put",
+				success : function(resp){
+					console.log(resp);
+				},
+				error : function(xhr){
+					console.log(xhr.status);
+				}
+			})
+		})
 })
+	
+	

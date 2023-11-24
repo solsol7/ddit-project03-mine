@@ -76,7 +76,7 @@
 					</c:if>
 					<c:choose>
 						<c:when test="${data.rprocOrder eq rprocOrder}">
-							<!-- 							컨트롤러에서 PathVariable로 받은 변수명 그대로 el로 사용할 수 있음 -->
+							<!-- 컨트롤러에서 PathVariable로 받은 변수명 그대로 el로 사용할 수 있음 -->
 							<li class="inner select" role="tab"><a href="javascript:;"
 								onclick="selectTab('${data.rcrtNo}','${data.rprocOrder }');"
 								class="inTab"><span>${data.comCodeNm }</span></a></li>
@@ -96,7 +96,7 @@
 			<%-- --------------------------------------------------서류전형 폼-------------------------------------------------- --%>
 			<c:choose>
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE01' }">
-					<div class="tab_part resume_part">
+					<div class="tab_part resume_part" data-idx="1">
 						<div class="box_lookup">
 							<c:if test="${currProcedureInfo.rprocEnd eq 'N' && resumeScoreFormCount==0}">
 								<div class="box_right">
@@ -191,15 +191,57 @@
 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
 						</button>
 					</div>
-
-
+					
+					<!-- 이력서 조회&채점 -->
+					<div class="tab_part resume_part" data-idx="2">
+						<div class="box_lookup"></div>
+						<div class="detailArea">
+							<div class="topArea">
+								<div class="detailName tech-detailName"></div>
+								<span class="inpSel detailSelect"> 
+									<select name="" class="stype">
+											<option value>미확인</option>
+											<option value>합격</option>
+											<option value>불합격</option>
+									</select>
+								</span>
+							</div>
+							<div class="detail-part1">
+								<div class="resume-title-area">
+									<!-- 이름 출력하는 곳 -->
+								</div>
+								<div>
+									<!-- 이력서 첨부파일 출력하는 곳 -->
+								</div>
+							</div>
+							<div class="detail-part2">
+								<table class="table table-bordered dataTable scoreTbl" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+									<thead class="score-thead">
+										<tr>
+											<th>항목</th>
+											<th>점수</th>
+										</tr>
+									</thead>
+									<tbody class="resume-score-tbody">
+										<!-- 채점표 출력하는 곳 -->
+									</tbody>
+								</table>
+							</div>
+							<div class="tblBtn">
+								<button type="button" class="btnSizeM colorGreen"
+									id="techPartReturnBtn">목록</button>
+								<button type="button" class="btnSizeM colorBlue"
+									id="techScoreSubmitBtn">저장</button>
+							</div>
+						</div>
+					</div>
 
 				</c:when>
 
 
 				<%-- --------------------------------------------------적성검사전형 폼-------------------------------------------------- --%>
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE02' }">
-					<div class="tab_part apt_part">
+					<div class="tab_part apt_part" data-idx="1">
 						<div class="box_lookup"></div>
 
 						<%-- 리스트 출력 영역 --%>
@@ -286,14 +328,39 @@
 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
 						</button>
 					</div>
-
+					
+					<!-- 적성검사 시험지 조회 -->
+					<div class="tab_part apt_part" data-idx="2" style="display:none;">
+						<div class="box_lookup"></div>
+						<div class="detailArea">
+							<div class="detailName apt-detailName"></div>
+							<span class="inpSel detailSelect"> 
+							<select name="" class="stype">
+									<option value>미확인</option>
+									<option value>합격</option>
+									<option value>불합격</option>
+							</select>
+											</span>
+							<div class="detail-part-full">
+								<div id="apt-test-result">
+									<!-- 시험결과 출력하는 곳 -->
+								</div>
+							</div>
+						</div>
+						<div class="tblBtn">
+							<button type="button" class="btnSizeM colorGreen"
+								id="aptPartReturnBtn">목록</button>
+							<button type="button" class="btnSizeM colorBlue"
+								id="passStatusSaveBtn">저장</button>
+						</div>
+					</div>
 				</c:when>
 
 
 
 				<%-- --------------------------------------------------기술시험전형 폼-------------------------------------------------- --%>
 				<c:when test="${currProcedureInfo.rprocTypeno eq 'RE03' }">
-					<div class="tab_part tech_part">
+					<div class="tab_part tech_part" data-idx="1">
 						<div class="box_lookup"></div>
 
 						<%-- 리스트 출력 영역 --%>
@@ -380,6 +447,51 @@
 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
 						</button>
 					</div>
+					
+					<!-- 기술시험 조회&채점 -->
+					<div class="tab_part tech_part" data-idx="2" style="display:none;">
+						<div class="box_lookup"></div>
+						<div class="detailArea">
+							<div class="topArea">
+								<div class="detailName tech-detailName"></div>
+								<span class="inpSel detailSelect"> 
+									<select name="" class="stype">
+											<option value>미확인</option>
+											<option value>합격</option>
+											<option value>불합격</option>
+									</select>
+								</span>
+							</div>
+							<div class="detail-part1">
+								<div id="tech-test-result">
+									<!-- 시험결과 출력하는 곳 -->
+								</div>
+							</div>
+							<div class="detail-part2">
+								<form id="techScoreSubmitForm">
+									<table class="table table-bordered dataTable scoreTbl" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+										<thead class="score-thead">
+											<tr>
+												<th>항목</th>
+												<th>점수</th>
+											</tr>
+										</thead>
+										<tbody class="tech-score-tbody">
+											<!-- 채점표 출력하는 곳 -->
+										</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+						<div class="tblBtn">
+							<button type="button" class="btnSizeM colorGreen"
+								id="techPartReturnBtn">목록</button>
+							<button type="button" class="btnSizeM colorBlue"
+								id="techScoreSubmitBtn">저장</button>
+						</div>
+						
+					</div>
+
 				</c:when>
 
 

@@ -25,6 +25,8 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.TestResultVO;
+import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -198,4 +200,63 @@ public class RecruitProcedureController {
 		return message;
 	}
 	
+	/* 이력서 상세조회 */
+	@GetMapping("recruit/resume/{rcrtNo}/{rprocOrder}/{aplNo}")
+	@ResponseBody
+	public void retrieveResumeDetail(
+			@PathVariable String rcrtNo
+			, @PathVariable String rprocOrder
+	) {
+		
+	}
+	
+	
+	/* 시험결과 조회 */
+	@GetMapping("recruit/test/{rcrtNo}/{rprocOrder}/{aplNo}")
+	@ResponseBody
+	public List<TestVO> retrieveTestResult(
+			@PathVariable String aplNo
+			, @PathVariable String rcrtNo
+			, @PathVariable int rprocOrder
+			, @RequestParam String testNo
+	) {
+		TestResultVO testResultVO = new TestResultVO();
+		testResultVO.setTestNo(testNo);
+		testResultVO.setAplNo(aplNo);
+		testResultVO.setRcrtNo(rcrtNo);
+		testResultVO.setRprocOrder(rprocOrder);
+		List<TestVO> dataList = service.retrieveTestResult(testResultVO);
+		
+		return dataList;
+	}
+	
+	/* 기술시험 점수 update */
+	@PutMapping("recruit/techScore")
+	@ResponseBody
+	public String techScoreUpdate(
+			@RequestParam(value="techScore[]") List<Integer> techScore
+			, @ModelAttribute AProcedureVO aprocVO
+	) {
+		
+		int totalScore = 0;
+		for(int score : techScore) {
+			totalScore += score;
+		}
+		
+		aprocVO.setAprocScr(totalScore);
+		
+		ServiceResult result = service.modifyTechScore(aprocVO);
+	
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
 }

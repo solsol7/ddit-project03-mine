@@ -51,6 +51,94 @@
 }
 
 /* 채용절차 - recruit-process */
+.detailArea{
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    height: 820px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.topArea{
+    display: flex;
+    justify-content: space-between;
+}
+
+.detailArea .detail-part1{
+	overflow : auto;
+	float : left;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    width : 650px;
+    height: 650px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.resume-title-area{
+	border-radius: 6px;
+    box-sizing: border-box;
+	border : 1px solid var(--bs-border-color);
+	height : 35px;
+	overflow: auto;
+}
+
+.detailArea .detail-part2{
+	overflow : auto;
+	float : right;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    width : 450px;
+    height: 650px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.detailArea .detail-part-full{
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    width : 1140px;
+    height: 650px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+    overflow: auto;
+}
+.scoreTbl{
+	text-align: center;
+	vertical-align: middle;
+}
+.scoreTbl thead tr th{
+	text-align: center;
+	vertical-align: middle;
+	background-color: #fafbfc;
+}
+
+.scoreTbl th,td{
+    height : 50px;
+    font-size: 1.1rem;
+}
+
+.td-score-title{
+	width : 150px;	
+}
+
+.td-score{
+	width : 200px;
+}
+
+.input-score{
+	width : 180px;
+	font-size : 1.1rem;
+}
+
 .alarmArea {
     width: 181px;
     display: inline-flex;
@@ -193,7 +281,7 @@
 .inpSel .stype{
 	width : 80px;
 	height : 32px;
-	padding : 0px;
+	padding : 0 0 0 3px;
 }
 
 .resumeBtn {
@@ -433,4 +521,54 @@
 
 .test_content .box_lookup{
 	background-color: white;
+}
+
+
+
+
+
+
+
+.item-area {
+    margin: 10px 10px 5px 10px;
+}
+
+.item-area>div {
+    padding-bottom: 5px;
+}
+
+.astnOk {
+	border: 1px solid #97b4ff;
+    border-radius: 12px;
+    width: 60px;
+    text-align: center;
+    background: #e3f1ff;
+    padding: 1px 0px;
+    color: #002d8e;
+    margin-bottom: 22px;
+    margin-left: 7px;
+}
+
+.astnOk span {
+	font-weight: 600;
+    font-size: 15px;
+}
+
+.techAnswer{
+	width : auto;
+	padding: 3px;
+}
+
+.detailName {
+	color: #343434;
+    font-size: 18px;
+    margin-bottom: 10px;
+    float: left;
+    width: 300px;
+}
+
+.detailSelect {
+	float: right;
+	margin-bottom: 15px
+;
 }

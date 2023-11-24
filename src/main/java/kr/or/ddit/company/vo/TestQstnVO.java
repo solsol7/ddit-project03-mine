@@ -25,6 +25,8 @@ public class TestQstnVO implements Serializable{
 	@NotBlank
 	private String qstnAnswer;
 	
+	private String rsltSelect;
+	
 	@Valid
 	private List<@NotNull(groups = AptTestGroup.class) TestItemVO> itemList;
 }

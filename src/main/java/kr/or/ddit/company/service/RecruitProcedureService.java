@@ -9,6 +9,8 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.TestResultVO;
+import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
 
 public interface RecruitProcedureService {
@@ -56,4 +58,14 @@ public interface RecruitProcedureService {
 	 * 면접일정 등록
 	 */
 	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 시험결과 조회
+	 */
+	public List<TestVO> retrieveTestResult(TestResultVO testResultVO);
+	
+	/**
+	 * 기술시험점수 등록
+	 */
+	public ServiceResult modifyTechScore(AProcedureVO aprocVO);
 }

@@ -239,13 +239,55 @@
 		    </if>
 	</sql>
 	
-	<!-- 각 전형별 지원자 레코드 수 조회 -->
-	<select id="selectApplicantTotalRecord">
+	<!-- 면접제외 각 전형별 지원자 레코드 수 조회 -->
+	<select id="selectApplicantTotalRecord" parameterType="PaginationInfo">
 		SELECT
 			COUNT(*)
 		FROM
 			A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 		<include refid="viewSearchFlag" />
+	</select>
+	
+	<!-- 면접전형 지원자 레코드 수 조회 -->
+	<select id="selectIntrApplicantTotalRecord" parameterType="PaginationInfo">
+		WITH INTRINFOVIEW AS(
+		    SELECT
+		        I.INTR_NO
+		        , APL_NO
+		        , INTR_INTDATE
+		        , INTR_PLACE
+		        , COM_CODE_NM "INTRTYPENM"
+		        , INTR_DATE
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z01' THEN 1 END) MAILCOUNT
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z02' THEN 1 END) ALARMCOUNT
+		    FROM
+		        INTERVIEW_SCHD I LEFT OUTER JOIN INTERVIEW_ALARM IA ON I.INTR_NO=IA.INTR_NO
+		        	LEFT OUTER JOIN TB_COM_CODE ON INTR_TYPE=COM_CODE
+		    GROUP BY 
+		       I.INTR_NO
+		       , APL_NO
+		       , INTR_INTDATE
+		       , INTR_PLACE
+		       , INTR_DATE
+		       , COM_CODE_NM
+		)
+		SELECT
+			COUNT(*)
+		FROM
+			a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+			      LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
+			      INNER JOIN MEMBER ON USERS_ID=MEM_ID
+		<include refid="viewSearchFlag" />
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
+	    	<choose>
+	    		<when test='variousCondition.intrStatus eq "NotNull"'>
+	    			AND INTR_DATE is NOT NULL
+	    		</when>
+	    		<otherwise>
+	    			AND INTR_DATE is NULL
+	    		</otherwise>
+	    	</choose>
+	    </if>
 	</select>
 	
 	<!-- 서류전형의 지원자 목록 조회 -->
@@ -299,10 +341,10 @@
 		    , USERS_NM
 		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 		    , USERS_GEN
-		    , RSLT_NO
+		    , TEST_NO
 		FROM
-		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
-		        LEFT OUTER JOIN TEST_RESULT T ON AP.APL_NO=T.APL_NO AND AP.RCRT_NO=T.RCRT_NO AND AP.RPROC_ORDER=T.RPROC_ORDER
+		    A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+				INNER JOIN R_PROCEDURE RP ON AP.RCRT_NO=RP.RCRT_NO AND AP.RPROC_ORDER=RP.RPROC_ORDER
 		<include refid="viewSearchFlag" />
 		<choose>
 			<when test='variousCondition.sortCategory eq "date"'>
@@ -322,6 +364,7 @@
 		        , APL_NO
 		        , INTR_INTDATE
 		        , INTR_PLACE
+		        , INTR_TYPE
 		        , COM_CODE_NM "INTRTYPENM"
 		        , INTR_DATE
 		        , COUNT(CASE WHEN I_ALARM_TYPE='Z01' THEN 1 END) MAILCOUNT
@@ -336,6 +379,7 @@
 		       , INTR_PLACE
 		       , INTR_DATE
 		       , COM_CODE_NM
+		       , INTR_TYPE
 		)
 		SELECT
 		    AP.apl_no
@@ -351,6 +395,7 @@
 		    , USERS_GEN
 		    , TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate"
 		    , INTR_PLACE
+		    , INTR_TYPE
 		    , INTRTYPENM "intrTypeNm"
 		    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
 		    , NVL(MAILCOUNT,0) "mailCount"
@@ -474,4 +519,43 @@
 		    , #{intrType}
 		)
 	</insert>
+	
+	<!-- ==================================상세조회 관리 관련==================================  -->
+	
+	<!-- 시험결과 조회 -->
+	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
+		<id property="testNo" column="TEST_NO" />
+		<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+			<id property="qstnNo" column="QSTN_NO"/>
+			<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+		</collection>
+	</resultMap>
+	<select id="selectTestResult" resultMap="testDetailMap" parameterType="TestResultVO">
+		SELECT
+		    V.TEST_NO, TEST_TITLE
+		    , V.QSTN_NO, QSTN_CONT, QSTN_ANSWER
+		    , ITEM_NO, ITEM_CONT
+		    , RSLT_SELECT
+		FROM
+		    V_TESTDETAIL V
+		    INNER JOIN TEST_RESULT R ON V.TEST_NO=R.TEST_NO AND V.QSTN_NO=R.QSTN_NO
+		WHERE
+		    V.TEST_NO=#{testNo}
+		    AND R.RCRT_NO=#{rcrtNo}
+		    AND R.RPROC_ORDER=#{rprocOrder}
+		    AND R.APL_NO=#{aplNo}
+		ORDER BY QSTN_NO, ITEM_NO
+	</select>
+	
+	<!-- 기술시험 점수 update -->
+	<update id="updateTechScore" parameterType="AProcedureVO">
+	UPDATE
+		a_procedure
+	SET
+	    aproc_scr=#{aproc_scr}
+	WHERE
+	    RCRT_NO=#{rcrtNo}
+	    AND RPROC_ORDER=#{rprocOrder}
+	    AND APL_NO=#{aplNo}
+	</update>
 </mapper>
