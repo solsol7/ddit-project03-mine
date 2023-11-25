@@ -297,63 +297,80 @@
 	</resultMap>
 	<select id="selectResumeApplicantList" resultMap="ApplicantListMap" parameterType="PaginationInfo">
 		WITH RESATTVIEW AS(
-		    SELECT DISTINCT A.APL_NO, A.RESSC_NO, RESUME_TITLE
-		    FROM APPLY A LEFT OUTER JOIN RESUME_SC R ON A.RESSC_NO=R.RESSC_NO
+		    SELECT DISTINCT A.APL_NO, A.RESATT_NO, RESUME_TITLE
+		    FROM APPLY A LEFT OUTER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
 		)
-		SELECT
-		    AP.apl_no
-		    , rcrt_no
-		    , rproc_order
-		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
-		    , aproc_pass
-		    , aproc_scr
-		    , USERS_ID
-		    , USERS_NM
-		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
-		    , USERS_GEN
-		    , RESUME_TITLE
-		    , RESSC_NO
-		FROM
-		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
-		        LEFT OUTER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
-		<include refid="viewSearchFlag" />
-		<choose>
-			<when test='variousCondition.sortCategory eq "date"'>
-				ORDER BY APROC_DATE DESC
-			</when>
-			<when test='variousCondition.sortCategory eq "score"'>
-				ORDER BY APROC_DATE DESC
-			</when>
-		</choose>
-		
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (
+				SELECT
+				    AP.apl_no
+				    , rcrt_no
+				    , rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , RESUME_TITLE
+				    , RESATT_NO
+				FROM
+				    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+				        LEFT OUTER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
+				<include refid="viewSearchFlag" />
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<when test='variousCondition.sortCategory eq "score"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>
 	</select>
 	
 	<!-- 적섬검사, 기술시험 지원자 목록 조회 -->
 	<select id="selectTestApplicantList"  resultMap="ApplicantListMap" parameterType="PaginationInfo">
-		SELECT
-		    AP.apl_no
-		    , AP.rcrt_no
-		    , AP.rproc_order
-		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
-		    , aproc_pass
-		    , aproc_scr
-		    , USERS_ID
-		    , USERS_NM
-		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
-		    , USERS_GEN
-		    , TEST_NO
-		FROM
-		    A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
-				INNER JOIN R_PROCEDURE RP ON AP.RCRT_NO=RP.RCRT_NO AND AP.RPROC_ORDER=RP.RPROC_ORDER
-		<include refid="viewSearchFlag" />
-		<choose>
-			<when test='variousCondition.sortCategory eq "date"'>
-				ORDER BY APROC_DATE DESC
-			</when>
-			<otherwise>
-				ORDER BY APROC_SCR DESC
-			</otherwise>
-		</choose>
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (	
+				SELECT
+				    AP.apl_no
+				    , AP.rcrt_no
+				    , AP.rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , TEST_NO
+				FROM
+				    A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+						INNER JOIN R_PROCEDURE RP ON AP.RCRT_NO=RP.RCRT_NO AND AP.RPROC_ORDER=RP.RPROC_ORDER
+				<include refid="viewSearchFlag" />
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<otherwise>
+						ORDER BY APROC_SCR DESC
+					</otherwise>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>	
 	</select>
 	
 	<!-- 면접 지원자 목록 조회 -->
@@ -381,48 +398,58 @@
 		       , COM_CODE_NM
 		       , INTR_TYPE
 		)
-		SELECT
-		    AP.apl_no
-		    , AP.rcrt_no
-		    , AP.rproc_order
-		    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
-		    , aproc_pass
-		    , aproc_scr
-		    , USERS_ID
-		    , USERS_NM
-		    , MEM_MAIL
-		    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
-		    , USERS_GEN
-		    , TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate"
-		    , INTR_PLACE
-		    , INTR_TYPE
-		    , INTRTYPENM "intrTypeNm"
-		    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
-		    , NVL(MAILCOUNT,0) "mailCount"
-		    , NVL(ALARMCOUNT,0) "alarmCount"
-		FROM
-		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
-		        LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
-		        INNER JOIN MEMBER ON USERS_ID=MEM_ID
-		<include refid="viewSearchFlag" />
-		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
-	    	<choose>
-	    		<when test='variousCondition.intrStatus eq "NotNull"'>
-	    			AND INTR_DATE is NOT NULL
-	    		</when>
-	    		<otherwise>
-	    			AND INTR_DATE is NULL
-	    		</otherwise>
-	    	</choose>
-	    </if>
-		<choose>
-			<when test='variousCondition.sortCategory eq "date"'>
-				ORDER BY APROC_DATE DESC
-			</when>
-			<otherwise>
-				ORDER BY INTR_INTDATE DESC
-			</otherwise>
-		</choose>
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (	
+				SELECT
+				    AP.apl_no
+				    , AP.rcrt_no
+				    , AP.rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , MEM_MAIL
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate"
+				    , INTR_NO
+				    , INTR_PLACE
+				    , INTR_TYPE
+				    , INTRTYPENM "intrTypeNm"
+				    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
+				    , NVL(MAILCOUNT,0) "mailCount"
+				    , NVL(ALARMCOUNT,0) "alarmCount"
+				FROM
+				    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+				        LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
+				        INNER JOIN MEMBER ON USERS_ID=MEM_ID
+				<include refid="viewSearchFlag" />
+				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
+			    	<choose>
+			    		<when test='variousCondition.intrStatus eq "NotNull"'>
+			    			AND INTR_DATE is NOT NULL
+			    		</when>
+			    		<otherwise>
+			    			AND INTR_DATE is NULL
+			    		</otherwise>
+			    	</choose>
+			    </if>
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<otherwise>
+						ORDER BY INTR_INTDATE DESC
+					</otherwise>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>		
 	</select>
 	
 	
@@ -520,7 +547,51 @@
 		)
 	</insert>
 	
+	<!-- 면접일정 조회 -->
+	<select id="selectInterviewSchd" parameterType="InterviewSchdVO" resultType="InterviewSchdVO">
+		SELECT
+		    INTR_NO,
+		    APL_NO,
+		    RPROC_ORDER,
+		    RCRT_NO,
+		    TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate",
+		    INTR_PLACE,
+		    TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate",
+		    INTR_TYPE
+		FROM
+		    INTERVIEW_SCHD
+		WHERE
+			INTR_NO = #{intrNo}
+	</select>
+	
+	<!-- 면접일정 수정 -->
+	<update id="updateInterviewSchd" parameterType="InterviewSchdVO">
+		UPDATE interview_schd
+		SET
+		    intr_intdate = #{intrIntdate}
+		    , intr_type = #{intrType}
+		    <if test="intrPlace neq null">
+		    , intr_place = #{intrPlace}
+		    </if>
+		WHERE
+			INTR_NO = #{intrNo}
+	</update>
+	
 	<!-- ==================================상세조회 관리 관련==================================  -->
+	<!-- 이력서 첨부파일 조회 -->
+	<select id="selectResumeAttatch" parameterType="string" resultType="ResumeAttatchVO">
+		SELECT
+		    RESATT_NO,
+		    RESATT_ORIGINALNM,
+		    RESATT_SAVENAME,
+		    RESATT_FILESIZE,
+		    RESATT_MIME,
+		    RESUME_TITLE
+		FROM
+		    RESUME_ATTATCH
+		WHERE RESATT_NO = #{resattNo}
+	</select>
+	
 	
 	<!-- 시험결과 조회 -->
 	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">

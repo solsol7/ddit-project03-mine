@@ -12,6 +12,7 @@ import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
+import kr.or.ddit.users.vo.ResumeAttatchVO;
 
 public interface RecruitProcedureService {
 	/**
@@ -58,6 +59,21 @@ public interface RecruitProcedureService {
 	 * 면접일정 등록
 	 */
 	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 면접일정 조회
+	 */
+	public InterviewSchdVO retrieveInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 면접일정 수정
+	 */
+	public ServiceResult modifyInterviewSchd(InterviewSchdVO interviewSchdVO);
+
+	/**
+	 * 이력서 첨부파일 조회
+	 */
+	public ResumeAttatchVO retrieveResumeAttatch(String resattNo);
 	
 	/**
 	 * 시험결과 조회

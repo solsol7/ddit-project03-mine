@@ -1,11 +1,19 @@
 package kr.or.ddit.company.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +37,7 @@ import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
+import kr.or.ddit.users.vo.ResumeAttatchVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,6 +47,9 @@ public class RecruitProcedureController {
 	
 	@Inject
 	private RecruitProcedureService service;
+	
+	@Value("#{appInfo.resumeFiles}")
+	private Resource resumeImages;
 	
 	/* 채용공고 목록 조회 */
 	@GetMapping("recruitListUI")
@@ -200,13 +212,73 @@ public class RecruitProcedureController {
 		return message;
 	}
 	
+	
+	/* 면접일정 조회(모달 초기값) */
+	@GetMapping("recruit/interviewSchd")
+	@ResponseBody
+	public InterviewSchdVO interviewSchdView(
+			@ModelAttribute InterviewSchdVO interviewSchdVO
+	) {
+		InterviewSchdVO data =service.retrieveInterviewSchd(interviewSchdVO);
+		
+		return data;
+	}
+	
+	/* 면접일정 수정 */
+	@PutMapping("recruit/interviewSchd")
+	@ResponseBody
+	public String interviewSchdUpdate(
+			@ModelAttribute InterviewSchdVO interviewSchdVO
+	) {
+		log.info("{}",interviewSchdVO);
+		ServiceResult result =service.modifyInterviewSchd(interviewSchdVO);
+		
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
+	
 	/* 이력서 상세조회 */
-	@GetMapping("recruit/resume/{rcrtNo}/{rprocOrder}/{aplNo}")
+	@GetMapping("recruit/resume")
 	@ResponseBody
 	public void retrieveResumeDetail(
-			@PathVariable String rcrtNo
-			, @PathVariable String rprocOrder
-	) {
+			@RequestParam String resattNo
+	) throws IOException {
+		
+		ResumeAttatchVO resumeAttatchVO = service.retrieveResumeAttatch(resattNo);
+		
+		String fileName = resumeAttatchVO.getResattSavename();
+		
+		File saveFolder = resumeImages.getFile();
+		File resumeImage = new File(saveFolder, fileName);
+		
+		try(
+			FileInputStream fin = new FileInputStream(resumeImage);
+			BufferedInputStream bin = new BufferedInputStream(fin);
+			
+			FileOutputStream fout = new FileOutputStream(resumeImage);
+			BufferedOutputStream bout = new BufferedOutputStream(fout);
+				
+//		    String imageUrl = "/uploadFiles/resume/resume3b05c79c-0e0f-4bbd-8928-fe7bfdaf58ac.png";
+				
+			
+		){
+			byte[] buffer = new byte[1024];
+			int length = -1;
+			while((length = fin.read(buffer))!=-1) {
+				bout.write(buffer, 0, length);
+			}
+			
+			bout.flush();
+		}
 		
 	}
 	
@@ -234,7 +306,7 @@ public class RecruitProcedureController {
 	@PutMapping("recruit/techScore")
 	@ResponseBody
 	public String techScoreUpdate(
-			@RequestParam(value="techScore[]") List<Integer> techScore
+			@RequestParam int[] techScore
 			, @ModelAttribute AProcedureVO aprocVO
 	) {
 		

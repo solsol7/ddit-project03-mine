@@ -50,7 +50,8 @@
 	color : rgb(164, 164, 164);
 }
 
-/* 채용절차 - recruit-process */
+/*============================================= 채용절차 - recruit-process ============================================= */
+
 .detailArea{
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
     padding: 40px 50px 60px;
@@ -85,6 +86,9 @@
 	border : 1px solid var(--bs-border-color);
 	height : 35px;
 	overflow: auto;
+	font-size : 1.1rem;
+	vertical-align: middle;
+	text-align: center;
 }
 
 .detailArea .detail-part2{
@@ -466,6 +470,7 @@
 	min-height : 80px;
 	overflow : auto;
 	font-size : 1rem;
+	text-align: left !important;
 }
 
 .resumeTbl .tbl90 {
@@ -481,20 +486,30 @@
 	min-height : 60px;
 	overflow : auto;
 	font-size : 1rem;
+	text-align: left !important;
 }
+
+.item_no{
+	text-align: center !important;
+}
+
 .is_answer{
 	width : 90px;
 }
+
 .test_item{
 	width : 90px;
 }
+
 .align_center{
 	text-align: center;
 }
+
 .center{
 	text-align: center;
 	vertical-align: middle;
 }
+
 .input_radio{
 	width:20px;
 	height:20px;

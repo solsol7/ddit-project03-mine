@@ -18,6 +18,7 @@ import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
+import kr.or.ddit.users.vo.ResumeAttatchVO;
 
 @Service
 public class RecruitProcedureServiceImpl implements RecruitProcedureService{
@@ -90,7 +91,8 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		paging.setDataList(dataList);
 	}
-
+	
+	/* 합불여부 저장 */
 	@Override
 	public ServiceResult modifyPassStatus(AProcedureOuterVO outerVO) {
 		
@@ -116,7 +118,8 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		return result;
 	}
-
+	
+	/* 채용절차 마감 */
 	@Override
 	public ServiceResult modifyCloseStatus(AProcedureOuterVO outerVO, Map<String, Object> paramMap) {
 
@@ -187,12 +190,42 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		return result;
 	}
+	
+	/* 면접일정 조회 */
+	@Override
+	public InterviewSchdVO retrieveInterviewSchd(InterviewSchdVO interviewSchdVO) {
+		return dao.selectInterviewSchd(interviewSchdVO);
+	}
+	
+	/* 면접일정 수정 */
+	@Override
+	public ServiceResult modifyInterviewSchd(InterviewSchdVO interviewSchdVO) {
+		int rowcnt = dao.updateInterviewSchd(interviewSchdVO);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+	
+	/* 이력서 첨부파일 조회 */
+	@Override
+	public ResumeAttatchVO retrieveResumeAttatch(String resattNo) {
+		return dao.selectResumeAttatch(resattNo);
+	}
 
+	
+	/* 시험결과 조회 */
 	@Override
 	public List<TestVO> retrieveTestResult(TestResultVO testResultVO) {
 		return dao.selectTestResult(testResultVO);
 	}
 
+	/* 기술시험점수 등록 */
 	@Override
 	public ServiceResult modifyTechScore(AProcedureVO aprocVO) {
 		int rowcnt = dao.updateTechScore(aprocVO);
@@ -206,5 +239,6 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		return result;
 	}
-	
+
+
 }

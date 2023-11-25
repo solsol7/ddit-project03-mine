@@ -12,6 +12,7 @@ import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
+import kr.or.ddit.users.vo.ResumeAttatchVO;
 
 @Mapper
 public interface RecruitProcedureDAO {
@@ -84,6 +85,21 @@ public interface RecruitProcedureDAO {
 	 * 면접일정 등록
 	 */
 	public int insertInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 면접일정 조회
+	 */
+	public InterviewSchdVO selectInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 면접일정 수정
+	 */
+	public int updateInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 이력서 첨부파일 조회
+	 */
+	public ResumeAttatchVO selectResumeAttatch(String resattNo);
 	
 	/**
 	 * 시험결과 조회

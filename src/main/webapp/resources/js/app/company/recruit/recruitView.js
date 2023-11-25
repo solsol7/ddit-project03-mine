@@ -40,10 +40,10 @@ $(function() {
 				$.each(resp.dataList, function(i, v) {
 					result += `
 								<tr>
-									<td>${v.users.usersNm}</td>
-									<td>${v.users.usersBir}</td>
-									<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
-									<td class="ellipsis"><a href="javascript:;" class="resumeDetail" data-resatt-no="${v.resattNo}" data-users-nm="${v.users.usersNm}">${v.resumeTitle}</a></td>
+									<td class="usersNm">${v.users.usersNm}</td>
+									<td class="usersBir">${v.users.usersBir}</td>
+									<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
+									<td class="ellipsis resumeTitle"><a href="javascript:;" class="resumeDetail" data-resatt-no="${v.resattNo}">${v.resumeTitle}</a></td>
 									<td>${v.aprocDate}</td>
 									<td>${v.aprocScr}</td>
 								`;
@@ -109,10 +109,10 @@ $(function() {
 				$.each(resp.dataList, function(i, v) {
 					result += `
 							<tr>
-								<td><a href="javascript:;">${v.users.usersNm}</a></td>
-								<td>${v.users.usersBir}</td>
-								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
-								<td><a href="javascript:;" class="aptTestDetail" data-test-no="${v.testNo}" data-users-nm="${v.users.usersNm}">결과지확인</a></td>
+								<td class="usersNm"><a href="javascript:;">${v.users.usersNm}</a></td>
+								<td class="usersBir">${v.users.usersBir}</td>
+								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
+								<td><a href="javascript:;" class="aptTestDetail" data-test-no="${v.testNo}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
 						`;
@@ -182,9 +182,9 @@ $(function() {
 				$.each(resp.dataList, function(i, v) {
 					result += `
 							<tr>
-								<td><a href="javascript:;">${v.users.usersNm}</a></td>
-								<td>${v.users.usersBir}</td>
-								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
+								<td class="usersNm"><a href="javascript:;">${v.users.usersNm}</a></td>
+								<td class="usersBir">${v.users.usersBir}</td>
+								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
 								<td><a href="javascript:;" class="techTestDetail" data-test-no="${v.testNo}" data-users-nm="${v.users.usersNm}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
 								<td>${v.aprocScr}</td>
@@ -253,9 +253,9 @@ $(function() {
 				$.each(resp.dataList, function(i, v) {
 					applResult += `
 							<tr>
-								<td><a href="javascript:;">${v.users.usersNm}</a></td>
-								<td>${v.users.usersBir}</td>
-								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
+								<td class="usersNm"><a href="javascript:;">${v.users.usersNm}</a></td>
+								<td class="usersBir">${v.users.usersBir}</td>
+								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
 								<td>${v.interviewVO.intrDate ? "등록" : "미등록"}</td>
 								<td>
 									${v.interviewVO.intrDate ? "" : `<button type="button" id="createIntrSchdBtn" class="btnSizeS colorBlue"
@@ -268,15 +268,21 @@ $(function() {
 					if(v.interviewVO.intrDate){
 						schdResult += `
 							<tr>
-								<td>
+								<td class="usersNm">
 									<a href="javascript:;">${v.users.usersNm}</a><br>
-									<buttton type="text" class="btnSizeS">${v.interviewVO.intrTypeNm}</buttton>
+									<buttton type="text" class="btnSizeXS">${v.interviewVO.intrTypeNm}</buttton>
 								</td>
-								<td>${v.users.usersBir}</td>
-								<td>${v.users.usersGen == 'F' ? "여" : "남"}</td>
+								<td class="usersBir">${v.users.usersBir}</td>
+								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
 								<td>
 									${v.interviewVO.intrIntdate}<br/>
-									${v.interviewVO.intrPlace}
+									`;
+						if(v.interviewVO.intrType=="I01"){
+							schdResult += `${v.interviewVO.intrPlace}`;
+						}else if(v.interviewVO.intrType=="I02"){
+							schdResult += `<button type="button" class="btnSizeXS">화상면접 링크</button>`;
+						}
+							schdResult += `
 								</td>
 								<td>${v.mailCount}</td>
 								<td>${v.alarmCount}</td>
@@ -297,7 +303,7 @@ $(function() {
 						} else {
 							schdResult += `
 										<td>
-											<buttton type="button" class="btnSizeS colorBlue">안내발송</buttton><br>
+											<buttton type="button" class="btnSizeXS colorBlue">안내발송</buttton><br>
 											<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
@@ -308,8 +314,12 @@ $(function() {
 											</select>
 										</td>
 										<td>
-											<buttton type="button" class="btnSizeS colorBlue">수정</buttton><br>
-											<buttton type="button" class="btnSizeS colorBlue">삭제</buttton>
+											<buttton type="button" id="intrSchdUpdateBtn" class="btnSizeXS colorBlue"
+											data-bs-toggle="modal" data-bs-target="#intrSchdUpdateModal"
+											data-intr-no="${v.interviewVO.intrNo}"
+											data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
+											data-mem-mail="${v.memMail}">수정</buttton><br>
+											<buttton type="button" class="btnSizeXS colorBlue">삭제</buttton>
 										</td>
 									</tr>
 								`;
@@ -578,13 +588,13 @@ $(function() {
 					<input type="hidden" name="rprocOrder" value="${rprocOrder}" />
 					<input type="hidden" name="memMail" value="${memMail}" />
 					<div class="intrItemTitle">면접유형</div>
-					<select name="intrType" id="intrType" class="intrSchdItem">
+					<select name="intrType" class="intrSchdItem intrType">
 						<option value="I01">대면면접</option>
 						<option value="I02">화상면접</option>
 						<option value="I03">전화면접</option>
 					</select><br/>
 					<div class="intrItemTitle">면접일시</div>
-					<input type="text" name="intrIntdate" id="intrIntdate" class="intrSchdItem"/><br />
+					<input type="text" name="intrIntdate" class="intrSchdItem intrIntdate"/><br />
 					<div class="intrItemTitle intrPlace">면접장소</div>
 					<input type="text" name="intrPlace" class="intrSchdItem intrPlace"/><br />
 					<div class="intrItemTitle">안내발송</div>
@@ -604,21 +614,13 @@ $(function() {
 		$('#intrSchd-modal-body').html(schdTag);
 	})
 	
-	$(document).on("click", "#intrIntdate", function () {
+	$(document).on("click", ".intrIntdate", function () {
 	    $(this).datepicker({
 	        dateFormat: 'yy-mm-dd'
 	    }).datepicker("show");
 	});
 	
-	$(document).on("change","#intrType",function(){
-		if($('select[name=intrType]').val()=="I01"){
-			$('.intrPlace').attr("style", "display:");
-			$('input[name=intrPlace]').val("");
-		}else{
-			$('.intrPlace').attr("style", "display:none");
-		}
-	})
-	
+	/* 확인 버튼 클릭 */
 	$("#intrSchdBtn").on("click",function(){
 		let data = $(intrSchdForm).serialize();
 		
@@ -636,11 +638,91 @@ $(function() {
 				location.reload();
 			},
 			error : function(xhr){
-				
+				console.log(xhr.status);
 			}
 		})
 	})
-
+	
+	/* 면접 일정 수정 */
+	$(document).on("click","#intrSchdUpdateBtn",function(){
+		let intrNo = $(this).data("intrNo");
+		let usersNm = $(this).data("usersNm");
+		let aplNo = $(this).data("aplNo");
+		let memMail = $(this).data("memMail");
+		
+		$.ajax({
+			url : `${cPath}/company/recruit/interviewSchd`,
+			data : {
+				"intrNo" : intrNo
+			},
+			type : "get",
+			success : function(resp){
+				console.log(resp);
+				let schdTag = `
+					<div class="resumeScoreModalCont">
+						<form id="intrSchdUpdateForm">
+							<div class="intrItemTitle">면접대상자</div>
+							<input type="text" value="${usersNm}" class="intrSchdItem" disabled /> <br />
+							<input type="hidden" name="intrNo" value="${intrNo}" />
+							<input type="hidden" name="memMail" value="${memMail}" />
+							<div class="intrItemTitle">면접유형</div>
+							<select name="intrType" class="intrSchdItem intrType">
+								<option value="I01">대면면접</option>
+								<option value="I02">화상면접</option>
+								<option value="I03">전화면접</option>
+							</select><br/>
+							<div class="intrItemTitle">면접일시</div>
+							<input type="text" name="intrIntdate" value="${resp.intrIntdate}" class="intrSchdItem intrIntdate"/><br />
+							<div class="intrItemTitle intrPlace">면접장소</div>
+							<input type="text" name="intrPlace" class="intrSchdItem intrPlace"/><br />
+						</form>
+					</div>
+				`;
+				$('#intrSchdUpdate-modal-body').html(schdTag);
+				
+				$(`option[value=${resp.intrType}]`).attr("selected","selected").trigger("change");
+				if(resp.intrPlace){
+					$(`input[name=intrPlace]`).val(`${resp.intrPlace}`);
+				}
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		}); // ajax 끝
+	})
+	
+	/* 수정 - 확인 버튼 클릭 */
+	$("#intrSchdUpdateBtn").on("click",function(){
+		let data = $(intrSchdUpdateForm).serialize();
+		console.log(data);
+		
+		$.ajax({
+			url : `${cPath}/company/recruit/interviewSchd`,
+			data : data,
+			type : "put",
+			success : function(resp){
+				if (resp == "OK") {
+					alert("등록 성공")
+				} else {
+					alert("등록 실패")
+				}
+				$('.closeModal').trigger("click");
+				location.reload();
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		})
+	})
+	
+	$(document).on("change",".intrType",function(){
+		if($(this).val()=="I01"){
+			$('.intrPlace').attr("style", "display:");
+			$('input[name=intrPlace]').val("");
+		}else{
+			$('.intrPlace').attr("style", "display:none");
+		}
+	})
 	/* ================================================== 검색/페이지/정렬 ================================================== */
 
 	/* 페이지 처리 */
@@ -757,10 +839,14 @@ $(function() {
 	$(document).on("click",".resumeDetail", function(){
 		let resattNo = $(this).data("resattNo");
 		
+		let resumeTitle = $(this).parents("tr").find(".resumeTitle").text();
+		$('.resume-title-area').html(resumeTitle);
+		
 		$.ajax({
 			url : `${cPath}/company/recruit/resume`,
-			data : ``,
+			data : {"resattNo":resattNo},
 			success : function(resp){
+				console.log(resp);
 				scoreTbl = ``;
 				
 				scoreTbl += `
@@ -776,31 +862,25 @@ $(function() {
 				console.log(xhr.status);
 			}
 		})
-		
-		
-		let resumeScoreItem = ``;
-		
-		
-		resumeScoreItem += `
-							<tr>
-								<td class="td-score-title">dd</td>
-								<td class="td-score">
-									<input type="number" class="inpTypo input-score" />
-								</td>
-							</tr>
-						`;
+
 	})
 
 	/* 적성검사 - 시험지 조회 */
 	$(document).on("click",".aptTestDetail", function(){
 		let testNo = $(this).data("testNo");
-		let usersNm = $(this).data("usersNm");
 		let aplNo = $(this).parents("tr").find("input[class=aplNo]").val();
 		let rcrtNo = $(this).parents("tr").find("input[class=rcrtNo]").val();
 		let rprocOrder = $(this).parents("tr").find("input[class=rprocOrder]").val();
 		
 		$('.apt_part').attr("style","display:none");
 		$('.apt_part[data-idx=2]').attr("style","display:block");
+		
+		
+		let usersNm = $(this).parents("tr").find(".usersNm").text();
+		let usersBir = $(this).parents("tr").find(".usersBir").text();
+		let usersGen = $(this).parents("tr").find(".usersGen").text();
+		
+		$('.apt-detailName').html(`${usersNm}(${usersBir}, ${usersGen})`);
 		
 		
 		$.ajax({
@@ -830,7 +910,7 @@ $(function() {
 					result += `</div>`;
 				}) // each문 끝
 				
-				$('.apt-detailName').html(usersNm);
+				
 				$('#apt-test-result').html(result);
 				
 			},
@@ -849,13 +929,18 @@ $(function() {
 	/* 기술시험 - 시험지 조회 */
 	$(document).on("click",".techTestDetail", function(){
 		let testNo = $(this).data("testNo");
-		let usersNm = $(this).data("usersNm");
 		let aplNo = $(this).parents("tr").find("input[class=aplNo]").val();
 		let rcrtNo = $(this).parents("tr").find("input[class=rcrtNo]").val();
 		let rprocOrder = $(this).parents("tr").find("input[class=rprocOrder]").val();
 		
 		$('.tech_part').attr("style","display:none");
 		$('.tech_part[data-idx=2]').attr("style","display:block");
+		
+		let usersNm = $(this).parents("tr").find(".usersNm").text();
+		let usersBir = $(this).parents("tr").find(".usersBir").text();
+		let usersGen = $(this).parents("tr").find(".usersGen").text();
+		
+		$('.tech-detailName').html(`${usersNm}(${usersBir}, ${usersGen})`);
 		
 		
 		$.ajax({
@@ -877,7 +962,6 @@ $(function() {
 						</div>`;
 				}) // each문 끝
 				
-				$('.tech-detailName').html(usersNm);
 				$('#tech-test-result').html(result);
 				
 			},

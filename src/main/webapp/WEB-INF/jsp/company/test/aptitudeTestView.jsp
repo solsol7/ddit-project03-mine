@@ -39,7 +39,7 @@
 						</tr>
 						<c:forEach items="${qstn.itemList}" var="item">
 							<tr>
-								<td class="divTypo item_area">${item.itemNo }</td>
+								<td class="divTypo item_area item_no">${item.itemNo }</td>
 								<td class="divTypo item_area">${item.itemCont }</td>
 								<c:choose>
 									<c:when test="${item.itemNo eq qstn.qstnAnswer }">

@@ -56,6 +56,32 @@
 </div>
 <%-- 면접일정 생성 모달 끝 --%>
 
+<%-- 면접일정 수정 모달 --%>
+<div id="intrSchdUpdateModal" class="modal fade modal-les">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header  modalHeader-les">
+				<div class="resumeScore">면접일정 수정</div>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body modalBody  modalBody-les" id="intrSchdUpdate-modal-body">
+				<!-- 면접일정 등록 양식 출력되는 곳 -->
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary closeModal"
+					data-bs-dismiss="modal">취소</button>
+				<button type="submit" class="btn btn-primary" id="intrSchdUpdateBtn">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+<%-- 면접일정 생성 모달 끝 --%>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -163,14 +189,17 @@
 										</tbody>
 									</table>
 								</form>
-								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
-									<div class="tblBtn">
+								<div class="tblBtn">
+									<div class="paging" id="paging">
+										<!-- 페이지 출력하는 곳 -->
+									</div>
+									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
 										<button type="button" class="btnSizeM colorBlue"
 											id="passStatusSaveBtn">저장</button>
-									</div>
-								</c:if>
+									</c:if>
+								</div>
 							</div>
 
 							<div class="paging" id="paging">
@@ -198,19 +227,12 @@
 						<div class="detailArea">
 							<div class="topArea">
 								<div class="detailName tech-detailName"></div>
-								<span class="inpSel detailSelect"> 
-									<select name="" class="stype">
-											<option value>미확인</option>
-											<option value>합격</option>
-											<option value>불합격</option>
-									</select>
-								</span>
 							</div>
 							<div class="detail-part1">
 								<div class="resume-title-area">
 									<!-- 이름 출력하는 곳 -->
 								</div>
-								<div>
+								<div class="resume-img-area">
 									<!-- 이력서 첨부파일 출력하는 곳 -->
 								</div>
 							</div>
@@ -300,19 +322,20 @@
 										</tbody>
 									</table>
 								</form>
-								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
-									<div class="tblBtn">
+								<div class="tblBtn">
+									<div class="paging" id="paging">
+										<!-- 페이지 출력하는 곳 -->
+									</div>
+									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
 										<button type="button" class="btnSizeM colorBlue"
 											id="passStatusSaveBtn">저장</button>
 
-									</div>
-								</c:if>
+									</c:if>
+								</div>
 							</div>
-							<div class="paging" id="paging">
-								<!-- 페이지 출력하는 곳 -->
-							</div>
+							
 
 						</div>
 						<div class="resumeBtn">
@@ -334,13 +357,6 @@
 						<div class="box_lookup"></div>
 						<div class="detailArea">
 							<div class="detailName apt-detailName"></div>
-							<span class="inpSel detailSelect"> 
-							<select name="" class="stype">
-									<option value>미확인</option>
-									<option value>합격</option>
-									<option value>불합격</option>
-							</select>
-											</span>
 							<div class="detail-part-full">
 								<div id="apt-test-result">
 									<!-- 시험결과 출력하는 곳 -->
@@ -350,8 +366,6 @@
 						<div class="tblBtn">
 							<button type="button" class="btnSizeM colorGreen"
 								id="aptPartReturnBtn">목록</button>
-							<button type="button" class="btnSizeM colorBlue"
-								id="passStatusSaveBtn">저장</button>
 						</div>
 					</div>
 				</c:when>
@@ -420,18 +434,19 @@
 										</tbody>
 									</table>
 								</form>
-								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
-									<div class="tblBtn">
+								<div class="tblBtn">
+									<div class="paging" id="paging">
+										<!-- 페이지 출력하는 곳 -->
+									</div>
+									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
 										<button type="button" class="btnSizeM colorBlue"
 											id="passStatusSaveBtn">저장</button>
-									</div>
-								</c:if>
+									</c:if>
+								</div>
 							</div>
-							<div class="paging" id="paging">
-								<!-- 페이지 출력하는 곳 -->
-							</div>
+							
 
 						</div>
 						<div class="resumeBtn">
@@ -454,13 +469,6 @@
 						<div class="detailArea">
 							<div class="topArea">
 								<div class="detailName tech-detailName"></div>
-								<span class="inpSel detailSelect"> 
-									<select name="" class="stype">
-											<option value>미확인</option>
-											<option value>합격</option>
-											<option value>불합격</option>
-									</select>
-								</span>
 							</div>
 							<div class="detail-part1">
 								<div id="tech-test-result">
@@ -597,18 +605,19 @@
 										</table>
 									</form>
 								</div>
-								<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
-									<div class="tblBtn">
+								<div class="tblBtn">
+									<div class="paging" id="paging">
+										<!-- 페이지 출력하는 곳 -->
+									</div>
+									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
 										<button type="button" class="btnSizeM colorBlue"
 											id="passStatusSaveBtn">저장</button>
-									</div>
-								</c:if>
+									</c:if>
+								</div>
 							</div>
-							<div class="paging" id="paging">
-								<!-- 페이지 출력하는 곳 -->
-							</div>
+
 
 						</div>
 						<div class="resumeBtn">
@@ -629,13 +638,13 @@
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="text" readonly name="rprocTypeno" />
-				<input type="text" readonly name="aprocPass" />
-				<input type="text" readonly name="usersGen" />
-				<input type="text" readonly name="usersNm" />
-				<input type="text" readonly name="sortCategory" />
-				<input type="text" readonly name="intrStatus" />
-				<input type="text" readonly name="page" />
+				<input type="hidden" readonly name="rprocTypeno" />
+				<input type="hidden" readonly name="aprocPass" />
+				<input type="hidden" readonly name="usersGen" />
+				<input type="hidden" readonly name="usersNm" />
+				<input type="hidden" readonly name="sortCategory" />
+				<input type="hidden" readonly name="intrStatus" />
+				<input type="hidden" readonly name="page" />
 			</form>
 
 		</div>
