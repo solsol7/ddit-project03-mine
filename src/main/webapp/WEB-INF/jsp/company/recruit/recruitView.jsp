@@ -30,6 +30,31 @@
 </div>
 <%-- 채점표 생성 모달 끝 --%>
 
+<%-- 이름 클릭 - 이력서 조회 모달 --%>
+<div id="resumeImgModal" class="modal fade modal-les">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header modalHeader-les">
+				<div class="resumeScore">이력서</div>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body modalBody modalBody-les resumeImg" id="resumeImg-modal-body">
+				<!-- 이력서 사진 출력되는 곳 -->
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary closeModal"
+					data-bs-dismiss="modal">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+<%--  이름 클릭 - 이력서 조회 모달 끝 --%>
+
 <%-- 면접일정 생성 모달 --%>
 <div id="intrSchdModal" class="modal fade modal-les">
 	<div class="modal-dialog">
@@ -85,8 +110,10 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<script
-	src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitView.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitResumeView.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitTestView.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/app/company/recruit/recruitInterviewView.js"></script>
 
 <div id="content" class="basic_wide vix_main recruit-content"
 	data-rcrt-no=${rcrtNo } data-rproc-order=${rprocOrder }

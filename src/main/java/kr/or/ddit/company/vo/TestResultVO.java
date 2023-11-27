@@ -17,4 +17,5 @@ public class TestResultVO implements Serializable{
 	private String aplNo;
 	private Integer rprocOrder;
 	private String rsltSelect;
+	private int techScore;
 }

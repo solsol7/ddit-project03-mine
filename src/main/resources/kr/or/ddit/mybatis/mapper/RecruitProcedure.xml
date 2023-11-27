@@ -338,10 +338,14 @@
 	
 	<!-- 적섬검사, 기술시험 지원자 목록 조회 -->
 	<select id="selectTestApplicantList"  resultMap="ApplicantListMap" parameterType="PaginationInfo">
+		WITH RESATTVIEW AS(
+		    SELECT APL_NO, A.RESATT_NO
+		    FROM APPLY A INNER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+		)	
 		SELECT T.*
 		FROM (
 			SELECT ROWNUM RNUM, RN.*
-			FROM (	
+			FROM (
 				SELECT
 				    AP.apl_no
 				    , AP.rcrt_no
@@ -354,9 +358,11 @@
 				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
 				    , USERS_GEN
 				    , TEST_NO
+				    , RESATT_NO
 				FROM
 				    A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 						INNER JOIN R_PROCEDURE RP ON AP.RCRT_NO=RP.RCRT_NO AND AP.RPROC_ORDER=RP.RPROC_ORDER
+						INNER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
 				<include refid="viewSearchFlag" />
 				<choose>
 					<when test='variousCondition.sortCategory eq "date"'>
@@ -398,6 +404,10 @@
 		       , COM_CODE_NM
 		       , INTR_TYPE
 		)
+		,RESATTVIEW AS(
+            SELECT APL_NO, A.RESATT_NO
+            FROM APPLY A INNER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+        )
 		SELECT T.*
 		FROM (
 			SELECT ROWNUM RNUM, RN.*
@@ -422,10 +432,12 @@
 				    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
 				    , NVL(MAILCOUNT,0) "mailCount"
 				    , NVL(ALARMCOUNT,0) "alarmCount"
+				    , RESATT_NO
 				FROM
 				    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
 				        LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
 				        INNER JOIN MEMBER ON USERS_ID=MEM_ID
+				        INNER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
 				<include refid="viewSearchFlag" />
 				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
 			    	<choose>
@@ -496,203 +508,8 @@
 		    AND RPROC_ORDER = #{rprocOrder}
 	</select>
 	
-	<!-- 채점표 생성 -->
-	<insert id="insertResumeScoreForm" parameterType="ResumeFormVO">
-		INSERT INTO resume_form (
-		    RCRT_NO,
-		    RPROC_ORDER,
-		    SCR_EDU,
-		    SCR_LANG,
-		    SCR_CAREER,
-		    SCR_CER,
-		    SCR_IA,
-		    SCR_OS,
-		    SCR_ETC
-		) VALUES (
-		    #{rcrtNo}
-		    , #{rprocOrder}
-		    , #{scrEdu}
-		    , #{scrLang}
-		    , #{scrCareer}
-		    , #{scrCer}
-		    , #{scrIa}
-		    , #{scrOs}
-		    , #{scrEtc}
-		)
-	</insert>
-	
-	<!-- 면접일정 등록 -->
-	<insert id="insertInterviewSchd" parameterType="InterviewSchdVO">
-		<selectKey order="BEFORE" keyProperty="intrNo" resultType="String">
-			SELECT 'INTR'||LPAD(INTR_SCHD_SEQ.NEXTVAL,6,'0') FROM DUAL
-		</selectKey>
-		INSERT INTO interview_schd (
-		    intr_no
-		    , apl_no
-		    , rproc_order
-		    , rcrt_no
-		    , intr_intdate
-		    , intr_place
-		    , intr_date
-		    , intr_type
-		) VALUES (
-		    #{intrNo}
-		    , #{aplNo}
-		    , #{rprocOrder}
-		    , #{rcrtNo}
-		    , #{intrIntdate}
-		    , #{intrPlace}
-		    , sysdate
-		    , #{intrType}
-		)
-	</insert>
-	
-	<!-- 면접일정 조회 -->
-	<select id="selectInterviewSchd" parameterType="InterviewSchdVO" resultType="InterviewSchdVO">
-		SELECT
-		    INTR_NO,
-		    APL_NO,
-		    RPROC_ORDER,
-		    RCRT_NO,
-		    TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate",
-		    INTR_PLACE,
-		    TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate",
-		    INTR_TYPE
-		FROM
-		    INTERVIEW_SCHD
-		WHERE
-			INTR_NO = #{intrNo}
-	</select>
-	
-	<!-- 면접일정 수정 -->
-	<update id="updateInterviewSchd" parameterType="InterviewSchdVO">
-		UPDATE interview_schd
-		SET
-		    intr_intdate = #{intrIntdate}
-		    , intr_type = #{intrType}
-		    <if test="intrPlace neq null">
-		    , intr_place = #{intrPlace}
-		    </if>
-		WHERE
-			INTR_NO = #{intrNo}
-	</update>
 	
 	<!-- ==================================상세조회 관리 관련==================================  -->
-	<!-- 이력서 첨부파일 조회 -->
-	<select id="selectResumeAttatch" parameterType="string" resultType="ResumeAttatchVO">
-		SELECT
-		    RESATT_NO,
-		    RESATT_ORIGINALNM,
-		    RESATT_SAVENAME,
-		    RESATT_FILESIZE,
-		    RESATT_MIME,
-		    RESUME_TITLE
-		FROM
-		    RESUME_ATTATCH
-		WHERE RESATT_NO = #{resattNo}
-	</select>
-	
-	<!-- 이력서 채점표 양식 조회 -->
-	<select id="selectResumeForm" parameterType="RProcedureVO" resultType="ResumeFormVO">
-		SELECT
-		    RCRT_NO,
-		    RPROC_ORDER,
-		    SCR_EDU,
-		    SCR_LANG,
-		    SCR_CAREER,
-		    SCR_CER,
-		    SCR_IA,
-		    SCR_OS,
-		    SCR_ETC
-		FROM
-		    RESUME_FORM
-		WHERE
-			RCRT_NO = #{rcrtNo}
-			AND RPROC_ORDER = #{rprocOrder}
-	</select>
-	
-	<!-- 이력서 점수 정보 조회 -->
-	<select id="selectResumeScore" parameterType="AProcedureVO" resultType="ResumeScoreVO">
-		SELECT
-		    rcrt_no,
-		    rproc_order,
-		    apl_no,
-		    scr_edu,
-		    scr_lang,
-		    scr_career,
-		    scr_cer,
-		    scr_ia,
-		    scr_os,
-		    scr_etc
-		FROM
-		    resume_score
-		WHERE
-		    rcrt_no=#{rcrtNo}
-		    and rproc_order=#{rprocOrder}
-		    and apl_no=#{aplNo}
-	</select>
-	
-	<!-- 이력서 점수 update -->
-	<insert id="insertResumeScore" parameterType="ResumeScoreVO">
-		INSERT INTO resume_score (
-		    rcrt_no,
-		    rproc_order,
-		    apl_no,
-		    scr_edu,
-		    scr_lang,
-		    scr_career,
-		    scr_cer,
-		    scr_ia,
-		    scr_os,
-		    scr_etc
-		) VALUES (
-			#{rcrtNo}
-			, #{rprocOrder}
-			, #{aplNo}
-    		, #{scrEdu}
-		    , #{scrLang}
-		    , #{scrCareer}
-		    , #{scrCer}
-		    , #{scrIa}
-		    , #{scrOs}
-		    , #{scrEtc}
-		 )
-	</insert>
-	
-	<!-- 시험결과 조회 -->
-	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
-		<id property="testNo" column="TEST_NO" />
-		<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
-			<id property="qstnNo" column="QSTN_NO"/>
-			<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
-		</collection>
-	</resultMap>
-	<select id="selectTestResult" resultMap="testDetailMap" parameterType="TestResultVO">
-		SELECT
-		    V.TEST_NO, TEST_TITLE
-		    , V.QSTN_NO, QSTN_CONT, QSTN_ANSWER
-		    , ITEM_NO, ITEM_CONT
-		    , RSLT_SELECT
-		FROM
-		    V_TESTDETAIL V
-		    INNER JOIN TEST_RESULT R ON V.TEST_NO=R.TEST_NO AND V.QSTN_NO=R.QSTN_NO
-		WHERE
-		    V.TEST_NO=#{testNo}
-		    AND R.RCRT_NO=#{rcrtNo}
-		    AND R.RPROC_ORDER=#{rprocOrder}
-		    AND R.APL_NO=#{aplNo}
-		ORDER BY QSTN_NO, ITEM_NO
-	</select>
-	
-	<!-- 기술시험 점수 update -->
-	<update id="updateTechScore" parameterType="AProcedureVO">
-	UPDATE
-		a_procedure
-	SET
-	    aproc_scr=#{aprocScr}
-	WHERE
-	    RCRT_NO=#{rcrtNo}
-	    AND RPROC_ORDER=#{rprocOrder}
-	    AND APL_NO=#{aplNo}
-	</update>
+
+
 </mapper>

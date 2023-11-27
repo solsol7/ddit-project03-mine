@@ -52,6 +52,10 @@
 
 /*============================================= 채용절차 - recruit-process ============================================= */
 
+.resumeImg{
+	height : 800px !important;
+}
+
 .detailArea{
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
     padding: 40px 50px 60px;

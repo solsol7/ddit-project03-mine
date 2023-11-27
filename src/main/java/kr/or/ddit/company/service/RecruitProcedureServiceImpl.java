@@ -92,7 +92,13 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		paging.setDataList(dataList);
 	}
-	
+
+	/* 채점표 개수 조회 */
+	@Override
+	public int retrieveResumeScoreFormCount(Map<String, Object> paramMap) {
+		return dao.selectResumeScoreFormCount(paramMap);
+	}
+
 	/* 합불여부 저장 */
 	@Override
 	public ServiceResult modifyPassStatus(AProcedureOuterVO outerVO) {
@@ -155,117 +161,5 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		return result;
 	}
-
-	/* 채점표 생성 */
-	@Override
-	public ServiceResult createResumeScoreForm(ResumeFormVO resumeFormVO) {
-		int rowcnt = dao.insertResumeScoreForm(resumeFormVO);
-		
-		ServiceResult result = null;
-		if(rowcnt > 0) {
-			result = ServiceResult.OK;
-		}else {
-			result = ServiceResult.FAIL;
-		}
-		
-		return result;
-	}
-	
-	/* 채점표 개수 조회 */
-	@Override
-	public int retrieveResumeScoreFormCount(Map<String, Object> paramMap) {
-		return dao.selectResumeScoreFormCount(paramMap);
-	}
-	
-	/* 면접일정 등록 */
-	@Override
-	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO) {
-		int rowcnt = dao.insertInterviewSchd(interviewSchdVO);
-		
-		ServiceResult result = null;
-		if(rowcnt > 0) {
-			result = ServiceResult.OK;
-		}else {
-			result = ServiceResult.FAIL;
-		}
-		
-		return result;
-	}
-	
-	/* 면접일정 조회 */
-	@Override
-	public InterviewSchdVO retrieveInterviewSchd(InterviewSchdVO interviewSchdVO) {
-		return dao.selectInterviewSchd(interviewSchdVO);
-	}
-	
-	/* 면접일정 수정 */
-	@Override
-	public ServiceResult modifyInterviewSchd(InterviewSchdVO interviewSchdVO) {
-		int rowcnt = dao.updateInterviewSchd(interviewSchdVO);
-		
-		ServiceResult result = null;
-		if(rowcnt > 0) {
-			result = ServiceResult.OK;
-		}else {
-			result = ServiceResult.FAIL;
-		}
-		
-		return result;
-	}
-	
-	/* 이력서 첨부파일 조회 */
-	@Override
-	public ResumeAttatchVO retrieveResumeAttatch(String resattNo) {
-		return dao.selectResumeAttatch(resattNo);
-	}
-	
-	/* 이력서 채점표 양식 조회 */
-	@Override
-	public ResumeFormVO retrieveResumeForm(RProcedureVO rprocVO) {
-		return dao.selectResumeForm(rprocVO);
-	}
-
-	/* 이력서 점수정보 조회 */
-	@Override
-	public ResumeScoreVO retrieveResumeScore(AProcedureVO aprocVO) {
-		return dao.selectResumeScore(aprocVO);
-	}
-
-	/* 이력서점수 등록 */
-	@Override
-	public ServiceResult createResumeScore(ResumeScoreVO resumeScoreVO) {
-		int rowcnt = dao.insertResumeScore(resumeScoreVO);
-		
-		ServiceResult result = null;
-		if(rowcnt > 0) {
-			result = ServiceResult.OK;
-		}else {
-			result = ServiceResult.FAIL;
-		}
-		
-		return result;
-	}
-
-	/* 시험결과 조회 */
-	@Override
-	public List<TestVO> retrieveTestResult(TestResultVO testResultVO) {
-		return dao.selectTestResult(testResultVO);
-	}
-
-	/* 기술시험점수 등록 */
-	@Override
-	public ServiceResult modifyTechScore(AProcedureVO aprocVO) {
-		int rowcnt = dao.updateTechScore(aprocVO);
-		
-		ServiceResult result = null;
-		if(rowcnt > 0) {
-			result = ServiceResult.OK;
-		}else {
-			result = ServiceResult.FAIL;
-		}
-		
-		return result;
-	}
-
 
 }
