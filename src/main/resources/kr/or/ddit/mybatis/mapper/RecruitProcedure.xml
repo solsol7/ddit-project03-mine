@@ -499,15 +499,15 @@
 	<!-- 채점표 생성 -->
 	<insert id="insertResumeScoreForm" parameterType="ResumeFormVO">
 		INSERT INTO resume_form (
-		    rcrt_no,
-		    rproc_order,
-		    scr_edu,
-		    scr_lang,
-		    scr_career,
-		    scr_cer,
-		    scr_ia,
-		    scr_os,
-		    scr_etc
+		    RCRT_NO,
+		    RPROC_ORDER,
+		    SCR_EDU,
+		    SCR_LANG,
+		    SCR_CAREER,
+		    SCR_CER,
+		    SCR_IA,
+		    SCR_OS,
+		    SCR_ETC
 		) VALUES (
 		    #{rcrtNo}
 		    , #{rprocOrder}
@@ -592,6 +592,72 @@
 		WHERE RESATT_NO = #{resattNo}
 	</select>
 	
+	<!-- 이력서 채점표 양식 조회 -->
+	<select id="selectResumeForm" parameterType="RProcedureVO" resultType="ResumeFormVO">
+		SELECT
+		    RCRT_NO,
+		    RPROC_ORDER,
+		    SCR_EDU,
+		    SCR_LANG,
+		    SCR_CAREER,
+		    SCR_CER,
+		    SCR_IA,
+		    SCR_OS,
+		    SCR_ETC
+		FROM
+		    RESUME_FORM
+		WHERE
+			RCRT_NO = #{rcrtNo}
+			AND RPROC_ORDER = #{rprocOrder}
+	</select>
+	
+	<!-- 이력서 점수 정보 조회 -->
+	<select id="selectResumeScore" parameterType="AProcedureVO" resultType="ResumeScoreVO">
+		SELECT
+		    rcrt_no,
+		    rproc_order,
+		    apl_no,
+		    scr_edu,
+		    scr_lang,
+		    scr_career,
+		    scr_cer,
+		    scr_ia,
+		    scr_os,
+		    scr_etc
+		FROM
+		    resume_score
+		WHERE
+		    rcrt_no=#{rcrtNo}
+		    and rproc_order=#{rprocOrder}
+		    and apl_no=#{aplNo}
+	</select>
+	
+	<!-- 이력서 점수 update -->
+	<insert id="insertResumeScore" parameterType="ResumeScoreVO">
+		INSERT INTO resume_score (
+		    rcrt_no,
+		    rproc_order,
+		    apl_no,
+		    scr_edu,
+		    scr_lang,
+		    scr_career,
+		    scr_cer,
+		    scr_ia,
+		    scr_os,
+		    scr_etc
+		) VALUES (
+			#{rcrtNo}
+			, #{rprocOrder}
+			, #{aplNo}
+    		, #{scrEdu}
+		    , #{scrLang}
+		    , #{scrCareer}
+		    , #{scrCer}
+		    , #{scrIa}
+		    , #{scrOs}
+		    , #{scrEtc}
+		 )
+	</insert>
 	
 	<!-- 시험결과 조회 -->
 	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
@@ -623,7 +689,7 @@
 	UPDATE
 		a_procedure
 	SET
-	    aproc_scr=#{aproc_scr}
+	    aproc_scr=#{aprocScr}
 	WHERE
 	    RCRT_NO=#{rcrtNo}
 	    AND RPROC_ORDER=#{rprocOrder}

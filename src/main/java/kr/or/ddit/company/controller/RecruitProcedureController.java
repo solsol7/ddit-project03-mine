@@ -33,6 +33,7 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.ResumeScoreVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
@@ -47,9 +48,6 @@ public class RecruitProcedureController {
 	
 	@Inject
 	private RecruitProcedureService service;
-	
-	@Value("#{appInfo.resumeFiles}")
-	private Resource resumeImages;
 	
 	/* 채용공고 목록 조회 */
 	@GetMapping("recruitListUI")
@@ -176,6 +174,7 @@ public class RecruitProcedureController {
 			@ModelAttribute ResumeFormVO resumeFormVO
 	) {
 		log.info("{}",resumeFormVO);
+		
 		ServiceResult result =service.createResumeScoreForm(resumeFormVO);
 		
 		String message = null;
@@ -249,39 +248,46 @@ public class RecruitProcedureController {
 	/* 이력서 상세조회 */
 	@GetMapping("recruit/resume")
 	@ResponseBody
-	public void retrieveResumeDetail(
+	public Map<String, Object> retrieveResumeDetail(
 			@RequestParam String resattNo
+			, @ModelAttribute RProcedureVO rprocVO 
 	) throws IOException {
 		
 		ResumeAttatchVO resumeAttatchVO = service.retrieveResumeAttatch(resattNo);
+		ResumeFormVO resumeForm = service.retrieveResumeForm(rprocVO);
 		
 		String fileName = resumeAttatchVO.getResattSavename();
 		
-		File saveFolder = resumeImages.getFile();
-		File resumeImage = new File(saveFolder, fileName);
+		String resumeImageUrl = String.format("recruit/resume/%s", fileName);
 		
-		try(
-			FileInputStream fin = new FileInputStream(resumeImage);
-			BufferedInputStream bin = new BufferedInputStream(fin);
-			
-			FileOutputStream fout = new FileOutputStream(resumeImage);
-			BufferedOutputStream bout = new BufferedOutputStream(fout);
-				
-//		    String imageUrl = "/uploadFiles/resume/resume3b05c79c-0e0f-4bbd-8928-fe7bfdaf58ac.png";
-				
-			
-		){
-			byte[] buffer = new byte[1024];
-			int length = -1;
-			while((length = fin.read(buffer))!=-1) {
-				bout.write(buffer, 0, length);
-			}
-			
-			bout.flush();
-		}
+		Map<String, Object> result = new HashMap<>();
+		result.put("resumeImageUrl", resumeImageUrl);
+		result.put("resumeForm", resumeForm);
 		
+		return result;
 	}
 	
+	/* 이력서 점수 update */
+	@PutMapping("recruit/resumeScore")
+	@ResponseBody
+	public String resumeScoreUpdate(
+			@ModelAttribute ResumeScoreVO resumeScoreVO
+	) {
+		
+		ServiceResult result = service.createResumeScore(resumeScoreVO);
+	
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
 	
 	/* 시험결과 조회 */
 	@GetMapping("recruit/test/{rcrtNo}/{rprocOrder}/{aplNo}")

@@ -222,7 +222,7 @@
 					</div>
 					
 					<!-- 이력서 조회&채점 -->
-					<div class="tab_part resume_part" data-idx="2">
+					<div class="tab_part resume_part" data-idx="2" style="display:none;">
 						<div class="box_lookup"></div>
 						<div class="detailArea">
 							<div class="topArea">
@@ -232,28 +232,32 @@
 								<div class="resume-title-area">
 									<!-- 이름 출력하는 곳 -->
 								</div>
-								<div class="resume-img-area">
+								<div class="resume-img-area" id="resumeImg">
 									<!-- 이력서 첨부파일 출력하는 곳 -->
 								</div>
 							</div>
 							<div class="detail-part2">
-								<table class="table table-bordered dataTable scoreTbl" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-									<thead class="score-thead">
-										<tr>
-											<th>항목</th>
-											<th>점수</th>
-										</tr>
-									</thead>
-									<tbody class="resume-score-tbody">
-										<!-- 채점표 출력하는 곳 -->
-									</tbody>
-								</table>
+								<form id="resumeScoreSubmitForm" class="tblWrapForm" method="post">
+									<table class="table table-bordered dataTable scoreTbl" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+										<thead class="score-thead">
+											<tr>
+												<th>항목</th>
+												<th>점수</th>
+											</tr>
+										</thead>
+										<tbody class="resume-score-tbody">
+											<!-- 채점표 출력하는 곳 -->
+										</tbody>
+									</table>
+								</form>
 							</div>
 							<div class="tblBtn">
 								<button type="button" class="btnSizeM colorGreen"
-									id="techPartReturnBtn">목록</button>
-								<button type="button" class="btnSizeM colorBlue"
-									id="techScoreSubmitBtn">저장</button>
+									id="resumePartReturnBtn">목록</button>
+								<c:if test="${currProcedureInfo.rprocEnd eq 'N'}">
+									<button type="button" class="btnSizeM colorBlue"
+										id="resumeScoreSubmitBtn">저장</button>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -497,9 +501,7 @@
 							<button type="button" class="btnSizeM colorBlue"
 								id="techScoreSubmitBtn">저장</button>
 						</div>
-						
 					</div>
-
 				</c:when>
 
 
@@ -638,13 +640,13 @@
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="hidden" readonly name="rprocTypeno" />
-				<input type="hidden" readonly name="aprocPass" />
-				<input type="hidden" readonly name="usersGen" />
-				<input type="hidden" readonly name="usersNm" />
-				<input type="hidden" readonly name="sortCategory" />
-				<input type="hidden" readonly name="intrStatus" />
-				<input type="hidden" readonly name="page" />
+				<input type="text" readonly name="rprocTypeno" placeholder="rprocTypeno" />
+				<input type="text" readonly name="aprocPass" placeholder="aprocPass" />
+				<input type="text" readonly name="usersGen" placeholder="usersGen" />
+				<input type="text" readonly name="usersNm" placeholder="usersNm" />
+				<input type="text" readonly name="sortCategory" placeholder="sortCategory" />
+				<input type="text" readonly name="intrStatus" placeholder="intrStatus" />
+				<input type="text" readonly name="page" placeholder="page" />
 			</form>
 
 		</div>

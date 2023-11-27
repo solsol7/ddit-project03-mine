@@ -91,6 +91,12 @@
 	text-align: center;
 }
 
+.resume-img-area{
+	width : 600px;
+	height : 600px;
+	scroll : auto;
+}
+
 .detailArea .detail-part2{
 	overflow : auto;
 	float : right;

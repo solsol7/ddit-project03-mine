@@ -15,6 +15,7 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
+import kr.or.ddit.company.vo.ResumeScoreVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
 import kr.or.ddit.paging.vo.PaginationInfo;
@@ -217,8 +218,34 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 	public ResumeAttatchVO retrieveResumeAttatch(String resattNo) {
 		return dao.selectResumeAttatch(resattNo);
 	}
-
 	
+	/* 이력서 채점표 양식 조회 */
+	@Override
+	public ResumeFormVO retrieveResumeForm(RProcedureVO rprocVO) {
+		return dao.selectResumeForm(rprocVO);
+	}
+
+	/* 이력서 점수정보 조회 */
+	@Override
+	public ResumeScoreVO retrieveResumeScore(AProcedureVO aprocVO) {
+		return dao.selectResumeScore(aprocVO);
+	}
+
+	/* 이력서점수 등록 */
+	@Override
+	public ServiceResult createResumeScore(ResumeScoreVO resumeScoreVO) {
+		int rowcnt = dao.insertResumeScore(resumeScoreVO);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
 	/* 시험결과 조회 */
 	@Override
 	public List<TestVO> retrieveTestResult(TestResultVO testResultVO) {

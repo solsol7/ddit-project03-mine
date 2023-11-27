@@ -32,6 +32,7 @@
 		p:order="2"
 	/>
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />
+	<mvc:resources location="#{appInfo.recruitFiles}" mapping="/recruit/**" cache-period="0" />
 	
 	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>

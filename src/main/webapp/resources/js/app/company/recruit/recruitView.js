@@ -43,9 +43,9 @@ $(function() {
 									<td class="usersNm">${v.users.usersNm}</td>
 									<td class="usersBir">${v.users.usersBir}</td>
 									<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
-									<td class="ellipsis resumeTitle"><a href="javascript:;" class="resumeDetail" data-resatt-no="${v.resattNo}">${v.resumeTitle}</a></td>
+									<td class="ellipsis resumeTitle"><a href="javascript:;" class="resumeDetail" data-apl-no="${v.aplNo}" data-resatt-no="${v.resattNo}">${v.resumeTitle}</a></td>
 									<td>${v.aprocDate}</td>
-									<td>${v.aprocScr}</td>
+									<td>${v.aprocScr??"-"}</td>
 								`;
 
 					// 마감일 시 초기화면 합불여부 관리 disabled 처리
@@ -508,7 +508,7 @@ $(function() {
 
 		$('#resumeScore-modal-body').html(formTag);
 	})
-
+	
 	/* 이력서 채점표 만들기 - 확인버튼 클릭 */
 	$('#resumeScoreFormBtn').on("click", function() {
 		let confirmStatus = confirm("채점표 양식을 저장하시겠습니까?");
@@ -532,9 +532,9 @@ $(function() {
 				type: "post",
 				success: function(resp) {
 					if (resp == "OK") {
-						alert("수정 성공")
+						alert("생성 성공")
 					} else {
-						alert("수정 실패")
+						alert("생성 실패")
 					}
 
 					$('.closeModal').trigger("click");
@@ -548,7 +548,6 @@ $(function() {
 
 		}
 	})
-	
 	
 	/*datepicker - 면접일정 생성-날짜선택 api*/
 	$("#intrIntdate").datepicker({
@@ -661,6 +660,7 @@ $(function() {
 				let schdTag = `
 					<div class="resumeScoreModalCont">
 						<form id="intrSchdUpdateForm">
+							<input type="hidden" name="_method" value="put"/>
 							<div class="intrItemTitle">면접대상자</div>
 							<input type="text" value="${usersNm}" class="intrSchdItem" disabled /> <br />
 							<input type="hidden" name="intrNo" value="${intrNo}" />
@@ -691,7 +691,7 @@ $(function() {
 		}); // ajax 끝
 	})
 	
-	/* 수정 - 확인 버튼 클릭 */
+	/* 면접일정 수정 - 확인 버튼 클릭 */
 	$("#intrSchdUpdateBtn").on("click",function(){
 		let data = $(intrSchdUpdateForm).serialize();
 		console.log(data);
@@ -699,7 +699,7 @@ $(function() {
 		$.ajax({
 			url : `${cPath}/company/recruit/interviewSchd`,
 			data : data,
-			type : "put",
+			type : "post",
 			success : function(resp){
 				if (resp == "OK") {
 					alert("등록 성공")
@@ -838,31 +838,140 @@ $(function() {
 	/* 이력서 상세보기 */
 	$(document).on("click",".resumeDetail", function(){
 		let resattNo = $(this).data("resattNo");
+		let aplNo = $(this).data("aplNo");
 		
 		let resumeTitle = $(this).parents("tr").find(".resumeTitle").text();
 		$('.resume-title-area').html(resumeTitle);
 		
+		$('.resume_part').attr("style","display:none");
+		$('.resume_part[data-idx=2]').attr("style","display:block");
+		
 		$.ajax({
 			url : `${cPath}/company/recruit/resume`,
-			data : {"resattNo":resattNo},
+			data : {
+				"resattNo":resattNo
+				, "rcrtNo" : rcrtNo
+				, "rprocOrder" : rprocOrder
+			},
 			success : function(resp){
 				console.log(resp);
-				scoreTbl = ``;
 				
-				scoreTbl += `
-						<tr>
-							<td class="td-score-title"></td>
-							<td class="td-score">
-								<input type="number" class="inpTypo input-score" />
-							</td>
-						</tr>
-					`;
+				let resumeImg = `<img src="${cPath}/${resp.resumeImageUrl}" />`;
+				
+				scoreTbl = `
+							<input type="hidden" name="_method" value="put" />
+							<input type="hidden" name="rcrtNo" value="${rcrtNo}" />
+							<input type="hidden" name="rprocOrder" value="${rprocOrder}" />
+							<input type="hidden" name="aplNo" value="${aplNo}" />
+						`;
+				
+				if(resp.resumeForm){
+					if(resp.resumeForm.scrEdu=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">학력</td>
+								<td class="td-score">
+									<input type="number" name="scrEdu" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrLang=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">어학</td>
+								<td class="td-score">
+									<input type="number" name="scrLang" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrCareer=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">경력</td>
+								<td class="td-score">
+									<input type="number" name="scrCareer" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrCer=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">자격증</td>
+								<td class="td-score">
+									<input type="number" name="scrCer" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrIa=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">대외활동</td>
+								<td class="td-score">
+									<input type="number" name="scrIa" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrOs=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">해외연수</td>
+								<td class="td-score">
+									<input type="number" name="scrOs" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+					if(resp.resumeForm.scrEtc=="Y"){
+						scoreTbl += `
+							<tr>
+								<td class="td-score-title">기타</td>
+								<td class="td-score">
+									<input type="number" name="scrEtc" class="inpTypo input-score" />
+								</td>
+							</tr>
+						`;
+					}
+				}
+				
+				$('#resumeImg').html(resumeImg);
+				$('.resume-score-tbody').html(scoreTbl);
+				if(rprocEnd=='Y'){
+					$(resumeScoreSubmitForm).find(":input").attr("disabled","disabled");
+				}
 			},
 			error : function(xhr){
 				console.log(xhr.status);
 			}
 		})
 
+	})
+	
+	/* 이력서 - 목록버튼 클릭 */
+	$("#resumePartReturnBtn").on("click",function(){
+		$('.resume_part').attr("style","display:none");
+		$('.resume_part[data-idx=1]').attr("style","display:block");
+	})
+	
+	/* 이력서 - 저장버튼 클릭 */
+	$('#resumeScoreSubmitBtn').on("click",function(){
+		let data = $(resumeScoreSubmitForm).serialize();
+		console.log(data);
+		$.ajax({
+			url : `${cPath}/company/recruit/resumeScore`,
+			data : data,
+			type: "post",
+			success : function(resp){
+				console.log(resp);
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		})
 	})
 
 	/* 적성검사 - 시험지 조회 */
@@ -988,6 +1097,9 @@ $(function() {
 		}
 		
 		$('.tech-score-tbody').html(scoreTbl);
+		if(rprocEnd=='Y'){
+			$(techScoreSubmitForm).find(":input").attr("disabled","disabled");
+		}
 		
 		})
 		
@@ -1004,7 +1116,7 @@ $(function() {
 			$.ajax({
 				url : `${cPath}/company/recruit/techScore`,
 				data : data,
-				type: "put",
+				type: "post",
 				success : function(resp){
 					console.log(resp);
 				},
