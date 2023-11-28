@@ -185,4 +185,21 @@ $(function(){
 			$('.intrPlace').attr("style", "display:none");
 		}
 	})
+	
+	/* 안내발송 클릭 */
+	$(document).on("click",'.sendMailBtn',function(){
+		$.ajax({
+			url : `${cPath}/company/recruit/mail`,
+			data : {
+				"receiverMail" : "ddit2305@naver.com"
+			},
+			type : "get",
+			success : function(resp){
+				console.log("성공");
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		});
+	})
 })

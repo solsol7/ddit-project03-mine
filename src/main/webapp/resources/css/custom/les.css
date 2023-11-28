@@ -52,6 +52,11 @@
 
 /*============================================= 채용절차 - recruit-process ============================================= */
 
+.errors{
+	font-size : 0.8rem;
+	color: red;
+}
+
 .resumeImg{
 	height : 800px !important;
 }

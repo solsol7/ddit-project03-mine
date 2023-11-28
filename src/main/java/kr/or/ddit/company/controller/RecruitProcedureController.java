@@ -9,8 +9,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -165,5 +173,61 @@ public class RecruitProcedureController {
 		
 		return String.format("redirect:/company/recruit/%s/%d", rcrtNo, rprocOrder);
 	}
+	
+	/* 이메일 전송 컨트롤러 */
+	/*
+	@GetMapping("recruit/mail")
+	@ResponseBody
+	public void sendMail(
+			@RequestParam String receiverMail
+	) {
+		// 발신자 계정 셋팅
+		String user = "ddit2305@naver.com";
+        String password = "roqkfdnjs2305!!";
+        
+        // SMTP 서버 정보 설정
+        Properties prop = new Properties();
+        
+        // SMTP 서버 - gmail : smtp.gmail.com, naver : smtp.naver.com
+        prop.put("mail.smtp.host", "smtp.naver.com");
+        // SMTP서버와 통신하는 포트 - gmail : 465, naver : 587
+        prop.put("mail.smtp.port",587);
+        prop.put("mail.smtp.auth","true");
+        prop.put("mail.smtp.auth","true");
+        prop.put("mail.smtp.ssl.enable","true");
+        prop.put("mail.smtps.ssl.protocols","TLSv1.2");
+        prop.put("mail.smtp.ssl.trust","smtp.naver.com");
+        
+        // prop, 사용자정보 기반으로 session 인스턴스 생성
+        Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+        	protected PasswordAuthentication getPasswordAuthentication() {
+        		return new PasswordAuthentication(user, password);
+        	}
+        });
+        
+        // Message 클래스의 객체를 사용하여 수신자, 내용, 제목 작성
+        try {
+        	MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(user));
+			
+			// 수신자 메일주소
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverMail));
+			
+			// 제목
+			message.setSubject("제목");
+			
+			// 내용
+			message.setText("내용");
+			
+			// 작성한 메세지 전달
+			Transport.send(message);
+			
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+	}
+	*/
 	
 }

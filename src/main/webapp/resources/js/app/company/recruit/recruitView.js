@@ -116,7 +116,7 @@ $(function() {
 								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
 								<td><a href="javascript:;" class="aptTestDetail" data-test-no="${v.testNo}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
-								<td>${v.aprocScr}</td>
+								<td>${v.aprocScr??"-"}</td>
 						`;
 
 					// 마감일 시 초기화면 합불여부 관리 disabled 처리
@@ -191,7 +191,7 @@ $(function() {
 								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
 								<td><a href="javascript:;" class="techTestDetail" data-test-no="${v.testNo}" data-users-nm="${v.users.usersNm}">결과지확인</a></td>
 								<td>${v.aprocDate}</td>
-								<td>${v.aprocScr}</td>
+								<td>${v.aprocScr??"-"}</td>
 						`;
 
 					// 마감일 시 초기화면 합불여부 관리 disabled 처리
@@ -311,7 +311,7 @@ $(function() {
 						} else {
 							schdResult += `
 										<td>
-											<buttton type="button" class="btnSizeXS colorBlue">안내발송</buttton><br>
+											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn">안내발송</buttton><br>
 											<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>

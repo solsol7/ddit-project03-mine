@@ -120,8 +120,8 @@ $(function(){
 						<input type="hidden" name="testResultVO[${i}].rprocOrder" value="${rprocOrder }" />
 						<tr>
 							<td class="td-score-title" >${i+1}</td>
-								<input type="hidden" name="testResultVO[${i}].qstnNo" value="${i+1}" />					
-							<td class="td-score">
+								<input type="hidden" name="testResultVO[${i}].qstnNo" value="${i+1}" />	
+							<td class="td-score testResultVO[${i}].techScore">
 								<input type="number" name="testResultVO[${i}].techScore" class="inpTypo input-score" />
 							</td>
 						</tr>
@@ -144,8 +144,6 @@ $(function(){
 						v.value = "";
 					})
 				}
-						
-				
 				
 				if(rprocEnd=='Y'){
 					$(techScoreSubmitForm).find(":input").attr("disabled","disabled");
@@ -178,6 +176,30 @@ $(function(){
 				type: "post",
 				success : function(resp){
 					console.log(resp);
+					if(resp.message == "INVALIDATE"){
+						console.log(resp.errors);
+						
+						/* 있던 오류메세지 지우기 */
+						let errors = $('.errors');
+						$.each(errors, function(i,v){
+							v.remove();
+						})
+						
+						/* 오류메세지 띄우기 */
+						$.each(resp.errors, function(i,v){
+							console.log(i);
+							$(`input[name='${i}']`).parent().append(`<span class="errors"><br/>${v}</span>`);
+							
+						})
+					}else if(resp.message == "OK"){
+						alert("저장 성공");
+						location.reload();
+					}else{
+						alert("저장 실패");
+						location.reload();
+					}
+					
+				
 				},
 				error : function(xhr){
 					console.log(xhr.status);

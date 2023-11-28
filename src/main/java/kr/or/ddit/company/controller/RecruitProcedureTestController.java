@@ -71,15 +71,19 @@ public class RecruitProcedureTestController {
 		Map<String, Object> resultMap = new HashMap<>();
 		
 		String message = null;
-		List<FieldError> fieldErrors = null;
+		
 		if(errors.hasErrors()) {
-			fieldErrors = errors.getFieldErrors();
+			List<FieldError> fieldErrors = errors.getFieldErrors();
 			// 모든 에러에 대한 정보
+			Map<String, Object> errorMap = new HashMap<>();
 			
 			for(FieldError error : fieldErrors) {
-				resultMap.put(error.getField(), error.getDefaultMessage());
+				if(error.getCode().equals("NotNull")) {
+					errorMap.put(error.getField(), "공백일 수 없습니다.");					
+				}
 			}
 			
+			resultMap.put("errors", errorMap);
 			message = "INVALIDATE";
 		}else {
 			ServiceResult result = service.modifyTechScore(outerVO);
@@ -95,7 +99,8 @@ public class RecruitProcedureTestController {
 			}
 		
 		}
-		
+
+		resultMap.put("message", message);
 		
 		return resultMap;
 	}

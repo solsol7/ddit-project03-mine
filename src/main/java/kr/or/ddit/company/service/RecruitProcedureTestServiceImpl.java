@@ -1,6 +1,8 @@
 package kr.or.ddit.company.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -37,6 +39,7 @@ public class RecruitProcedureTestServiceImpl implements RecruitProcedureTestServ
 	public ServiceResult modifyTechScore(TestResultOuterVO outerVO) {
 		boolean successFlag = true;
 		
+		int totalScore = 0;
 		for(TestResultVO result : outerVO.getTestResultVO()) {
 			int rowcnt =  dao.updateTechScore(result);
 			if(rowcnt > 0) {
@@ -44,7 +47,21 @@ public class RecruitProcedureTestServiceImpl implements RecruitProcedureTestServ
 			}else {
 				successFlag &= false;
 			}
+			
+			totalScore += result.getTechScore();
 		}
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("testResultVO", outerVO.getTestResultVO().get(0));
+		paramMap.put("totalScore", totalScore);
+		
+		int totalScoreCnt = dao.updateAprocScore(paramMap);
+		if(totalScoreCnt > 0) {
+			successFlag &= true;
+		}else {
+			successFlag &= false;
+		}
+		
 		
 		ServiceResult result = null;
 		

@@ -326,7 +326,7 @@
 						ORDER BY APROC_DATE DESC
 					</when>
 					<when test='variousCondition.sortCategory eq "score"'>
-						ORDER BY APROC_DATE DESC
+						ORDER BY APROC_SCR DESC
 					</when>
 				</choose>
 			) RN

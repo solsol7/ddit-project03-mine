@@ -63,11 +63,19 @@
 	 <update id="updateTechScore" parameterType="TestResultVO">
 	 	UPDATE test_result
 		SET
-		    tech_score = #{techScore}
+		    tech_score = #{techScore, jdbcType=NUMERIC}
 		WHERE
 		    rcrt_no = #{rcrtNo}
 		    AND rproc_order = #{rprocOrder}
 		    AND apl_no = #{aplNo}
 		    AND qstn_no = #{qstnNo}
+	 </update>
+	 
+	 <update id="updateAprocScore" parameterType="HashMap">
+		UPDATE A_PROCEDURE
+		SET APROC_SCR = #{totalScore}
+		WHERE RCRT_NO = #{testResultVO.rcrtNo}
+		    AND RPROC_ORDER = #{testResultVO.rprocOrder}
+		    AND APL_NO = #{testResultVO.aplNo}
 	 </update>
 </mapper>

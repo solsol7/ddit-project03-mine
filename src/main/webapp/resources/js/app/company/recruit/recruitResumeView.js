@@ -231,7 +231,14 @@ $(function(){
 			data : data,
 			type: "post",
 			success : function(resp){
-				console.log(resp);
+				if(resp=="OK"){
+					alert("저장 성공");
+				}else{
+					alert("저장 실패");
+				}
+				
+				location.reload();
+				
 			},
 			error : function(xhr){
 				console.log(xhr.status);

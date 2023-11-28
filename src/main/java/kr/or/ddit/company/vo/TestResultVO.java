@@ -2,6 +2,8 @@ package kr.or.ddit.company.vo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,5 +19,6 @@ public class TestResultVO implements Serializable{
 	private String aplNo;
 	private Integer rprocOrder;
 	private String rsltSelect;
-	private int techScore;
+	@NotNull
+	private Integer techScore;
 }

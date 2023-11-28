@@ -98,26 +98,26 @@
 			#{rcrtNo, jdbcType=VARCHAR}
 			, #{rprocOrder, jdbcType=NUMERIC}
 			, #{aplNo, jdbcType=VARCHAR}
-    		, #{scrEdu, jdbcType=NUMERIC}
-		    , #{scrLang, jdbcType=NUMERIC}
-		    , #{scrCareer, jdbcType=NUMERIC}
-		    , #{scrCer, jdbcType=NUMERIC}
-		    , #{scrIa, jdbcType=NUMERIC}
-		    , #{scrOs, jdbcType=NUMERIC}
-		    , #{scrEtc, jdbcType=NUMERIC}
+    		, NVL(#{scrEdu, jdbcType=NUMERIC},0)
+		    , NVL(#{scrLang, jdbcType=NUMERIC},0)
+		    , NVL(#{scrCareer, jdbcType=NUMERIC},0)
+		    , NVL(#{scrCer, jdbcType=NUMERIC},0)
+		    , NVL(#{scrIa, jdbcType=NUMERIC},0)
+		    , NVL(#{scrOs, jdbcType=NUMERIC},0)
+		    , NVL(#{scrEtc, jdbcType=NUMERIC},0)
 		 )
 	</insert>
 	
 	<update id="updateResumeScore" parameterType="ResumeScoreVO">
 		UPDATE resume_score
 		SET
-		    scr_edu = #{scrEdu, jdbcType=NUMERIC}
-		    , scr_lang = #{scrLang, jdbcType=NUMERIC}
-		    , scr_career = #{scrCareer, jdbcType=NUMERIC}
-		    , scr_cer = #{scrCer, jdbcType=NUMERIC}
-		    , scr_ia = #{scrIa, jdbcType=NUMERIC}
-		    , scr_os = #{scrOs, jdbcType=NUMERIC}
-		    , scr_etc = #{scrEtc, jdbcType=NUMERIC}
+		    scr_edu = NVL(#{scrEdu, jdbcType=NUMERIC},0)
+		    , scr_lang = NVL(#{scrLang, jdbcType=NUMERIC},0)
+		    , scr_career = NVL(#{scrCareer, jdbcType=NUMERIC},0)
+		    , scr_cer = NVL(#{scrCer, jdbcType=NUMERIC},0)
+		    , scr_ia = NVL(#{scrIa, jdbcType=NUMERIC},0)
+		    , scr_os = NVL(#{scrOs, jdbcType=NUMERIC},0)
+		    , scr_etc = NVL(#{scrEtc, jdbcType=NUMERIC},0)
 		WHERE
 		  rcrt_no = #{rcrtNo}
 			AND rproc_order	= #{rprocOrder}
