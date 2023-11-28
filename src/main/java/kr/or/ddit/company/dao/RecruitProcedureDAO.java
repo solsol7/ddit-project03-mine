@@ -6,8 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.RecruitVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.ResumeScoreVO;
 import kr.or.ddit.company.vo.TestResultVO;
@@ -77,4 +79,18 @@ public interface RecruitProcedureDAO {
 	 */
 	public int selectResumeScoreFormCount(Map<String, Object> paramMap);
 	
+	/**
+	 * 기업정보 조회
+	 */
+	public CompanyVO selectCompanyInfo(String companyId);
+	
+	/**
+	 * 메일 - 채용공고 정보 조회
+	 */
+	public RecruitVO selectRecruitInfo(String rcrtNo);
+	
+	/**
+	 * 메일 - 채용절차 지원자 이메일 조회
+	 */
+	public List<String> selectApplicantEmailList(AProcedureVO aprocVO);
 }

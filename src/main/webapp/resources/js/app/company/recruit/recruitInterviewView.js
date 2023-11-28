@@ -58,14 +58,10 @@ $(function(){
 					<input type="text" name="intrIntdate" class="intrSchdItem intrIntdate"/><br />
 					<div class="intrItemTitle intrPlace">면접장소</div>
 					<input type="text" name="intrPlace" class="intrSchdItem intrPlace"/><br />
-					<div class="intrItemTitle">안내발송</div>
+					<div class="intrItemTitle">메일발송</div>
 					<div class="alarmArea">
 						<input type="radio" name="alarm" value="Y"/> 발송<br/>
 						<input type="radio" name="alarm" value="N"/> 발송안함<br/>
-					</div>
-					<div class="alarmArea alarmSecond">
-						<input type="checkbox" name="alarmType" value="" class="resumeScoreCheckbox" /> 메일
-						<input type="checkbox" name="alarmType" value="" class="resumeScoreCheckbox" /> 알림
 					</div>
 					<textarea class="txtAStyle"></textarea>
 				</form>
@@ -186,16 +182,36 @@ $(function(){
 		}
 	})
 	
-	/* 안내발송 클릭 */
-	$(document).on("click",'.sendMailBtn',function(){
+	$(document).on("click",".sendMailBtn",function(){
+		let name = $(this).data("usersNm");
+		let email = $(this).data("memMail")
+		let mailForm = `
+				<div>
+					<div class="intrItemTitle">받는사람</div>
+					<input type="text" value="${name}" class="intrSchdItem mail-form" readonly /> <br />
+					<div class="intrItemTitle">이메일</div>
+					<input type="text" name="toMail" value="ddit2305@naver.com" class="intrSchdItem mail-form" readonly /> <br />
+					<div class="intrItemTitle intrPlace">제목</div>
+					<input type="text" name="title" class="intrSchdItem mail-form"/><br />
+					<div class="intrItemTitle">내용</div>
+					<textarea class="txtAStyle" name="contents"></textarea>
+				</div>
+			`;
+		$("#sendMail-modal-body").html(mailForm);
+	})
+	
+	/* 안내발송 - 확인버튼 클릭*/
+	$('#sendMailBtn').on("click",function(){
+		let data = $(sendMailForm).serialize();
+		console.log(data);
 		$.ajax({
-			url : `${cPath}/company/recruit/mail`,
-			data : {
-				"receiverMail" : "ddit2305@naver.com"
-			},
+			url : `${cPath}/company/recruit/interview/mail`,
+			data : data,
 			type : "get",
 			success : function(resp){
-				console.log("성공");
+				alert("발송 성공");
+				$('.closeModal').trigger("click");
+				$('.intrInfoBtn').eq(1).trigger("click");
 			},
 			error : function(xhr){
 				console.log(xhr.status);

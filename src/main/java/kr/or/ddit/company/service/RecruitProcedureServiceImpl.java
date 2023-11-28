@@ -12,8 +12,10 @@ import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.dao.RecruitProcedureDAO;
 import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.InterviewSchdVO;
 import kr.or.ddit.company.vo.RProcedureVO;
+import kr.or.ddit.company.vo.RecruitVO;
 import kr.or.ddit.company.vo.ResumeFormVO;
 import kr.or.ddit.company.vo.ResumeScoreVO;
 import kr.or.ddit.company.vo.TestResultVO;
@@ -160,6 +162,24 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		}
 		
 		return result;
+	}
+
+	/* 기업정보 조회 */
+	@Override
+	public CompanyVO retrieveCompanyInfo(String companyId) {
+		return dao.selectCompanyInfo(companyId);
+	}
+	
+	/* 메일 - 채용공고 정보 조회 */
+	@Override
+	public RecruitVO retrieveRecruitInfo(String rcrtNo) {
+		return dao.selectRecruitInfo(rcrtNo);
+	}
+
+	/* 메일 - 채용절차 지원자 이메일 조회 */
+	@Override
+	public List<String> retrieveApplicantEmailList(AProcedureVO aprocVO) {
+		return dao.selectApplicantEmailList(aprocVO);
 	}
 
 }

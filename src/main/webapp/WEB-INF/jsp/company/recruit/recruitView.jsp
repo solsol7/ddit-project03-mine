@@ -92,7 +92,7 @@
 			</div>
 
 			<!-- Modal body -->
-			<div class="modal-body modalBody  modalBody-les" id="intrSchdUpdate-modal-body">
+			<div class="modal-body modalBody  modalBody-les text-left" id="intrSchdUpdate-modal-body">
 				<!-- 면접일정 등록 양식 출력되는 곳 -->
 			</div>
 
@@ -106,6 +106,34 @@
 	</div>
 </div>
 <%-- 면접일정 생성 모달 끝 --%>
+
+<%-- 메일발송 모달 --%>
+<div id="sendMailModal" class="modal fade modal-les">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header  modalHeader-les">
+				<div class="resumeScore">메일 발송</div>
+			</div>
+			
+			<!-- Modal body -->
+			<form id="sendMailForm">
+				<div class="modal-body modalBody modalBody-les text-left" id="sendMail-modal-body">
+					<!-- 입력양식 출력되는 곳 -->
+				</div>
+			</form>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary closeModal"
+					data-bs-dismiss="modal">취소</button>
+				<button type="submit" class="btn btn-primary" id="sendMailBtn">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+<%-- 메일발송 모달 끝 --%>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

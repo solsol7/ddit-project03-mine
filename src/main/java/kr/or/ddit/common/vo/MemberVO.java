@@ -2,13 +2,21 @@ package kr.or.ddit.common.vo;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import kr.or.ddit.company.vo.CompanyVO;
+import kr.or.ddit.users.vo.UsersVO;
 import kr.or.ddit.validate.grouphint.InsertGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(of = "memId")
@@ -22,16 +30,19 @@ public class MemberVO implements Serializable{
 	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{8,20}$")
 	@Size(min = 8, max = 20)
 	@NotBlank (groups = InsertGroup.class)
-	private String memPass;
+	@ToString.Exclude // toString 제외
+	@JsonIgnore // 마샬링 제외
+	private transient String memPass;
 	
-	@Pattern(regexp = "\\d{3}-\\d{3,4}-\\d{4}")
+	
 	@NotBlank (groups = InsertGroup.class)
 	private String memTel;
 	
+	@Email
 	@NotBlank (groups = InsertGroup.class)
 	private String memMail;
 	
-	@NotBlank (groups = InsertGroup.class)
+	@NotNull (groups = InsertGroup.class)
 	private int memZip;
 	
 	@NotBlank (groups = InsertGroup.class)
@@ -40,10 +51,19 @@ public class MemberVO implements Serializable{
 	@NotBlank (groups = InsertGroup.class)
 	private String memAddr2;
 	
-	@NotBlank (groups = InsertGroup.class)
+	
 	private String memDivision;
 	
+	private String memDelete;
 	
+	
+	@Valid
+	private UsersVO users;
+	
+	private CompanyVO company;
+	
+	
+
 	
 	
 

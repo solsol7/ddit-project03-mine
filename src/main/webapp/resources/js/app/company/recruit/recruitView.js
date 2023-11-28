@@ -311,7 +311,10 @@ $(function() {
 						} else {
 							schdResult += `
 										<td>
-											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn">안내발송</buttton><br>
+											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn"
+												data-bs-toggle="modal" data-bs-target="#sendMailModal"
+												data-users-nm="${v.users.usersNm}"
+												data-mem-mail="${v.memMail}">메일발송</buttton><br>
 											<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
@@ -593,8 +596,20 @@ $(function() {
 	$('#procedureCloseBtn').on("click", function() {
 		let closeConfirm = confirm("마지막 상태가 저장된 후 마감됩니다. 채용절차를 마감하시겠습니까?");
 		if (closeConfirm) {
-			confirmStatusForm.action = `${cPath}/company/recruit/closeStatus`;
-			confirmStatusForm.requestSubmit();
+			$.ajax({
+				url : `${cPath}/company/recruit/mail/${rcrtNo}/${rprocOrder}`,
+				type : "get",
+				success : function(resp){
+					console.log("성공");
+			
+					confirmStatusForm.action = `${cPath}/company/recruit/closeStatus`;
+					confirmStatusForm.requestSubmit();
+				},
+				error : function(xhr){
+					console.log(xhr.status);
+				}
+			});
+			
 		}
 	})
 	

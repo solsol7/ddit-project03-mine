@@ -1,33 +1,17 @@
 package kr.or.ddit.company.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,15 +22,12 @@ import kr.or.ddit.common.enumpkg.ServiceResult;
 import kr.or.ddit.company.service.RecruitProcedureService;
 import kr.or.ddit.company.vo.AProcedureOuterVO;
 import kr.or.ddit.company.vo.AProcedureVO;
-import kr.or.ddit.company.vo.InterviewSchdVO;
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.RProcedureVO;
-import kr.or.ddit.company.vo.ResumeFormVO;
-import kr.or.ddit.company.vo.ResumeScoreVO;
-import kr.or.ddit.company.vo.TestResultVO;
-import kr.or.ddit.company.vo.TestVO;
+import kr.or.ddit.company.vo.RecruitVO;
 import kr.or.ddit.paging.BootstrapPaginationRenderer;
 import kr.or.ddit.paging.vo.PaginationInfo;
-import kr.or.ddit.users.vo.ResumeAttatchVO;
+import kr.or.ddit.utils.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -70,6 +51,10 @@ public class RecruitProcedureController {
 			,@RequestParam(value = "page", defaultValue = "1", required = false) int currentPage
 	) {
 		PaginationInfo<Map<String, Object>> paging = new PaginationInfo<>(3,5);
+		
+		String companyId = "lg001";
+		variousCondition.put("companyId", companyId);
+		
 		paging.setVariousCondition(variousCondition);
 		paging.setCurrentPage(currentPage);
 		
@@ -174,60 +159,98 @@ public class RecruitProcedureController {
 		return String.format("redirect:/company/recruit/%s/%d", rcrtNo, rprocOrder);
 	}
 	
-	/* 이메일 전송 컨트롤러 */
-	/*
-	@GetMapping("recruit/mail")
+
+	/* 마감 알림 메일 컨트롤러 */
+	@GetMapping(value ="/recruit/mail/{rcrtNo}/{rprocOrder}",produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public void sendMail(
-			@RequestParam String receiverMail
-	) {
-		// 발신자 계정 셋팅
-		String user = "ddit2305@naver.com";
-        String password = "roqkfdnjs2305!!";
-        
-        // SMTP 서버 정보 설정
-        Properties prop = new Properties();
-        
-        // SMTP 서버 - gmail : smtp.gmail.com, naver : smtp.naver.com
-        prop.put("mail.smtp.host", "smtp.naver.com");
-        // SMTP서버와 통신하는 포트 - gmail : 465, naver : 587
-        prop.put("mail.smtp.port",587);
-        prop.put("mail.smtp.auth","true");
-        prop.put("mail.smtp.auth","true");
-        prop.put("mail.smtp.ssl.enable","true");
-        prop.put("mail.smtps.ssl.protocols","TLSv1.2");
-        prop.put("mail.smtp.ssl.trust","smtp.naver.com");
-        
-        // prop, 사용자정보 기반으로 session 인스턴스 생성
-        Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
-        	protected PasswordAuthentication getPasswordAuthentication() {
-        		return new PasswordAuthentication(user, password);
-        	}
-        });
-        
-        // Message 클래스의 객체를 사용하여 수신자, 내용, 제목 작성
-        try {
-        	MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
-			
-			// 수신자 메일주소
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverMail));
-			
-			// 제목
-			message.setSubject("제목");
-			
-			// 내용
-			message.setText("내용");
-			
-			// 작성한 메세지 전달
-			Transport.send(message);
-			
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void sendCloseMail(
+//			String toMail,
+			HttpServletRequest request
+			, @PathVariable String rcrtNo
+			, @PathVariable int rprocOrder
+//			, @SessionAttribute("authId") String companyId
+			) throws Exception {
+		/*
+		// 방법1
+		ServletContext context = request.getSession().getServletContext();		
+		Properties prop = new Properties();
+		prop.load(context.getResourceAsStream("WEB-INF/properties/sample2.properties"));
+		*/
+		
+		/* 방법2
+		Reader	reader= Resources.getResourceAsReader("/properties/sample.properties");
+		Properties prop = new Properties();
+		prop.load(reader);
+		*/
+		
+		
+		String companyId = "lg001";
+		CompanyVO companyVO = service.retrieveCompanyInfo(companyId);
+		String fromName = companyVO.getCompanyNm();
+		String url = "https://enjoyed-ultimate-finch.ngrok-free.app/FinalProject/";
+
+		RecruitVO recruitVO = service.retrieveRecruitInfo(rcrtNo);
+		String rcrtTitle = recruitVO.getRcrtTitle();
+		
+		AProcedureVO aprocVO = new AProcedureVO();
+		aprocVO.setRcrtNo(rcrtNo);
+		aprocVO.setRprocOrder(rprocOrder);
+		List<String> emailList = service.retrieveApplicantEmailList(aprocVO);
+		
+		String contents =  String.format("[%s]<br>채용절차가 마감되었습니다. 결과를 확인하세요.<br><a href='%s'>결과 확인하기</a>", rcrtTitle, url);
+		Map<String, String> mailDTO = new HashMap<String, String>();
+		mailDTO.put("fromMail", "ddit2305@naver.com");
+		mailDTO.put("password", "roqkfdnjs2305!!");
+		mailDTO.put("title", "채용절차 마감 안내");
+		mailDTO.put("fromName",fromName);
+		mailDTO.put("contents",contents);
+		
+		for(String email : emailList) {
+			mailDTO.put("toMail", email);
+			MailUtil.sendMail(mailDTO);
 		}
-        
+		
 	}
-	*/
+	
+	
+	/* 면접일정 메일 전송 컨트롤러 */
+	@GetMapping(value ="/recruit/interview/mail",produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public void sendIntrSchdMail(
+			//String toMail,HttpServletRequest request
+			@RequestParam Map<String, String> mailDTO
+//			, @SessionAttribute("authId") String companyId
+			
+	) throws Exception {
+
+		// 방법1
+		/*
+		ServletContext context = request.getSession().getServletContext();		
+		Properties prop = new Properties();
+		prop.load(context.getResourceAsStream("WEB-INF/properties/sample2.properties"));
+		*/
+		
+		/* 방법2
+		Reader	reader= Resources.getResourceAsReader("/properties/sample.properties");
+		Properties prop = new Properties();
+		prop.load(reader);
+		*/
+		
+		String companyId = "lg001";
+		CompanyVO companyVO = service.retrieveCompanyInfo(companyId);
+		
+		String fromName = companyVO.getCompanyNm();
+		
+		mailDTO.put("fromMail", "ddit2305@naver.com");
+		mailDTO.put("password", "roqkfdnjs2305!!");
+		mailDTO.put("fromName",fromName);
+		
+		log.info("체킁{}",mailDTO);
+		
+		MailUtil.sendMail(mailDTO);
+
+	}
+	
+	
 	
 }

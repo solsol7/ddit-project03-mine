@@ -1,8 +1,10 @@
 package kr.or.ddit.common.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.or.ddit.common.vo.MemberVO;
+import kr.or.ddit.users.vo.UsersVO;
 
 /**
  * @author 김소원
@@ -29,4 +31,45 @@ public interface MemberDAO {
 	 * @return
 	 */
 	public MemberVO selectUsersForAuth (MemberVO inputData);
+	
+	/**
+	 * 개인 회원가입
+	 * @param inputData
+	 * @return
+	 */
+	public int createMember (MemberVO inputData);
+	
+	/**
+	 * 기업 회원가입
+	 * @param inputData
+	 * @return
+	 */
+	public int createCompanyMember(MemberVO inputData); 
+	
+	/**
+	 * 아이디 중복 체크
+	 * @param memId
+	 * @return
+	 */
+	public int selectMemId(@Param("memId")String memId);
+	
+	
+	/**
+	 * 비밀번호 찾기
+	 * @param memberVO
+	 * @return
+	 */
+	public int selectPwFind(MemberVO memberVO);
+	
+	
+	/**
+	 * 비밀번호 랜덤 업데이트
+	 * @param memberVO
+	 * @return
+	 */
+	public int modifyPw(MemberVO memberVO);
+	
+	
+	
+	
 }

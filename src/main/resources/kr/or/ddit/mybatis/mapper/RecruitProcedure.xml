@@ -508,8 +508,65 @@
 		    AND RPROC_ORDER = #{rprocOrder}
 	</select>
 	
+	<!-- 기업 정보 조회 -->
+	<select id="selectCompanyInfo" parameterType="string" resultType="CompanyVO">
+		SELECT
+		    COMPANY_ID,
+		    COMPANY_NUM,
+		    COMPANY_FILE,
+		    COMPANY_DNM,
+		    COMPANY_NM,
+		    COMPANY_DATE,
+		    COMPANY_PERMISSION
+		FROM
+		    COMPANY
+		WHERE
+			COMPANY_ID=#{companyId}
+	</select>
+
+	<!-- 메일 - 채용공고 정보 조회 -->
+	<select id="selectRecruitInfo" resultType="RecruitVO" parameterType="string">
+		SELECT
+		    RCRT_NO,
+		    COMPANY_ID,
+		    RCRT_TITLE,
+		    RCRT_HIT,
+		    RCRT_KEYWORDNM,
+		    RCRT_FIELD,
+		    RCRT_PERSON,
+		    RCRT_CAREER,
+		    RCRT_CONDITION,
+		    RCRT_EDU,
+		    RCRT_LOC,
+		    RCRT_TYPE,
+		    RCRT_SALARY,
+		    RCRT_WEEK,
+		    RCRT_DATE,
+		    RCRT_SDATE,
+		    RCRT_EDATE,
+		    RCRT_NM,
+		    RCRT_TEL,
+		    RCRT_MAIL,
+		    RCRT_WLFR,
+		    RCRT_RECTYPE,
+		    RCRT_STIME,
+		    RCRT_ETIME,
+		    RCRT_DELETE
+		FROM
+		    RECRUIT
+		WHERE RCRT_NO = 'RCRT_00047'
+	</select>
 	
-	<!-- ==================================상세조회 관리 관련==================================  -->
-
-
+	<!-- 메일 - 채용절차 지원자 이메일 조회 -->
+	<select id="selectApplicantEmailList" resultType="string" parameterType="AProcedureVO">
+		SELECT
+		    MEM_MAIL
+		FROM
+		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+		        INNER JOIN MEMBER ON USERS_ID=MEM_ID
+		WHERE
+			RCRT_NO = #{rcrtNo}
+			AND RPROC_ORDER = #{rprocOrder}
+	</select>
+	
 </mapper>

@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import kr.or.ddit.common.vo.MemberVO;
 import kr.or.ddit.validate.grouphint.InsertGroup;
 import lombok.Data;
 

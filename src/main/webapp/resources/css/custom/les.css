@@ -201,6 +201,14 @@
 	text-align: left;
 }
 
+.text-left{
+	text-align: left;
+}
+
+.mail-form{
+	width : 350px;
+}
+
 .intrItemTitle{
 	display: inline-block;
 	width : 100px;
