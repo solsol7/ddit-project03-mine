@@ -51,6 +51,24 @@
 }
 
 /*============================================= 채용절차 - recruit-process ============================================= */
+.mailForm{
+	padding: 0 13px 2px;
+    height: 330px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #222;
+    font-family: "Malgun Gothic",gulim,dotum,sans-serif;
+    letter-spacing: -1px;
+    line-height: 36px;
+    vertical-align: middle;
+    background-color: #fff;
+    margin : 5px;
+}
+
+.mailTitle{
+	width: 40px !important;
+}
 
 .errors{
 	font-size : 0.8rem;

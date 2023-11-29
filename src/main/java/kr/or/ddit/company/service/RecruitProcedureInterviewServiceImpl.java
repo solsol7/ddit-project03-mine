@@ -1,5 +1,7 @@
 package kr.or.ddit.company.service;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -19,6 +21,21 @@ public class RecruitProcedureInterviewServiceImpl implements RecruitProcedureInt
 	@Override
 	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO) {
 		int rowcnt = dao.insertInterviewSchd(interviewSchdVO);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+	
+	/* 면접알림 테이블 등록 */
+	@Override
+	public ServiceResult createIntrMail(Map<String, String> paramMap) {
+		int rowcnt = dao.insertIntrMail(paramMap);
 		
 		ServiceResult result = null;
 		if(rowcnt > 0) {
@@ -50,5 +67,6 @@ public class RecruitProcedureInterviewServiceImpl implements RecruitProcedureInt
 		
 		return result;
 	}
-	
+
+
 }

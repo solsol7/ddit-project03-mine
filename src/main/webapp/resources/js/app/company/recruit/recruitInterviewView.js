@@ -38,6 +38,7 @@ $(function(){
 		let usersNm = $(this).data("usersNm");
 		let aplNo = $(this).data("aplNo");
 		let memMail = $(this).data("memMail");
+		let intrNo = $(this).data("intrNo");
 		
 		let schdTag = `
 			<div class="resumeScoreModalCont">
@@ -47,7 +48,8 @@ $(function(){
 					<input type="hidden" name="aplNo" value="${aplNo}" />
 					<input type="hidden" name="rcrtNo" value="${rcrtNo}" />
 					<input type="hidden" name="rprocOrder" value="${rprocOrder}" />
-					<input type="hidden" name="memMail" value="${memMail}" />
+					<input type="hidden" name="toMail" value="${memMail}" />
+					<input type="hidden" name="intrNo" value="${intrNo}" />
 					<div class="intrItemTitle">면접유형</div>
 					<select name="intrType" class="intrSchdItem intrType">
 						<option value="I01">대면면접</option>
@@ -60,10 +62,15 @@ $(function(){
 					<input type="text" name="intrPlace" class="intrSchdItem intrPlace"/><br />
 					<div class="intrItemTitle">메일발송</div>
 					<div class="alarmArea">
-						<input type="radio" name="alarm" value="Y"/> 발송<br/>
-						<input type="radio" name="alarm" value="N"/> 발송안함<br/>
+						<input type="radio" name="mail_yn" class="mail_yn" value="Y"/>발송
+						<input type="radio" name="mail_yn" class="mail_yn" value="N" checked/> 발송안함
+					</div><br/>
+					<div class="mailForm" style="display:none">
+						<div class="intrItemTitle intrPlace mailTitle">제목</div>
+						<input type="text" name="title" class="intrSchdItem mail-form"/><br />
+						<div class="intrItemTitle">내용</div>
+						<textarea class="txtAStyle" name="contents"></textarea>
 					</div>
-					<textarea class="txtAStyle"></textarea>
 				</form>
 			</div>
 		`;
@@ -71,21 +78,47 @@ $(function(){
 		$('#intrSchd-modal-body').html(schdTag);
 	})
 	
+
 	$(document).on("click", ".intrIntdate", function () {
 	    $(this).datepicker({
 	        dateFormat: 'yy-mm-dd'
 	    }).datepicker("show");
 	});
 	
+	$(document).on("change",".mail_yn",function(){
+		if($(this).val()=="Y"){
+			$('.mailForm').attr("style", "display:");
+			$('input[name=title]').val("");
+			$('input[name=contents]').val("");
+		}else{
+			$('.mailForm').attr("style", "display:none");
+		}
+	})
+	
 	/* 확인 버튼 클릭 */
 	$("#intrSchdBtn").on("click",function(){
 		let data = $(intrSchdForm).serialize();
-		
 		$.ajax({
 			url : `${cPath}/company/recruit/interviewSchd`,
 			data : data,
 			type : "post",
 			success : function(resp){
+				let mailYn = $("input[name=mail_yn]:checked").val()
+				
+				if(mailYn=="Y"){
+					$.ajax({
+						url : `${cPath}/company/recruit/interview/mail`,
+						data : data,
+						type : "get",
+						success : function(resp){
+							alert("발송 성공");
+						},
+						error : function(xhr){
+							console.log(xhr.status);
+						}
+					})
+				}
+				
 				if (resp == "OK") {
 					alert("등록 성공")
 				} else {
@@ -98,6 +131,7 @@ $(function(){
 				console.log(xhr.status);
 			}
 		})
+		
 	})
 	
 	/* 면접 일정 수정 */
@@ -173,6 +207,7 @@ $(function(){
 		})
 	})
 	
+	/* 면접유형 - 대면면접 선택 시에만 면접장소 입력칸 생성 */
 	$(document).on("change",".intrType",function(){
 		if($(this).val()=="I01"){
 			$('.intrPlace').attr("style", "display:");
@@ -182,11 +217,14 @@ $(function(){
 		}
 	})
 	
+	/* 메일발송 버튼 클릭 */
 	$(document).on("click",".sendMailBtn",function(){
 		let name = $(this).data("usersNm");
 		let email = $(this).data("memMail")
+		let intrNo = $(this).data("intrNo");
 		let mailForm = `
 				<div>
+					<input type="hidden" name="intrNo" value="${intrNo}" />
 					<div class="intrItemTitle">받는사람</div>
 					<input type="text" value="${name}" class="intrSchdItem mail-form" readonly /> <br />
 					<div class="intrItemTitle">이메일</div>
@@ -209,9 +247,15 @@ $(function(){
 			data : data,
 			type : "get",
 			success : function(resp){
-				alert("발송 성공");
-				$('.closeModal').trigger("click");
-				$('.intrInfoBtn').eq(1).trigger("click");
+				if(resp=="OK"){
+					alert("발송 성공");
+					$('.closeModal').trigger("click");
+					$('.intrInfoBtn').eq(1).trigger("click");
+				}else{
+					alert("발송 실패");
+					$('.closeModal').trigger("click");
+					$('.intrInfoBtn').eq(1).trigger("click");
+				}
 			},
 			error : function(xhr){
 				console.log(xhr.status);

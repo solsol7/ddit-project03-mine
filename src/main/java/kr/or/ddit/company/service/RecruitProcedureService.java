@@ -67,4 +67,10 @@ public interface RecruitProcedureService {
 	 * 메일 - 채용절차 지원자 이메일 조회
 	 */
 	public List<String> retrieveApplicantEmailList(AProcedureVO aprocVO);
+	
+
+	/**
+	 * 엑셀 - 지원자 목록 조회
+	 */
+	public List<AProcedureVO> retrieveApplicantList(Map<String, Object> paramMap);
 }

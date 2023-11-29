@@ -1,5 +1,10 @@
 package kr.or.ddit.company.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +12,20 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +56,9 @@ public class RecruitProcedureController {
 	
 	@Inject
 	private RecruitProcedureService service;
+	
+	@Value("#{appInfo.recruitFiles}")
+	private Resource uploadFolder;
 	
 	/* 채용공고 목록 조회 */
 	@GetMapping("recruitListUI")
@@ -212,45 +234,178 @@ public class RecruitProcedureController {
 		
 	}
 	
-	
-	/* 면접일정 메일 전송 컨트롤러 */
-	@GetMapping(value ="/recruit/interview/mail",produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public void sendIntrSchdMail(
-			//String toMail,HttpServletRequest request
-			@RequestParam Map<String, String> mailDTO
-//			, @SessionAttribute("authId") String companyId
+	/* 지원자 목록 다운로드 */
+	@GetMapping("recruit/applicantListDownload")
+	public ResponseEntity<Resource> applicantListDownload(
+			@RequestParam String rcrtNo
+			, @RequestParam int rprocOrder
+//			, @RequestParam String aprocPass
+	) throws IOException {
+		/* 필요한 데이터 구하기 */
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("rcrtNo", rcrtNo);
+		paramMap.put("rprocOrder", rprocOrder);
+//		paramMap.put("aprocPass", aprocPass);
+		
+		
+//		String rcrtNo = String.valueOf(paramMap.get("rcrtNo"));
+		RecruitVO recruitInfo = service.retrieveRecruitInfo(rcrtNo);
+		String rcrtTitle = recruitInfo.getRcrtTitle();
+		String rcrtDate = recruitInfo.getRcrtDate();
+		
+		RProcedureVO rprocVO = service.retrieveCurrentProcedureInfo(paramMap);
+		
+		List<AProcedureVO> applicantList = service.retrieveApplicantList(paramMap);
+		
+		
+		/* 엑셀파일 만들기 */
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		
+		XSSFSheet sheet = workbook.createSheet("지원자목록");
+		
+		// 셀 색깔 설정
+		CellStyle color = workbook.createCellStyle();
+		color.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+		color.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		// 색깔 입힐 셀 임시저장할 변수
+		Cell cell = null;
+		
+		// Row 생성
+		Row title = sheet.createRow(0);
+		
+		cell = title.createCell(0);
+		cell.setCellStyle(color);
+		cell.setCellValue("공고명");
+		title.createCell(1).setCellValue(rcrtTitle);
+		
+		// Row 생성
+		Row date = sheet.createRow(1);
+		
+		cell = date.createCell(0);
+		cell.setCellStyle(color);
+		cell.setCellValue("등록일");
+		date.createCell(1).setCellValue(rcrtDate);
+		
+		// Row 생성
+		Row procedure = sheet.createRow(2);
+		
+		cell = procedure.createCell(0);
+		cell.setCellStyle(color);
+		cell.setCellValue("진행절차");
+//		procedure.createCell(1).setCellValue(paramMap.get("rprocOrder")+"차");
+		procedure.createCell(1).setCellValue(rprocOrder+"차");
+		
+		// Row 생성
+		Row isClose = sheet.createRow(3);
+		
+		cell = isClose.createCell(0);
+		cell.setCellStyle(color);
+		cell.setCellValue("마감여부");
+		
+		String isCloseDate = (rprocVO.getRprocEnd());
+		if(isCloseDate.equals("N")) {
+			isCloseDate = "진행중";
+		}else {
+			isCloseDate = "마감";
+		}
+		isClose.createCell(1).setCellValue(isCloseDate);
+		
+		// Row 생성
+		sheet.createRow(4);
+		
+		// Row 생성
+		Row header = sheet.createRow(5);
+		
+		cell = header.createCell(0);
+		cell.setCellStyle(color);
+		cell.setCellValue("이름");
+		
+		cell = header.createCell(1);
+		cell.setCellStyle(color);
+		cell.setCellValue("생년월일");
+		
+		cell = header.createCell(2);
+		cell.setCellStyle(color);
+		cell.setCellValue("성별");
+		
+		cell = header.createCell(3);
+		cell.setCellStyle(color);
+		cell.setCellValue("지원일");
+		
+		cell = header.createCell(4);
+		cell.setCellStyle(color);
+		cell.setCellValue("합불여부");
+		
+		int length = applicantList.size();
+		
+		for(int i=0; i<length; i++) {
+			Row content = sheet.createRow(6+i);
+
+			content.createCell(0).setCellValue(applicantList.get(i).getUsers().getUsersNm());
+			content.createCell(1).setCellValue(applicantList.get(i).getUsers().getUsersBir());
+			content.createCell(2).setCellValue(applicantList.get(i).getUsers().getUsersGen());
+			content.createCell(3).setCellValue(applicantList.get(i).getAprocDate());
+			content.createCell(4).setCellValue(applicantList.get(i).getAprocPass());
+		}
+		
+		// 파일 객체를 생성하고 저장될 경로를 지정해준다.
+		File applicantListFolder = new File(uploadFolder.getFile()+"/applicantList");
+		
+		if(!applicantListFolder.exists()) {
+			applicantListFolder.mkdirs();			
+		}
+		
+
+		
+//		String fileName = UUID.randomUUID().toString();
+//		File file = new File(applicantListFolder, fileName+".xlsx");
+//		FileSystemResource resource = new FileSystemResource(file);
+		try(
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+//			굳이 불필요한 파일로 저장하고싶지 않음 -> 인메모리? 랩메모리?
+			BufferedOutputStream bout = new BufferedOutputStream(os);
+		){
+			// 컬럼 넓이 조절
+			sheet.setColumnWidth(1,(sheet.getColumnWidth(1))+550);
+			sheet.setColumnWidth(3,(sheet.getColumnWidth(3))+550);
 			
-	) throws Exception {
+			workbook.write(bout);
+			bout.flush();
+			
+			byte[] array = os.toByteArray();
+			ByteArrayResource resource = new ByteArrayResource(array);
+			
+			HttpHeaders headers = new HttpHeaders();
 
-		// 방법1
+//			Content-Disposition: attachment; filename="filename.jpg"
+			ContentDisposition disposition =  ContentDisposition.attachment()
+					.filename("지원자목록.xlsx", Charset.defaultCharset())
+					// 저장파일명, 한글이 포함되어있을 수 있기 때문에 charset 셋팅
+					.build();
+//					그릴게(inline) 아니라 다운로드해야함 -> attachment
+			
+			headers.setContentDisposition(disposition);	// 이거 안하면 다운로드가 아니라 그려버림
+			headers.setContentLength(resource.contentLength());
+//			파일을 저장할 수 있는 단위로 쪼개서 나감(청크?) ..> 몇개의 청크 -> 몇번의 다운로드? ==> contentLength
+			
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			// 뭘 다운로드 받고있는지.. 다운로드할 때는 contentType 보통 한가지로 셋팅 - APPLICATION_OCTET_STREAM
+				// -> 스트림을 그대로 카피해서 주면 됨 -> octet : 1byte : 바이트 스트림데이터를 받고있다를 의미
+			
+			return ResponseEntity.ok()	 // response의 line 셋팅 - 상태코드 200
+						.headers(headers)	// response의 헤더 셋팅 - 필요하다면 여러 개 셋팅 - 하나의 객체로 모아놓음(headers)
+						.body(resource);	// response의 바디 셋팅 -바디에 이미지파일 넣어줌
+											// 스프링이 이미지파일을 스트링카피 떠서 응답보내줌
+		}
+		
+		
 		/*
-		ServletContext context = request.getSession().getServletContext();		
-		Properties prop = new Properties();
-		prop.load(context.getResourceAsStream("WEB-INF/properties/sample2.properties"));
-		*/
-		
-		/* 방법2
-		Reader	reader= Resources.getResourceAsReader("/properties/sample.properties");
-		Properties prop = new Properties();
-		prop.load(reader);
-		*/
-		
-		String companyId = "lg001";
-		CompanyVO companyVO = service.retrieveCompanyInfo(companyId);
-		
-		String fromName = companyVO.getCompanyNm();
-		
-		mailDTO.put("fromMail", "ddit2305@naver.com");
-		mailDTO.put("password", "roqkfdnjs2305!!");
-		mailDTO.put("fromName",fromName);
-		
-		log.info("체킁{}",mailDTO);
-		
-		MailUtil.sendMail(mailDTO);
-
+		response.setContentType("ms-vnd/excel");
+		response.setHeader("Content-Disposition", "attachment;filename=example.xlsx");  //파일이름지정.
+		//response OutputStream에 엑셀 작성
+		workbook.write(response.getOutputStream());
+	*/
 	}
-	
-	
 	
 }

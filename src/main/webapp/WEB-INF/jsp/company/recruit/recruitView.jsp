@@ -266,14 +266,20 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<button type="button" class="btnSizeM colorGray">
-								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드
-							</button>
+							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+									class="btnSizeM colorGray"
+									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
+<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
+<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
+<!-- 							</button> -->
 						</div>
-
-						<button type="button" class="btnSizeM colorGray rightBtn">
-							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
-						</button>
+						
+						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+							class="btnSizeM colorGray rightBtn"
+							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
+<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
+<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
+<!-- 						</button> -->
 					</div>
 					
 					<!-- 이력서 조회&채점 -->
@@ -401,14 +407,20 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<button type="button" class="btnSizeM colorGray">
-								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드
-							</button>
+							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+									class="btnSizeM colorGray"
+									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
+<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
+<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
+<!-- 							</button> -->
 						</div>
-
-						<button type="button" class="btnSizeM colorGray rightBtn">
-							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
-						</button>
+						
+						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+							class="btnSizeM colorGray rightBtn"
+							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
+<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
+<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
+<!-- 						</button> -->
 					</div>
 					
 					<!-- 적성검사 시험지 조회 -->
@@ -512,14 +524,20 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<button type="button" class="btnSizeM colorGray">
-								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드
-							</button>
+							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+									class="btnSizeM colorGray"
+									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
+<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
+<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
+<!-- 							</button> -->
 						</div>
-
-						<button type="button" class="btnSizeM colorGray rightBtn">
-							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
-						</button>
+						
+						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+							class="btnSizeM colorGray rightBtn"
+							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
+<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
+<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
+<!-- 						</button> -->
 					</div>
 					
 					<!-- 기술시험 조회&채점 -->
@@ -611,6 +629,7 @@
 												<th scope="col">이름</th>
 												<th scope="col">생년월일</th>
 												<th scope="col">성별</th>
+												<th scope="col">지원일</th>
 												<th scope="col">면접일정 등록여부</th>
 												<th scope="col"><select name="intrStatus">
 														<option value>등록여부</option>
@@ -648,8 +667,7 @@
 													<th scope="col">생년월일</th>
 													<th scope="col">성별</th>
 													<th scope="col">면접일시</th>
-													<th scope="col">메일</th>
-													<th scope="col">알림</th>
+													<th scope="col">메일건수</th>
 													<th scope="col"><select name="sortCategory">
 														<option value="date">지원일순</option>
 														<option value="intrDate">면접일순</option>
@@ -681,29 +699,34 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<button type="button" class="btnSizeM colorGray">
-								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드
-							</button>
+								<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+									class="btnSizeM colorGray"
+									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
+<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
+<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
+<!-- 							</button> -->
 						</div>
-
-						<button type="button" class="btnSizeM colorGray rightBtn">
-							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드
-						</button>
+						
+						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+							class="btnSizeM colorGray rightBtn"
+							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
+<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
+<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
+<!-- 						</button> -->
 				</c:when>
 			</c:choose>
 
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="hidden" readonly name="rprocTypeno" placeholder="rprocTypeno" />
-				<input type="hidden" readonly name="aprocPass" placeholder="aprocPass" />
-				<input type="hidden" readonly name="usersGen" placeholder="usersGen" />
-				<input type="hidden" readonly name="usersNm" placeholder="usersNm" />
-				<input type="hidden" readonly name="sortCategory" placeholder="sortCategory" />
-				<input type="hidden" readonly name="intrStatus" placeholder="intrStatus" />
-				<input type="hidden" readonly name="page" placeholder="page" />
+				<input type="text" readonly name="rprocTypeno" placeholder="rprocTypeno" />
+				<input type="text" readonly name="aprocPass" placeholder="aprocPass" />
+				<input type="text" readonly name="usersGen" placeholder="usersGen" />
+				<input type="text" readonly name="usersNm" placeholder="usersNm" />
+				<input type="text" readonly name="sortCategory" placeholder="sortCategory" />
+				<input type="text" readonly name="intrStatus" placeholder="intrStatus" />
+				<input type="text" readonly name="page" placeholder="page" />
 			</form>
-
 		</div>
 	</div>
 </div>

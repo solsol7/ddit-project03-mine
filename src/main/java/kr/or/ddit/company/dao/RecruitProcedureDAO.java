@@ -93,4 +93,9 @@ public interface RecruitProcedureDAO {
 	 * 메일 - 채용절차 지원자 이메일 조회
 	 */
 	public List<String> selectApplicantEmailList(AProcedureVO aprocVO);
+	
+	/**
+	 * 엑셀 - 지원자 목록 조회
+	 */
+	public List<AProcedureVO> selectApplicantList(Map<String, Object> paramMap);
 }

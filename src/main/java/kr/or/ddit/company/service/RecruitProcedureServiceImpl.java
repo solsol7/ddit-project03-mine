@@ -109,11 +109,13 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 		
 		if(outerVO.getAprocVO()!=null) {
 			for(AProcedureVO aprocVO : outerVO.getAprocVO()) {
-				int rowcnt = dao.updatePassStatus(aprocVO);
-				if(rowcnt > 0) {
-					successFlag &= true;
-				}else {
-					successFlag &= false;
+				if(aprocVO.getAplNo() != null) {
+					int rowcnt = dao.updatePassStatus(aprocVO);
+					if(rowcnt > 0) {
+						successFlag &= true;
+					}else {
+						successFlag &= false;
+					}
 				}
 			}
 		}
@@ -180,6 +182,12 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 	@Override
 	public List<String> retrieveApplicantEmailList(AProcedureVO aprocVO) {
 		return dao.selectApplicantEmailList(aprocVO);
+	}
+
+	/* 엑셀 - 지원자 목록 조회 */
+	@Override
+	public List<AProcedureVO> retrieveApplicantList(Map<String, Object> paramMap) {
+		return dao.selectApplicantList(paramMap);
 	}
 
 }

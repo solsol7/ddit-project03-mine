@@ -27,6 +27,7 @@ public class AProcedureVO implements Serializable{
 	private int alarmCount;
 	private InterviewSchdVO interviewVO;
 	private String memMail;
+	private String rprocEnd;
 	
 	private UsersVO users;
 }

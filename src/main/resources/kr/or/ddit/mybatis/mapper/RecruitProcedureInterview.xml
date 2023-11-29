@@ -18,15 +18,31 @@
 		    , intr_date
 		    , intr_type
 		) VALUES (
-		    #{intrNo}
-		    , #{aplNo}
-		    , #{rprocOrder}
-		    , #{rcrtNo}
+		    #{intrNo, jdbcType=VARCHAR}
+		    , #{aplNo, jdbcType=VARCHAR}
+		    , #{rprocOrder, jdbcType=NUMERIC}
+		    , #{rcrtNo, jdbcType=VARCHAR}
 		    , #{intrIntdate}
 		    , #{intrPlace}
 		    , sysdate
-		    , #{intrType}
+		    , #{intrType, jdbcType=VARCHAR}
 		)
+	</insert>
+	
+	<!-- 면접알림 테이블 등록 -->
+	<insert id="insertIntrMail" parameterType="HashMap">
+		<selectKey keyProperty="iAlarmNo" keyColumn="I_ALARM_NO" order="BEFORE" resultType="string">
+			SELECT 'IA'||LPAD(INTRALARM_SEQ.NEXTVAL,6,'0') FROM DUAL
+		</selectKey>
+		INSERT INTO interview_alarm (
+		    i_alarm_no,
+		    intr_no
+		    , i_alarm_type
+		) VALUES (
+		    #{iAlarmNo, jdbcType=VARCHAR}
+		    , #{intrNo, jdbcType=VARCHAR}
+		    , 'Z01'
+		)  
 	</insert>
 	
 	<!-- 면접일정 조회 -->

@@ -541,9 +541,9 @@
 		    RCRT_TYPE,
 		    RCRT_SALARY,
 		    RCRT_WEEK,
-		    RCRT_DATE,
-		    RCRT_SDATE,
-		    RCRT_EDATE,
+		    TO_CHAR(RCRT_DATE, 'YYYY-MM-DD') "rcrtDate",
+		    TO_CHAR(RCRT_SDATE, 'YYYY-MM-DD') "rcrtSdate",
+		    TO_CHAR(RCRT_EDATE, 'YYYY-MM-DD') "rcrtEdate",
 		    RCRT_NM,
 		    RCRT_TEL,
 		    RCRT_MAIL,
@@ -554,7 +554,7 @@
 		    RCRT_DELETE
 		FROM
 		    RECRUIT
-		WHERE RCRT_NO = 'RCRT_00047'
+		WHERE RCRT_NO = #{rcrtNo}
 	</select>
 	
 	<!-- 메일 - 채용절차 지원자 이메일 조회 -->
@@ -567,6 +567,44 @@
 		WHERE
 			RCRT_NO = #{rcrtNo}
 			AND RPROC_ORDER = #{rprocOrder}
+	</select>
+	
+	<!-- ================================== 엑셀 다운로드 ==================================  -->
+	<!-- 지원자 목록 조회 -->
+	<select id="selectApplicantList" parameterType="HashMap" resultMap="ApplicantListMap">
+			SELECT
+                USERS_NM
+			    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+			    , case when USERS_GEN='F' then '여' else '남' end "usersGen"
+                , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+                , case when aproc_pass='Y' then '합격'
+                        when aproc_pass='N' then '불합격'
+                        else '미확인'
+                    end "aprocPass"
+			    , AP.apl_no
+			    , AP.rcrt_no
+			    , AP.rproc_order
+                , case when rproc_end='N' then '진행중' else '마감' end "rprocEnd"
+			FROM
+			    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+                       inner join r_procedure RP on AP.rcrt_no=RP.rcrt_no and AP.rproc_order=RP.rproc_order
+			WHERE
+                   AP.RCRT_NO=#{rcrtNo}
+                   AND AP.RPROC_ORDER=#{rprocOrder}
+                   <if test="aprocPass neq null">
+	                   <choose>
+		             	   <when test='aprocPass.equals("pass")'>
+					    		AND APROC_PASS='Y'
+					    	</when>
+					    	<when test='aprocPass.equals("fail")'>
+					    		AND  APROC_PASS='N'
+					    	</when>
+					    	<otherwise>
+					    		AND  APROC_PASS IS NULL
+					    	</otherwise>
+				    	</choose>
+			    	</if>
+               ORDER BY APROC_DATE ASC
 	</select>
 	
 </mapper>

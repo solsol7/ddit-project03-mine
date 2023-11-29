@@ -262,11 +262,13 @@ $(function() {
 									data-resatt-no="${v.resattNo}">${v.users.usersNm}</a></td>
 								<td class="usersBir">${v.users.usersBir}</td>
 								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
+								<td>${v.aprocDate}</td>
 								<td>${v.interviewVO.intrDate ? "등록" : "미등록"}</td>
 								<td>
 									${v.interviewVO.intrDate ? "" : `<button type="button" id="createIntrSchdBtn" class="btnSizeS colorBlue"
 									data-bs-toggle="modal" data-bs-target="#intrSchdModal"
 									data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
+									data-intr-no="${v.interviewVO.intrNo}"
 									data-mem-mail="${v.memMail}">면접일정등록</button>`}
 								</td>
 							</tr>
@@ -293,7 +295,6 @@ $(function() {
 							schdResult += `
 								</td>
 								<td>${v.mailCount}</td>
-								<td>${v.alarmCount}</td>
 						`;
 	
 						// 마감일 시 초기화면 합불여부 관리 disabled 처리
@@ -314,7 +315,7 @@ $(function() {
 											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn"
 												data-bs-toggle="modal" data-bs-target="#sendMailModal"
 												data-users-nm="${v.users.usersNm}"
-												data-mem-mail="${v.memMail}">메일발송</buttton><br>
+												data-mem-mail="${v.memMail}" data-intr-no="${v.interviewVO.intrNo}">메일발송</buttton><br>
 											<input type="hidden" name="aprocVO[${i}].aplNo" value="${v.aplNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rcrtNo" value="${v.rcrtNo}"/>
 											<input type="hidden" name="aprocVO[${i}].rprocOrder" value="${v.rprocOrder}"/>
@@ -635,6 +636,45 @@ $(function() {
 		})
 	})
 
+	/* ================================================== 지원자 목록 다운로드 ================================================== */
+	/*
+	$("#allApplicantListDownloadBtn").on("click", function(){
+		$.ajax({
+			url : `${cPath}/company/recruit/applicantListDownload`,
+			data : {
+				"rcrtNo":rcrtNo
+				, "rprocOrder" : rprocOrder
+			},
+			type : "get",
+			success : function(resp){
+				console.log(resp);
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		})
+	})
+
+	$("#applicantListDownloadBtn").on("click", function(){
+		let aprocPass = $(searchForm).find("input[name=aprocPass]").val();
+		console.log(aprocPass);
+		$.ajax({
+			url : `${cPath}/company/recruit/applicantListDownload`,
+			data : {
+				"rcrtNo":rcrtNo
+				, "rprocOrder" : rprocOrder
+				, "aprocPass" : aprocPass
+			},
+			type : "get",
+			success : function(resp){
+				console.log(resp);
+			},
+			error : function(xhr){
+				console.log(xhr.status);
+			}
+		})
+	})
+	*/
 })
 	
 	
