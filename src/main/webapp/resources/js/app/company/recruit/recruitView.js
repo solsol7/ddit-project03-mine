@@ -637,44 +637,20 @@ $(function() {
 	})
 
 	/* ================================================== 지원자 목록 다운로드 ================================================== */
-	/*
-	$("#allApplicantListDownloadBtn").on("click", function(){
-		$.ajax({
-			url : `${cPath}/company/recruit/applicantListDownload`,
-			data : {
-				"rcrtNo":rcrtNo
-				, "rprocOrder" : rprocOrder
-			},
-			type : "get",
-			success : function(resp){
-				console.log(resp);
-			},
-			error : function(xhr){
-				console.log(xhr.status);
-			}
-		})
-	})
-
-	$("#applicantListDownloadBtn").on("click", function(){
+	
+	$("#applicantListDownloadTag").on("click", function(){
 		let aprocPass = $(searchForm).find("input[name=aprocPass]").val();
-		console.log(aprocPass);
-		$.ajax({
-			url : `${cPath}/company/recruit/applicantListDownload`,
-			data : {
-				"rcrtNo":rcrtNo
-				, "rprocOrder" : rprocOrder
-				, "aprocPass" : aprocPass
-			},
-			type : "get",
-			success : function(resp){
-				console.log(resp);
-			},
-			error : function(xhr){
-				console.log(xhr.status);
-			}
-		})
+		applicantListDownloadTag.href
+			= `${cPath}/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass=${aprocPass}`;
 	})
-	*/
+	
+	$("#allApplicantListDownloadTag").on("click", function(){
+		allApplicantListDownloadTag.href
+			= `${cPath}/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}`;
+	})
+	
+	
+	
 })
 	
 	

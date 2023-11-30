@@ -1,14 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="security"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap w-100 p-0">
-	<header id="sri_header" class="main bubble">
+	<header id="sri_header" class="main bubble mainHeaderWrap">
 		<div class="wrap_header">
 			<!--  헤더 로고 -->
 			<h1>
-				<a href="/" class="bi" aria-label="사람인" data-nav-track="ga_lead|main-gnb|global_menu|ci"> 
+				<a href="<%=request.getContextPath()%>/" class="bi" aria-label="내일을잡자" data-nav-track="ga_lead|main-gnb|global_menu|ci"> 
 					<span class="frame"> 
 						<img class="mainLogo" src="<%=request.getContextPath() %>/resources/images/mainLogo.png" alt="Logo">
 					</span>
@@ -16,171 +15,180 @@
 			</h1>
 			<div class="search"></div>
 			<div class="utility">
-				<!-- 로그인 안했을 때 -->
-<!-- 				<div class="sign"> -->
-<!-- 					<a href="/zf_user/auth" -->
-<!-- 						data-nav-track="ga_lead|main-gnb|layer_sign|signin" -->
-<!-- 						class="btn_sign signin">로그인</a> -->
-<!-- 					<hr> -->
-<!-- 					<a href="/zf_user/member/registration/join" -->
-<!-- 						data-nav-track="ga_lead|main-gnb|layer_sign|join" -->
-<!-- 						class="btn_sign signup">회원가입</a> -->
-<!-- 				</div> -->
-
-				<!-- 로그인 했을 때 -->
-
-				<!-- 알림 -->
-				<div class="wrap_member" id="gnb_member_person">
-					<button class="btn_bell expanded" type="button" aria-label="개인화 메뉴" aria-haspopup="true" aria-expanded="true">
-						<span class="user_name">
-							<i class="fa-regular fa-bell"></i>
-						</span>
-					</button>
-					<div class="layer_member" style="padding:0; border:none;">
-						<div class="top_layer_assist alarm_layer_content">
-                			<strong class="title">알림</strong>
-                			<div class="save_list_area alarm_area ScrollBar">
-                      			<div class="empty_list alarm_area" id="empty_today_list_content"></div>
-		                        <div class="my_activity" id="my-activity"> 
-		                        	<div class="alarm_list">          
-							            <div class="save_list">
-							                <span class="date">10/30(월) 00:00</span>
-							                <ul>
-							                    <li class="activity">
-							                        <button type="button" class="activity_name off"> </button>
-							                        
-							                    </li>
-							                </ul>
-							            </div>
-							            <div class="save_list">
-							                <span class="date">10/23(월) 00:00</span>
-							                <ul>
-							                    <li class="activity">
-							                        <button type="button" class="activity_name off"></button>
-							                        
-							                    </li>
-							                </ul>
-							            </div>
-		
-									</div>
+				<c:set value="<%= session.getAttribute(\"authId\")%>" var="user"/>
+				<c:choose>
+					<c:when test="${not empty user}">
+						<!-- 로그인 했을 때 시작 -->
+						<div class="loginType">
+							<!-- 알림 -->
+							<div class="wrap_member" >
+								<button class="btn_bell expanded" type="button" aria-label="개인화 메뉴" aria-haspopup="true" aria-expanded="true">
+									<span class="user_name">
+										<i class="fa-regular fa-bell"></i>
+									</span>
+								</button>
+								<div class="layer_member" style="padding:0; border:none;">
+									<div class="top_layer_assist alarm_layer_content">
+			                			<strong class="title">알림</strong>
+			                			<div class="save_list_area alarm_area ScrollBar">
+			                      			<div class="empty_list alarm_area" id="empty_today_list_content"></div>
+					                        <div class="my_activity" id="my-activity"> 
+					                        	<div class="alarm_list">          
+										            <div class="save_list">
+										                <span class="date">10/30(월) 00:00</span>
+										                <ul>
+										                    <li class="activity">
+										                        <button type="button" class="activity_name off"> </button>
+										                        
+										                    </li>
+										                </ul>
+										            </div>
+										            <div class="save_list">
+										                <span class="date">10/23(월) 00:00</span>
+										                <ul>
+										                    <li class="activity">
+										                        <button type="button" class="activity_name off"></button>
+										                        
+										                    </li>
+										                </ul>
+										            </div>
+					
+												</div>
+											</div>
+			                   			 </div>
+			                        </div>
 								</div>
-                   			 </div>
-                        </div>
-					</div>
-				</div>
-				<!-- 개인정보 -->
-				<div class="wrap_member" id="gnb_member_person">
-					<button class="btn_member expanded" type="button" aria-label="개인화 메뉴" aria-haspopup="true" aria-expanded="true">
-						<span class="user_name">
-							<i class="fa-regular fa-user"></i>홍길동 님
-						</span>
-					</button>
-					<div class="layer_member person">
-						<div class="stat">
-							<a href="/zf_user/member/suggest/status-list"
-								data-nav-track="ga_lead|main-gnb|layer_person|talent-pool"> <span>받은제안</span>
-								<strong class="suggest_text">0</strong>
-							</a> <a href="/zf_user/persons/apply-status-list"
-								data-nav-track="ga_lead|main-gnb|layer_person|apply_list"> <span>지원현황</span>
-								<strong class="apply_text">0</strong>
-							</a>
-						</div>
-						<ul class="links">
-							<li>
-								<a href="/zf_user/member/persons/main" data-nav-track="ga_lead|main-gnb|layer_person|mylayer_myhome">MY홈</a>
-							</li>
-							<li>
-								<a href="/zf_user/resume/resume-manage" data-nav-track="ga_lead|main-gnb|layer_person|resume-manage">이력서관리</a>
-							</li>
-							<li>
-								<a href="/zf_user/persons/scrap-recruit" data-nav-track="ga_lead|main-gnb|layer_person|scrap">스크랩</a>
-							</li>
-<!-- 							<li class="match"> -->
-<!-- 								<a href="/zf_user/member/avatar/list" data-nav-track="ga_lead|main-gnb|layer_person|reclist_recommend">내게맞는 <span>Ai매치</span> 공고는?</a> -->
-<!-- 							</li> -->
-						</ul>
-						<a href="/zf_user/auth/logout" class="logout" data-nav-track="ga_lead|main-gnb|layer_person|logout">로그아웃</a>
-					</div>
-				</div>
+							</div>
+							<!-- 개인정보 -->
+	                        <div class="wrap_member nav-item dropdown no-arrow">
+	                            <a class="btn_member nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+	                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
+									<span class="user_photo"><i class="fa-regular fa-user"></i></span>
+	                                <span class="user_name">
+										홍길동 님
+									</span>
+	                            </a>
+	                            <!-- Dropdown - User Information -->
+	                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+	                                aria-labelledby="userDropdown">
+	                                
+	                               <div class="">
+										<ul class="links">
+											<li>
+												<a href="<%=request.getContextPath() %>/memberDashBoard.do"><i class="fa-solid fa-house-user fa-sm fa-fw mr-2 text-gray-400"></i> MY 홈 &nbsp;  &nbsp;</a>
+											</li>
+										
+										</ul>	
+									</div>
+									<div class="dropdown-divider"></div>
+	                                <a class="dropdown-item textAlignCenter"  onclick="submitForm();" href="javascript:;">
+	                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+	                                    로그아웃
+	                                </a>
+	                            </div>
+	                        </div>
+						</div>					
+						<!-- 로그인 했을 때 끝 -->
+				 	</c:when>
+					<c:otherwise>
+					<!-- 로그인 안했을 때 시작 -->
+						<div class="sign notLoginType">
+							<a href="<%=request.getContextPath()%>/login.do" data-nav-track="ga_lead|main-gnb|layer_sign|signin" class="btn_sign signin">로그인</a>
+							<hr>
+							<a href="<%=request.getContextPath()%>/userRegistration.do" data-nav-track="ga_lead|main-gnb|layer_sign|join" class="btn_sign signup">회원가입</a>
+						</div>
+					<!-- 로그인 안했을 때 끝 -->
+					</c:otherwise>			
+			</c:choose>
 
 			<!-- 네비게이션 -->
 			</div>
 			<div class="navigation">
 				<div class="wrap_gnb">
 					<div class="major recruit">
-						<a class="depth1" href="/zf_user/jobs/list/domestic"
+						<a class="depth1" href="<%=request.getContextPath()%>/recruit/region"
 							data-nav-track="ga_lead|main-gnb|recruit|recruit"> 
 							<span class="txt">채용정보</span>
 						</a>
 						<ul class="depth2">
 							<li>
-								<a href="/zf_user/jobs/list/domestic" data-nav-track="ga_lead|main-gnb|recruit|area"> 
+								<a  href="<%=request.getContextPath()%>/recruit/region" data-nav-track="ga_lead|main-gnb|recruit|area"> 
 									<span class="txt">지역별</span>
 								</a></li>
 							<li>
-								<a href="/zf_user/jobs/list/job-category" data-nav-track="ga_lead|main-gnb|recruit|job"> 
+								<a href="<%=request.getContextPath()%>/recruit/job" data-nav-track="ga_lead|main-gnb|recruit|job"> 
 									<span class="txt">직업별</span>
 								</a>
 							</li>
 							<li>
-								<a href="/zf_user/jobs/hot100" data-nav-track="ga_lead|main-gnb|recruit|hot100"> 
+								<a href="<%=request.getContextPath()%>/recruit/Top100" data-nav-track="ga_lead|main-gnb|recruit|hot100"> 
 									<span class="txt">TOP100</span>
+								</a>
+							</li>
+							<li>
+								<a href="/zf_user/jobs/calendar" data-nav-track="ga_lead|main-gnb|recruit|calendar"> 
+									<span class="txt">채용달력</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 					<div class="major">
-						<a class="depth1" href="/zf_user/jobs/public/home" data-nav-track="ga_lead|main-gnb|recruit|public"> 
+						<a class="depth1" href="<%=request.getContextPath()%>/company/companyList" data-nav-track="ga_lead|main-gnb|recruit|public"> 
 							<span class="txt">기업정보</span>
 						</a>
 					</div>
 					<div class="major">
-						<a class="depth1" href="/zf_user/company-review" data-nav-track="ga_lead|main-gnb|company_info|company_info">
+						<a class="depth1" href="<%=request.getContextPath()%>/pointPayView" data-nav-track="ga_lead|main-gnb|company_info|company_info">
 							<span class="txt">프로모션</span>
 						</a>
 						<ul class="depth2">
 							<li>
-								<a href="/zf_user/company-review" data-nav-track="ga_lead|main-gnb|company_info|review"> 
+								<a href="<%=request.getContextPath()%>/pointPayView" data-nav-track="ga_lead|main-gnb|company_info|review"> 
 									<span class="txt">포인트충전</span>
 								</a>
 							</li>
 							<li>
-								<a href="/zf_user/salaries/total-salary/list" data-nav-track="ga_lead|main-gnb|company_info|salary"> 
+								<a href="<%=request.getContextPath()%>/periodTicketView" data-nav-track="ga_lead|main-gnb|company_info|salary"> 
 									<span class="txt">기간제이용권</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 					<div class="major">
-						<a class="depth1" href="/zf_user/careerplus" data-nav-track="ga_lead|main-gnb|contents|contents"> 
+						<a class="depth1" href="<%=request.getContextPath() %>/frBoardList" data-nav-track="ga_lead|main-gnb|contents|contents"> 
 							<span class="txt">커뮤니티</span>
 						</a>
 						<ul class="depth2">
 							<li>
-								<a href="/zf_user/careerplus" data-nav-track="ga_lead|main-gnb|contents|home"> 
+								<a href="<%=request.getContextPath() %>/frBoardList" data-nav-track="ga_lead|main-gnb|contents|home"> 
 									<span class="txt">자유게시판</span>
 								</a>
 							</li>
 							<li>
-								<a href="https://mentor-match.saramin.co.kr/" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/chatRegion" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">채팅</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 					<div class="major">
-						<a class="depth1" href="/zf_user/company-review-qst-and-ans" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst-and-ans"> 
-							<span class="txt">공지·이벤트</span>
+						<a class="depth1" href="" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst-and-ans"> 
+							<span class="txt">고객센터</span>
 						</a>
 						<ul class="depth2">
 							<li>
-								<a href="/zf_user/company-review-qst-and-ans" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst_home"> 
-									<span class="txt">고객센터</span>
+								<a href="<%=request.getContextPath() %>/member/noticeList" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst_home"> 
+									<span class="txt">공지</span>
 								</a>
 							</li>
 							<li>
-								<a href="/zf_user/career-information/senior-list" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst_careerinfo">
+								<a href="<%=request.getContextPath() %>/member/qnaList" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst_careerinfo">
+									<span class="txt">1:1문의</span>
+								</a>
+							</li>
+							<li>
+								<a href="<%=request.getContextPath() %>/eventIng.do" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst_careerinfo">
 									<span class="txt">이벤트</span>
 								</a>
 							</li>
@@ -191,4 +199,18 @@
 		</div>
 	</header>
 </nav>
+
+<script>
+//로그아웃
+function submitForm() {
+    var form = $('<form>', {
+        'method': 'post',
+        'action': '<%=request.getContextPath()%>/logoutProcess'
+    });
+    
+    $('body').append(form);
+    
+    form.submit();
+}
+</script>
 

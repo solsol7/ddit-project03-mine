@@ -69,6 +69,9 @@
    <mvc:view-controller path="/recruitJobList.do" view-name="users/recruit/recruitJobList" />
    <mvc:view-controller path="/recruitRegionList.do" view-name="users/recruit/recruitRegionList" />
    <mvc:view-controller path="/recruitTop100List.do" view-name="users/recruit/recruitTop100List" />
+   <!-- chatting -->
+   <mvc:view-controller path="/chatRegion" view-name="users/chat/region" />
+   <mvc:view-controller path="/chatRoom" view-name="users/chat/chatRoom" />
    
    
 <!--    기업______________________________________________________________________________-->

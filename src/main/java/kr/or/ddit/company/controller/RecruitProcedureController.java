@@ -239,13 +239,13 @@ public class RecruitProcedureController {
 	public ResponseEntity<Resource> applicantListDownload(
 			@RequestParam String rcrtNo
 			, @RequestParam int rprocOrder
-//			, @RequestParam String aprocPass
+			, @RequestParam(required = false) String aprocPass
 	) throws IOException {
 		/* 필요한 데이터 구하기 */
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("rcrtNo", rcrtNo);
 		paramMap.put("rprocOrder", rprocOrder);
-//		paramMap.put("aprocPass", aprocPass);
+		paramMap.put("aprocPass", aprocPass);
 		
 		
 //		String rcrtNo = String.valueOf(paramMap.get("rcrtNo"));

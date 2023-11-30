@@ -266,7 +266,7 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
 <!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
@@ -274,7 +274,7 @@
 <!-- 							</button> -->
 						</div>
 						
-						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+						<a id="allApplicantListDownloadTag"
 							class="btnSizeM colorGray rightBtn"
 							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 <!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
@@ -407,7 +407,7 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
 <!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
@@ -415,7 +415,7 @@
 <!-- 							</button> -->
 						</div>
 						
-						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+						<a id="allApplicantListDownloadTag"
 							class="btnSizeM colorGray rightBtn"
 							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 <!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
@@ -524,7 +524,7 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-							<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+							<a id="applicantListDownloadTah" href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
 <!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
@@ -699,7 +699,7 @@
 							<button type="button" class="btnSizeM colorWhite">
 								<i class="fa-regular fa-bell"></i> 알림전송
 							</button>
-								<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+								<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
 <!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
@@ -707,7 +707,7 @@
 <!-- 							</button> -->
 						</div>
 						
-						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
+						<a id="allApplicantListDownloadTag"
 							class="btnSizeM colorGray rightBtn"
 							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 <!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->

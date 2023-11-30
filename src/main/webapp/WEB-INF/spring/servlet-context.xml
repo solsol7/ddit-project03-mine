@@ -39,10 +39,10 @@
 	</context:component-scan>
 	
 	<mvc:interceptors>
-
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
 			p:paramName="lang"
 		/>
 	</mvc:interceptors>
 
+	<import resource="websocket-context.xml"/>
 </beans>

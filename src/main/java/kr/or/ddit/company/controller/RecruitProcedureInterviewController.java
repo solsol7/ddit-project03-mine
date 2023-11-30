@@ -122,6 +122,9 @@ public class RecruitProcedureInterviewController {
 		mailDTO.put("password", "roqkfdnjs2305!!");
 		mailDTO.put("fromName",fromName);
 		
+		String contents = mailDTO.get("contents").replace("\r\n", "<br>");
+		mailDTO.put("contents", contents);
+		
 		MailUtil.sendMail(mailDTO);
 		
 		ServiceResult result = intrService.createIntrMail(mailDTO);

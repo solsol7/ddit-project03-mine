@@ -51,6 +51,10 @@
 }
 
 /*============================================= 채용절차 - recruit-process ============================================= */
+.alarmArea input {
+    -webkit-appearance: auto !important;
+}
+
 .mailForm{
 	padding: 0 13px 2px;
     height: 330px;
@@ -579,12 +583,6 @@
 	background-color: white;
 }
 
-
-
-
-
-
-
 .item-area {
     margin: 10px 10px 5px 10px;
 }
@@ -625,6 +623,123 @@
 
 .detailSelect {
 	float: right;
-	margin-bottom: 15px
-;
+	margin-bottom: 15px;
+}
+
+/*============================================= 채팅 - chatting ============================================= */
+.regionChoice-area{
+	width : 1000px;
+	margin : 0 auto;
+	margin-top : 50px;
+	
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    height: 820px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.regionDetail{
+	width : 900px;
+	margin : 0 auto;
+}
+
+.regionBtn{
+	width : 200px;
+	height : 100px;
+	margin : 2px;
+	background-color: #0472d1;
+	color : white;
+	border-color: #0472d1;
+	font-size: 1.5rem;
+}
+
+.regionBtn:hover{
+	background-color: #a5d3fb;
+	color : white;
+	border-color: #a5d3fb;
+}
+
+.regionChoiceMessage{
+	width : 1000px;
+	margin : 0 auto;
+	margin-top : 200px;
+	text-align: center;
+}
+
+.regionChoiceMessage .message{
+	font-size: 2.5rem;
+	font-weight: bold;
+}
+
+.chatRoom-content{
+	width : 1000px;
+	margin : 0 auto;
+	margin-top : 150px;
+}
+
+.chat-area{
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    height: 820px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.chat-area .chat-message{
+	height : 680px;
+	overflow : auto;
+	
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 40px 50px 60px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+}
+
+.myMessage{
+	margin-top : 30px;
+}
+
+.myMessage .inpTypo{
+	width : 828px;
+}
+
+.disconnectionBtn{
+	float : right;
+}
+
+.chtWrap {
+	width: 100%;
+	display: flow-root
+}
+
+.chatReturnBtn{
+	float : right;
+}
+
+.chat-message-form{
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding: 3px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: relative;
+    
+	max-width : 600px;
+	margin : 10px;
+	font-size : 1.3rem;
+}
+
+.message-right{
+ 	float : right !important; 
+}
+
+.message-left{
+	float : left !important; 
 }
