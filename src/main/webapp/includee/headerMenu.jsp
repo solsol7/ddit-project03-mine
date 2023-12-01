@@ -166,7 +166,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="${pageContext.request.contextPath }/chatRegion" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/chat/chatRegion" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">채팅</span>
 								</a>
 							</li>

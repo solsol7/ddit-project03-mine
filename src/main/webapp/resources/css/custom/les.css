@@ -723,7 +723,7 @@
 	float : right;
 }
 
-.chat-message-form{
+.message-form{
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
     padding: 3px;
     border-radius: 6px;
@@ -734,6 +734,14 @@
 	max-width : 600px;
 	margin : 10px;
 	font-size : 1.3rem;
+}
+
+.message-sender-form{
+	
+}
+
+.message-server{
+	text-align: center;
 }
 
 .message-right{

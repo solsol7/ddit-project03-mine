@@ -7,14 +7,46 @@ const fSocOpen = ()=>{
 }
 
 const fSocMsg = () =>{
-	console.log("서버에서 온 메세지:",event.data);
-	$(".chat-message").append(`<div class="chtWrap"><div class="chat-message-form message-right">${event.data}</div></div>`);
+	console.log(event.data);
+	let data = JSON.parse(event.data);
+	let sender = data.sender;
+	let message = data.message;
+	
+	let chatCode = ``;
+	if(sender=="server"){
+		chatCode +=`<div class="chtWrap">
+						<div class="message-server">${message}</div>
+					</div>
+					`;
+	}else if(sender=="홍길동"){
+		chatCode +=`<div class="chtWrap">
+						<div class="message-right">
+							<div class="message-sender-form">${sender}</div>
+							<div class="message-form">${message}</div>
+						</div>
+					</div>
+				`;
+	}else{
+		chatCode +=`<div class="chtWrap">
+						<div class="message-left">
+							<div class="message-sender-form">${sender}</div>
+							<div class="message-form">${message}</div>
+						</div>
+					</div>
+				`;
+	}
+	
+	
+	$(".chat-message").append(chatCode);
 }
 
-let webSocket = new WebSocket("ws://localhost/FinalProject/chat");
+let webSocket = new WebSocket("ws://192.168.35.43/FinalProject/chat");
 //클라이언트 소켓
 webSocket.onopen = fSocOpen; // 연결된 순간 onopen 이벤트 발생
 webSocket.onmessage = fSocMsg;
+webSocket.onclose = function(e){
+	console.log(e);
+}
 //서버 -> 클라이언트
 
 
@@ -25,35 +57,32 @@ keydown = () => {
 }
 
 $(function(){
+	const nameList=["홍길동","이순신","강감찬","성춘향","이몽룡"];
 	
 	let cPath = this.body.dataset.contextPath;
 
-	$('.regionBtn').on("click",function(){
-		location.href = `${cPath}/chatRoom`;
-	})
-	
-	$("#regionChoiceBtn").on("click",function(){
-		$(".chat-area[data-tab-idx=1]").attr("style","display:none");
-		$(".chat-area[data-tab-idx=2]").attr("style","display:block");
-	})
-	
-	$("#chatReturnBtn").on("click",function(){
-		$(".chat-area[data-tab-idx=2]").attr("style","display:none");
-		$(".chat-area[data-tab-idx=1]").attr("style","display:block");
-	})
-
+	/* 보내기 버튼 클릭했을 때 이벤트 */
 	$("#sendMessage").on("click",function(){
+		/* 임시 이름 만들기 */
+		let rnd = parseInt(Math.random()*4);
+		console.log(rnd);
+		let name = nameList[rnd];
+		console.log(name);
+	
 		let message = $("input[name=message]").val();
 		let data = {
-			"sender":"홍길동"
+			"sender":name
 			, "message":message
 		};
 		webSocket.send(JSON.stringify(data));
 		/*webSocket.send(message);*/
 	
 		$("input[name=message]").val("");
-		
 	})
 	
-
+	$("#disconnectionBtn").on("click",function(){
+		webSocket.close();
+		location.href = `${cPath}/`;
+	})
+	
 })
