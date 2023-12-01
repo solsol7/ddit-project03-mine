@@ -88,7 +88,7 @@ public class ChatHandler extends TextWebSocketHandler{
 	// 클라이언트 소켓과 통신
 	@Override // 클라이언트가 서버에 보냈을 때 실행
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		// 메세지 보낸사람의 지역 가져오기 위해
+		// 메세지 보낸사람의 지역 가져오기
 		Map<String, Object> sessionMap = session.getAttributes();
 		String userRegion = String.valueOf(sessionMap.get("region"));
 		
@@ -147,11 +147,17 @@ public class ChatHandler extends TextWebSocketHandler{
 		byte[] dataByte = mapper.writeValueAsBytes(data);
 		
 		TextMessage message = new TextMessage(dataByte);
-		
-		// 메세지를 저장
-		
+
 		// 메세지 보내는 메소드 호출
 		handleTextMessage(session,message);
 		
+		// 들어온 사람의 지역과 같은 지역 chatRoom에 퇴장메세지 저장
+		for(RegionVO regionVO : chatRoom) {
+			String chatRoomRegion = regionVO.getRegion();
+			String userRegion = String.valueOf(sessionMap.get("region"));
+			if(chatRoomRegion.equals(userRegion)) {
+				regionVO.getMessageQueue().add(data);
+			}
+		}
 	}
 }
