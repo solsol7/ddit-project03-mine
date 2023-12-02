@@ -36,16 +36,16 @@
       <link href="<%=request.getContextPath()%>/resources/css/tiles.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/pattern.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/contents.css" rel="stylesheet">
-      <link href="<%=request.getContextPath()%>/resources/css/company_info.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/components.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/jobs-recruit.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/layout.css" rel="stylesheet">
-	  
-      <link href="<%=request.getContextPath()%>/resources/css/jobs-view.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/search_panel.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/recruit.css" rel="stylesheet">
 	  <!-- CSS 스타일/ custom -->
       <link href="<%=request.getContextPath()%>/resources/css/custom/les.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/custom/ssy.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/custom/ksw.css" rel="stylesheet">
-     
+      
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      
  

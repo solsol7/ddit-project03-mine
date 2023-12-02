@@ -5,9 +5,6 @@
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 <!--     index___________________________________________________________________________-->
-   <mvc:view-controller path="/index.do" view-name="index/index" />
-   <mvc:view-controller path="/indexCompany.do" view-name="index/indexCompany" />
-   <mvc:view-controller path="/indexAdmin.do" view-name="index/indexAdmin" />
    
    
 <!--     사용자____________________________________________________________________________-->   

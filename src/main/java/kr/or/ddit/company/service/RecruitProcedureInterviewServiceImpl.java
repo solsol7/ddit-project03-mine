@@ -68,5 +68,20 @@ public class RecruitProcedureInterviewServiceImpl implements RecruitProcedureInt
 		return result;
 	}
 
+	/* 면접일정 삭제 */
+	@Override
+	public ServiceResult removeInterviewSchd(String intrNo) {
+		int rowcnt = dao.deleteInterviewSchd(intrNo);
+		
+		ServiceResult result = null;
+		if(rowcnt > 0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAIL;
+		}
+		
+		return result;
+	}
+
 
 }

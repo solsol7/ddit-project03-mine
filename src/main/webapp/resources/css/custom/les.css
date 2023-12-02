@@ -51,6 +51,10 @@
 }
 
 /*============================================= 채용절차 - recruit-process ============================================= */
+#recruitListBtn{
+	float : left;
+}
+
 .alarmArea input {
     -webkit-appearance: auto !important;
 }
@@ -306,7 +310,7 @@
 .tblBtn {
 	position: absolute;
     bottom: 30px;
-    width: 100%;
+    width: 95%;
     text-align: right;
     right: 25px;
 }

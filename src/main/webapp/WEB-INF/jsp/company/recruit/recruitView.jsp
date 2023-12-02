@@ -248,38 +248,30 @@
 									<div class="paging" id="paging">
 										<!-- 페이지 출력하는 곳 -->
 									</div>
+									<button type="button" class="btnSizeM colorGreen"
+										id="recruitListBtn">목록</button>
 									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
 										<button type="button" class="btnSizeM colorBlue"
 											id="passStatusSaveBtn">저장</button>
 									</c:if>
+									
+									
 								</div>
-							</div>
-
-							<div class="paging" id="paging">
-								<!-- 페이지 출력하는 곳 -->
 							</div>
 
 						</div>
 						<div class="resumeBtn">
-							<button type="button" class="btnSizeM colorWhite">
-								<i class="fa-regular fa-bell"></i> 알림전송
-							</button>
 							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
-<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
-<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
-<!-- 							</button> -->
+									
+							<a id="allApplicantListDownloadTag"
+								class="btnSizeM colorGray rightBtn"
+								><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 						</div>
 						
-						<a id="allApplicantListDownloadTag"
-							class="btnSizeM colorGray rightBtn"
-							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
-<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
-<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
-<!-- 						</button> -->
 					</div>
 					
 					<!-- 이력서 조회&채점 -->
@@ -391,6 +383,8 @@
 									<div class="paging" id="paging">
 										<!-- 페이지 출력하는 곳 -->
 									</div>
+									<button type="button" class="btnSizeM colorGreen"
+										id="recruitListBtn">목록</button>
 									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
@@ -404,23 +398,14 @@
 
 						</div>
 						<div class="resumeBtn">
-							<button type="button" class="btnSizeM colorWhite">
-								<i class="fa-regular fa-bell"></i> 알림전송
-							</button>
 							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
-<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
-<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
-<!-- 							</button> -->
+									
+							<a id="allApplicantListDownloadTag"
+								class="btnSizeM colorGray rightBtn"
+								><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 						</div>
-						
-						<a id="allApplicantListDownloadTag"
-							class="btnSizeM colorGray rightBtn"
-							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
-<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
-<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
-<!-- 						</button> -->
 					</div>
 					
 					<!-- 적성검사 시험지 조회 -->
@@ -509,6 +494,8 @@
 									<div class="paging" id="paging">
 										<!-- 페이지 출력하는 곳 -->
 									</div>
+									<button type="button" class="btnSizeM colorGreen"
+										id="recruitListBtn">목록</button>
 									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
@@ -521,23 +508,14 @@
 
 						</div>
 						<div class="resumeBtn">
-							<button type="button" class="btnSizeM colorWhite">
-								<i class="fa-regular fa-bell"></i> 알림전송
-							</button>
-							<a id="applicantListDownloadTah" href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}&&aprocPass="
+							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
-<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
-<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
-<!-- 							</button> -->
+									
+							<a id="allApplicantListDownloadTag"
+								class="btnSizeM colorGray rightBtn"
+								><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 						</div>
-						
-						<a href="${pageContext.request.contextPath }/company/recruit/applicantListDownload?rcrtNo=${rcrtNo}&&rprocOrder=${rprocOrder}"
-							class="btnSizeM colorGray rightBtn"
-							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
-<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
-<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
-<!-- 						</button> -->
 					</div>
 					
 					<!-- 기술시험 조회&채점 -->
@@ -668,7 +646,7 @@
 													<th scope="col">성별</th>
 													<th scope="col">면접일시</th>
 													<th scope="col">메일건수</th>
-													<th scope="col"><select name="sortCategory">
+													<th scope="col" colspan="2"><select name="sortCategory">
 														<option value="date">지원일순</option>
 														<option value="intrDate">면접일순</option>
 												</select></th>
@@ -684,6 +662,8 @@
 									<div class="paging" id="paging">
 										<!-- 페이지 출력하는 곳 -->
 									</div>
+									<button type="button" class="btnSizeM colorGreen"
+										id="recruitListBtn">목록</button>
 									<c:if test="${currProcedureInfo.rprocEnd eq 'N' }">
 										<button type="button" class="btnSizeM colorGreen"
 											id="procedureCloseBtn">마감</button>
@@ -696,36 +676,27 @@
 
 						</div>
 						<div class="resumeBtn">
-							<button type="button" class="btnSizeM colorWhite">
-								<i class="fa-regular fa-bell"></i> 알림전송
-							</button>
-								<a id="applicantListDownloadTag"
+							<a id="applicantListDownloadTag"
 									class="btnSizeM colorGray"
 									><i class="fa-regular fa-floppy-disk"></i>지원자 목록 다운로드</a>
-<!-- 							<button type="button" id="applicantListDownloadBtn" class="btnSizeM colorGray"> -->
-<!-- 								<i class="fa-regular fa-floppy-disk"></i> 지원자 목록 다운로드 -->
-<!-- 							</button> -->
+									
+							<a id="allApplicantListDownloadTag"
+								class="btnSizeM colorGray rightBtn"
+								><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
 						</div>
-						
-						<a id="allApplicantListDownloadTag"
-							class="btnSizeM colorGray rightBtn"
-							><i class="fa-regular fa-floppy-disk"></i>전체 지원자 목록 다운로드</a>
-<!-- 						<button type="button" id="allApplicantListDownloadBtn" class="btnSizeM colorGray rightBtn"> -->
-<!-- 							<i class="fa-regular fa-floppy-disk"></i> 전체 지원자 목록 다운로드 -->
-<!-- 						</button> -->
 				</c:when>
 			</c:choose>
 
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="text" readonly name="rprocTypeno" placeholder="rprocTypeno" />
-				<input type="text" readonly name="aprocPass" placeholder="aprocPass" />
-				<input type="text" readonly name="usersGen" placeholder="usersGen" />
-				<input type="text" readonly name="usersNm" placeholder="usersNm" />
-				<input type="text" readonly name="sortCategory" placeholder="sortCategory" />
-				<input type="text" readonly name="intrStatus" placeholder="intrStatus" />
-				<input type="text" readonly name="page" placeholder="page" />
+				<input type="hidden" readonly name="rprocTypeno" placeholder="rprocTypeno" />
+				<input type="hidden" readonly name="aprocPass" placeholder="aprocPass" />
+				<input type="hidden" readonly name="usersGen" placeholder="usersGen" />
+				<input type="hidden" readonly name="usersNm" placeholder="usersNm" />
+				<input type="hidden" readonly name="sortCategory" placeholder="sortCategory" />
+				<input type="hidden" readonly name="intrStatus" placeholder="intrStatus" />
+				<input type="hidden" readonly name="page" placeholder="page" />
 			</form>
 		</div>
 	</div>

@@ -33,7 +33,7 @@
 	                              <input type="text" name="sDate" id="sDate">
 	                          </span>
 	                          <span class="inpSel">
-	                              <input type="text" name="eDate" id="eDate">
+	                              <input type="text" name="eDate" id="eDate" >
 	                          </span>
 	                          <div class="searchTypoBox">
 	                              <input type="text" name="rcrtTitle" class="inpTypo sword" placeholder="제목">

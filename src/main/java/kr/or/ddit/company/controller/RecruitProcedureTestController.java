@@ -26,6 +26,7 @@ import kr.or.ddit.company.vo.AProcedureVO;
 import kr.or.ddit.company.vo.TestResultOuterVO;
 import kr.or.ddit.company.vo.TestResultVO;
 import kr.or.ddit.company.vo.TestVO;
+import kr.or.ddit.validate.grouphint.UpdateGroup;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -64,7 +65,7 @@ public class RecruitProcedureTestController {
 	@PutMapping("recruit/techScore")
 	@ResponseBody
 	public Map<String, Object> techScoreUpdate(
-			@Validated @ModelAttribute TestResultOuterVO outerVO
+			@Validated(UpdateGroup.class) @ModelAttribute TestResultOuterVO outerVO
 			,BindingResult errors
 	) {
 		

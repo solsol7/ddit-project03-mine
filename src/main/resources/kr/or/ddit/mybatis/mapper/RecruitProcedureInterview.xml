@@ -66,12 +66,18 @@
 	<update id="updateInterviewSchd" parameterType="InterviewSchdVO">
 		UPDATE interview_schd
 		SET
-		    intr_intdate = #{intrIntdate}
-		    , intr_type = #{intrType}
+		    intr_intdate = #{intrIntdate, jdbcType=VARCHAR}
+		    , intr_type = #{intrType, jdbcType=VARCHAR}
 		    <if test="intrPlace neq null">
-		    , intr_place = #{intrPlace}
+		    , intr_place = #{intrPlace, jdbcType=VARCHAR}
 		    </if>
 		WHERE
-			INTR_NO = #{intrNo}
+			INTR_NO = #{intrNo, jdbcType=VARCHAR}
 	</update>
+	
+	<!-- 면접일정 삭제 -->
+	<delete id="deleteInterviewSchd" parameterType="string">
+		DELETE FROM INTERVIEW_SCHD
+			WHERE INTR_NO = #{intrNo}
+	</delete>
 </mapper>

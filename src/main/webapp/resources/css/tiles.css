@@ -245,7 +245,7 @@
     color: #b7b7b7;
     font-size: 20px;
     padding-bottom: 10px;
-    padding-top: 3px;
+    padding-top: 5px;
 }
 
 #sri_header .utility .btn_member:hover {
@@ -263,7 +263,7 @@
     height: 32px;
     border-radius: 16px;
     box-sizing: border-box;
-    background: red;
+
 }
 
 #sri_header .utility .btn_member .user_photo .img_default {
@@ -363,7 +363,7 @@
 #sri_header .utility .layer_member.person {
     padding: 0;
     width: 184px;
-    display: none !important;
+/*     display: none !important; */
 /*     기웅 여기 알람 부분 display : none 주석하고 해 */
 }
 

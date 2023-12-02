@@ -1993,7 +1993,7 @@ body.fixed {
 .cont_top {
     position: relative;
     z-index: 1;
-    padding: 32px 0 0;
+    padding: 50px 0 0;
     width: 100%;
     background: #eff5ff
 }
@@ -4239,7 +4239,7 @@ body.fixed {
 
 .cont_top .cont_top_google {
     padding-top: 24px;
-    background-color: #fbfbfb
+    background-color: #fff;
 }
 
 .cont_top .cont_top_google .google_inner {
@@ -9358,7 +9358,7 @@ header.fixed+#search {
 .main_content .section_status .box .progress {
     position: relative;
     padding: 26px 31px 0 175px;
-    min-height: 145px;
+    min-height: 125px;
     box-sizing: border-box;
     background-color: #5974ee;
 }
@@ -9628,12 +9628,13 @@ header.fixed+#search {
 }
 
 /* WMG-34934 */
-.main_content .section_status .recruit .box .no_data {
+.main_content .recruit .no_data {
     background-image: url(//www.saraminimage.co.kr/sri/vix/main/bg_illust2.png)
 }
 
-.main_content .section_status .position .box .no_data {
-    background-image: url(//www.saraminimage.co.kr/sri/vix/main/bg_illust3.png)
+.main_content .position .no_data {
+    background-image: url(//www.saraminimage.co.kr/sri/vix/main/bg_illust3.png);
+    bottom: 320px;
 }
 
 /* WMG-35479 */
@@ -9734,6 +9735,7 @@ header.fixed+#search {
     display: inline-block;
     position: relative;
     padding-right: 25px;
+    margin-top: 30px;
     font-size: 0
 }
 
@@ -9741,7 +9743,7 @@ header.fixed+#search {
     display: block;
     position: absolute;
     bottom: 12px;
-    right: 12px;
+    right: 7px;
     width: 7px;
     height: 7px;
     border-top: 1px solid #fff;

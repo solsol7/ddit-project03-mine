@@ -67,7 +67,7 @@
 
 									<span class="user_photo"><i class="fa-regular fa-user"></i></span>
 	                                <span class="user_name">
-										김기업 님
+										<% String nm = (String) session.getAttribute("authNm");%> <p><%= nm %> 님</p>
 									</span>
 	                            </a>
 	                             <!-- Dropdown - User Information -->
@@ -83,7 +83,7 @@
 										</ul>	
 									</div>
 									<div class="dropdown-divider"></div>
-	                                <a class="dropdown-item textAlignCenter"  onclick="submitForm();" href="javascript:" data-toggle="modal" data-target="#logoutModal">
+	                                <a class="dropdown-item textAlignCenter"  onclick="submitForm();" href="javascript:;">
 	                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
 	                                    로그아웃
 	                                </a>
@@ -108,7 +108,7 @@
 			<div class="navigation">
 				<div class="wrap_gnb">
 					<div class="major recruit">
-						<a class="depth1" href="<%=request.getContextPath()%>/indexCompany.do"
+						<a class="depth1" href="<%=request.getContextPath()%>/indexCompany"
 							data-nav-track="ga_lead|main-gnb|recruit|recruit"> 
 							<span class="txt">HOME</span>
 						</a>
@@ -129,12 +129,12 @@
 								</a>
 							</li>
 							<li>
-								<a href="${pageContext.request.contextPath }/company/recruitListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/company/recruitListUI" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">채용관리</span>
 								</a>
 							</li>
 							<li>
-								<a href="${pageContext.request.contextPath }/company/testListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/company/testListUI" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">시험지관리</span>
 								</a>
 							</li>
@@ -168,4 +168,18 @@
 		</div>
 	</header>
 </nav>
+
+<script>
+//로그아웃
+function submitForm() {
+    var form = $('<form>', {
+        'method': 'post',
+        'action': '<%=request.getContextPath()%>/logoutProcess'
+    });
+    
+    $('body').append(form);
+    
+    form.submit();
+}
+</script>
 

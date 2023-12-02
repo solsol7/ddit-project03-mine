@@ -14,7 +14,7 @@ $(function(){
 	$('.regionBtn').on("click",function(){
 		let region = $(this).attr("id");
 		console.log(region);
-		location.href = `${cPath}/chat/chatRoom?region=${region}`;
+		location.href = `${cPath}/chat/chatRoom/${region}`;
 	})
 	
 	/* 채팅방에서 지역선택 클릭했을 때 이벤트 */

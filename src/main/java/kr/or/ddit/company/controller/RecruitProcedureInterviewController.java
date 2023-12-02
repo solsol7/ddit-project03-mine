@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,7 @@ public class RecruitProcedureInterviewController {
 	}
 	
 	
-	/* 면접일정 조회(모달 초기값) */
+	/* 면접일정 상세조회(모달 초기값) */
 	@GetMapping("recruit/interviewSchd")
 	@ResponseBody
 	public InterviewSchdVO interviewSchdView(
@@ -89,6 +90,27 @@ public class RecruitProcedureInterviewController {
 		return message;
 	}
 	
+	/* 면접일정 삭제 */
+	@DeleteMapping("recruit/interviewSchdDelete")
+	@ResponseBody
+	public String interviewSchdDelete(
+			String intrNo
+	) {
+		
+		ServiceResult result = intrService.removeInterviewSchd(intrNo);
+		
+		String message = null;
+		switch (result) {
+		case OK:
+			message = "OK";
+			break;
+		default:
+			message = "FAIL";
+			break;
+		}
+		
+		return message;
+	}
 
 	
 	/* 면접일정 메일 전송 컨트롤러 */

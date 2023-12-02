@@ -61,10 +61,84 @@ button.btn_tab.t_per.active.idfind.pwfind{
     background: #f1f3f9
 }
 
+/* 채용공고 폼 전송버튼 */
+
+.BtnType.SizeML.btn_entry_complete.btn_next_step.ga_data_layer.recruitFormBtn{
+	    width: 300px;
+	
+}
+/* 채용공고 상세페이지 지원 이력서 */
+.resumeswcontainer {
+       
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+.swh1, .swh2 {
+        color: #3498db;
+    }
+    
+.swsection, .swsection2 {
+        margin-top: 20px;
+    }
+    
+.point-swtext {
+        margin-bottom: 10px;
+    }
+ul.point-swtext {
+        padding-left: 20px;
+        list-style-type: none;
+    }
+.swcompany-info, .basic-info {
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+.swcompany-info h3, .basic-info h3 {
+        color: #3498db;
+        margin-bottom: 5px;
+    }
+.swsection h2 {
+        color: #3498db;
+        font-size: 24px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+    }
+.swhighlight {
+        font-weight: bold;
+        color: black;
+    }
+    
+    
+ .infoText {
+ 	word-spacing: 9px;
+    line-height: 2.3;
+ }
+
 .recruitDetailWrap button {
     border: 0;
     background: none
 }
 
+ .swContent{
+     width: 200%;
+ }
+ 
+
+/* 채용공고 디테일  */
+.swDetail{
+	width: 150%;
+}
+/* 채용공고 디테일 하단 */
+.swDetailbottom{
+	width: 150%;
+}
+ 
 
 

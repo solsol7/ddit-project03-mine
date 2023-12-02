@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.CompanyMainDAO">
+	
+	<select id="selectClosedRecruitProcedureCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			RECRUIT
+		WHERE
+			<![CDATA[
+			RCRT_EDATE<SYSDATE
+			]]>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+			AND COMPANY_ID=#{authId}
+			</if>
+			
+	</select>
+	
+	<select id="selectUnclosedRecruitProcedureCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			RECRUIT
+		WHERE
+			<![CDATA[
+			RCRT_EDATE>SYSDATE
+			]]>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+			AND COMPANY_ID= #{authId}
+			</if>
+			
+	</select>
+
+	<select id="selectClosedRecruitProcedureList" resultType="RecruitVO" parameterType="string">
+		SELECT RCRT_TITLE, RCRT_NO
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT RCRT_TITLE, RCRT_NO
+			        FROM
+			            RECRUIT
+			        WHERE
+			            <![CDATA[
+			            RCRT_EDATE<SYSDATE
+			            ]]>
+			           <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+						AND COMPANY_ID= #{authId}
+						</if>
+			        ORDER BY RCRT_DATE DESC
+			    ) A
+			) B
+		WHERE
+			 <![CDATA[
+		    RNUM <=2
+		     ]]>
+	</select>
+	
+	<select id="selectUnclosedRecruitProcedureList" resultType="RecruitVO" parameterType="string">
+		SELECT RCRT_TITLE, RCRT_NO
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT RCRT_TITLE, RCRT_NO
+			        FROM
+			            RECRUIT
+			        WHERE
+			            <![CDATA[
+			            RCRT_EDATE>SYSDATE
+			            ]]>
+			            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+						AND COMPANY_ID= #{authId}
+						</if>
+			        ORDER BY RCRT_DATE DESC
+			    ) A
+			) B
+		WHERE
+			 <![CDATA[
+		    RNUM <=2
+		     ]]>
+	</select>
+	
+	
+</mapper>

@@ -12,6 +12,11 @@
 	</a>
 
     <ul class="navbar-nav ml-auto">
+    	<li class="nav-item no-arrow">
+         	<a class="cpyPgLink" href="<%=request.getContextPath()%>/indexCompany">
+         		<i class="fa-solid fa-house-user fa-sm fa-fw"></i> 기업페이지
+         	</a>
+         </li>
          <div class="topbar-divider d-none d-sm-block"></div>
          <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"

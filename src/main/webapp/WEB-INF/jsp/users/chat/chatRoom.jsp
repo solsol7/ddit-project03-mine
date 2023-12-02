@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="<%=request.getContextPath()%>/resources/js/app/users/chat/regionChoiceUI.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/app/users/chat/chat.js"></script>
+
+<script>
+	$(function(){
+		console.log("${messageList }");
+	})
+</script>
 
 <div class="chatRoom-content">
 	<div class="menu-area">
@@ -10,7 +17,35 @@
 	</div>
 	<div class="chat-area" style="display:block;" data-tab-idx="1">
 		<div class="chat-message">
-		
+			<c:forEach items="${messageList }" var="chat" >
+				<c:if test="${chat ne null && chat.region eq region}">
+					<c:forEach items="${chat.chatMessage }" var="message">
+						<c:choose>
+							<c:when test='${message.sender == "server"}'>
+								<div class="chtWrap">
+									<div class="message-server">${message.message }</div>
+								</div>
+							</c:when>
+							<c:when test='${message.sender == "홍길동"}'>
+								<div class="chtWrap">
+									<div class="message-right">
+										<div class="message-sender-form">${message.sender }</div>
+										<div class="message-form">${message.message }</div>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="chtWrap">
+									<div class="message-left">
+										<div class="message-sender-form">${message.sender }</div>
+										<div class="message-form">${message.message }</div>
+									</div>
+								</div>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:if>
+			</c:forEach>
 		</div>
 		<div class="myMessage">
 			<input type="text" name="message" class="inpTypo" placeholder="내용을 입력해주세요."

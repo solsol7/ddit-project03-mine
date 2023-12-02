@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import kr.or.ddit.validate.grouphint.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,6 +20,6 @@ public class TestResultVO implements Serializable{
 	private String aplNo;
 	private Integer rprocOrder;
 	private String rsltSelect;
-	@NotNull
+	@NotNull(groups = UpdateGroup.class)
 	private Integer techScore;
 }

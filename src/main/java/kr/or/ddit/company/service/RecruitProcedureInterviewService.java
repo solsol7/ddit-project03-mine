@@ -26,5 +26,10 @@ public interface RecruitProcedureInterviewService {
 	 * 면접일정 수정
 	 */
 	public ServiceResult modifyInterviewSchd(InterviewSchdVO interviewSchdVO);
+	
+	/**
+	 * 면접일정 삭제
+	 */
+	public ServiceResult removeInterviewSchd(String intrNo);
 
 }

@@ -66,7 +66,7 @@
 
 									<span class="user_photo"><i class="fa-regular fa-user"></i></span>
 	                                <span class="user_name">
-										홍길동 님
+										<% String nm = (String) session.getAttribute("authNm");%> <p><%= nm %> 님</p>
 									</span>
 	                            </a>
 	                            <!-- Dropdown - User Information -->
@@ -173,7 +173,7 @@
 						</ul>
 					</div>
 					<div class="major">
-						<a class="depth1" href="" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst-and-ans"> 
+						<a class="depth1" href="<%=request.getContextPath() %>/member/noticeList" data-nav-track="ga_lead|main-gnb|qst-and-ans|qst-and-ans"> 
 							<span class="txt">고객센터</span>
 						</a>
 						<ul class="depth2">

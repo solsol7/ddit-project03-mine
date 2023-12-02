@@ -265,7 +265,7 @@ $(function() {
 								<td>${v.aprocDate}</td>
 								<td>${v.interviewVO.intrDate ? "등록" : "미등록"}</td>
 								<td>
-									${v.interviewVO.intrDate ? "" : `<button type="button" id="createIntrSchdBtn" class="btnSizeS colorBlue"
+									${v.interviewVO.intrDate ? "" : `<button type="button" class="btnSizeS colorBlue createIntrSchdBtn"
 									data-bs-toggle="modal" data-bs-target="#intrSchdModal"
 									data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
 									data-intr-no="${v.interviewVO.intrNo}"
@@ -326,12 +326,13 @@ $(function() {
 											</select>
 										</td>
 										<td>
-											<buttton type="button" id="intrSchdUpdateBtn" class="btnSizeXS colorBlue"
-											data-bs-toggle="modal" data-bs-target="#intrSchdUpdateModal"
-											data-intr-no="${v.interviewVO.intrNo}"
-											data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
-											data-mem-mail="${v.memMail}">수정</buttton><br>
-											<buttton type="button" class="btnSizeXS colorBlue">삭제</buttton>
+											<buttton type="button" class="btnSizeXS colorBlue intrSchdUpdateBtn"
+												data-bs-toggle="modal" data-bs-target="#intrSchdUpdateModal"
+												data-intr-no="${v.interviewVO.intrNo}"
+												data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
+												data-mem-mail="${v.memMail}">수정</buttton><br>
+											<buttton type="button" class="btnSizeXS colorBlue intrSchdDeleteBtn"
+												data-intr-no="${v.interviewVO.intrNo}">삭제</buttton>
 										</td>
 									</tr>
 								`;
@@ -614,6 +615,10 @@ $(function() {
 		}
 	})
 	
+	/* 목록 버튼 클릭 */
+	$("#recruitListBtn").on("click",function(){
+		location.href=`${cPath}/company/recruitListUI`;
+	})
 	
 	/* ================================================== 이름 클릭 이력서 모달 이벤트 ================================================== */
 	$(document).on("click",".resumeImgLink",function(){

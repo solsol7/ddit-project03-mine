@@ -33,11 +33,13 @@
       
       <!-- CSS 스타일 styles template -->
       <link href="<%=request.getContextPath()%>/resources/css/main.css" rel="stylesheet">
-<%--       <link href="<%=request.getContextPath()%>/resources/css/tiles.css" rel="stylesheet"> --%>
       <link href="<%=request.getContextPath()%>/resources/css/sb-admin-2.css" rel="stylesheet">
       <link href="<%=request.getContextPath()%>/resources/css/pattern.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/company_qna.css" rel="stylesheet">
       <!-- CSS 스타일/ custom -->
       <link href="<%=request.getContextPath()%>/resources/css/custom/les.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/custom/ssy.css" rel="stylesheet">
+      <link href="<%=request.getContextPath()%>/resources/css/custom/ksw.css" rel="stylesheet">
       
       
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -51,9 +53,9 @@
       </header>
    
       <div class="container-fluid" style="padding:0;">
-         <div class="row">
+         <div class="row width100">
             <tiles:insertAttribute name="leftMenu"/>
-            <main style="padding:0; width:88%; height:100vh; overflow:hidden;">
+            <main class="mainStyle">
                <!-- Main Content Area start -->
                   <tiles:insertAttribute name="content"/>
             </main>

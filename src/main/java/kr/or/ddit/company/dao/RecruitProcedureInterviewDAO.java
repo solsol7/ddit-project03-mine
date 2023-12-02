@@ -29,4 +29,9 @@ public interface RecruitProcedureInterviewDAO {
 	 */
 	public int updateInterviewSchd(InterviewSchdVO interviewSchdVO);
 	
+	/**
+	 * 면접일정 삭제
+	 */
+	public int deleteInterviewSchd(String intrNo);
+	
 }

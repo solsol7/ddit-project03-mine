@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.EvictingQueue;
 
 import kr.or.ddit.users.vo.ChatVO;
 import kr.or.ddit.users.vo.RegionVO;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatHandler extends TextWebSocketHandler{	
 
-	private static List<RegionVO> chatRoom = new ArrayList<>();
+	public static List<RegionVO> chatRoom = new ArrayList<>();
 	
 	ObjectMapper mapper = null;
 	
@@ -74,12 +75,24 @@ public class ChatHandler extends TextWebSocketHandler{
 		// 세션에 저장된 지역 가져오기 위해
 		Map<String, Object> sessionMap = session.getAttributes();
 		
-		// 들어온 사람의 지역과 같은 지역 chatRoom에 입장메세지 저장
+		// 들어온 사람의 지역과 같은 지역 chatRoom에 참여자 저장, 입장메세지 저장
 		for(RegionVO regionVO : chatRoom) {
 			String chatRoomRegion = regionVO.getRegion();
 			String userRegion = String.valueOf(sessionMap.get("region"));
 			if(chatRoomRegion.equals(userRegion)) {
-				regionVO.getMessageQueue().add(data);
+				if(regionVO.getMemberList() != null) {
+					regionVO.getMemberList().add(session);					
+				}else {
+					regionVO.setMemberList(new ArrayList<WebSocketSession>());
+					regionVO.getMemberList().add(session);					
+				}
+				if(regionVO.getChatMessage() != null) {
+					regionVO.getChatMessage().add(data);					
+				}else {
+					EvictingQueue<ChatVO> chatMessage = EvictingQueue.create(50);
+					regionVO.setChatMessage(chatMessage);
+					regionVO.getChatMessage().add(data);					
+				}
 			}
 		}
 	}
@@ -106,6 +119,7 @@ public class ChatHandler extends TextWebSocketHandler{
 				
 				// 한명의 참여자의 지역과 보낸사람의 지역이 같다면
 				if(userRegion.equals(chatRoomRegion)) {
+					if(!webSocketSession.isOpen()) continue;
 					// 메세지를 보낸게 서버고, 보낸사람이 아니라면
 					if(data.getSender().equals("server") && webSocketSession != session) {
 						webSocketSession.sendMessage(new TextMessage(jsonStr));
@@ -116,9 +130,9 @@ public class ChatHandler extends TextWebSocketHandler{
 				}
 			}
 			
-			/* 메세지를 그 지역의 regionVO의 messageQueue에 저장하기 */
+			/* 메세지를 그 지역의 regionVO의 chatMessage에 저장하기 */
 			if(chatRoomRegion.equals(userRegion)) {
-				regionVO.getMessageQueue().add(data);
+				regionVO.getChatMessage().add(data);
 			}
 			
 		}
@@ -151,12 +165,24 @@ public class ChatHandler extends TextWebSocketHandler{
 		// 메세지 보내는 메소드 호출
 		handleTextMessage(session,message);
 		
-		// 들어온 사람의 지역과 같은 지역 chatRoom에 퇴장메세지 저장
+		// 들어온 사람의 지역과 같은 지역 chatRoom에 참여자 저장, 퇴장메세지 저장
 		for(RegionVO regionVO : chatRoom) {
 			String chatRoomRegion = regionVO.getRegion();
 			String userRegion = String.valueOf(sessionMap.get("region"));
 			if(chatRoomRegion.equals(userRegion)) {
-				regionVO.getMessageQueue().add(data);
+				if(regionVO.getMemberList() != null) {
+					regionVO.getMemberList().add(session);					
+				}else {
+					regionVO.setMemberList(new ArrayList<WebSocketSession>());
+					regionVO.getMemberList().add(session);					
+				}
+				if(regionVO.getChatMessage() != null) {
+					regionVO.getChatMessage().add(data);					
+				}else {
+					EvictingQueue<ChatVO> chatMessage = EvictingQueue.create(50);
+					regionVO.setChatMessage(chatMessage);
+					regionVO.getChatMessage().add(data);					
+				}
 			}
 		}
 	}

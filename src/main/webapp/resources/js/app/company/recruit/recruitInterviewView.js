@@ -33,7 +33,7 @@ $(function(){
 
 
 	/* 면접일정 생성 */
-	$(document).on("click","#createIntrSchdBtn",function(){
+	$(document).on("click",".createIntrSchdBtn",function(){
 		
 		let usersNm = $(this).data("usersNm");
 		let aplNo = $(this).data("aplNo");
@@ -135,7 +135,7 @@ $(function(){
 	})
 	
 	/* 면접 일정 수정 */
-	$(document).on("click","#intrSchdUpdateBtn",function(){
+	$(document).on("click",".intrSchdUpdateBtn",function(){
 		let intrNo = $(this).data("intrNo");
 		let usersNm = $(this).data("usersNm");
 		let aplNo = $(this).data("aplNo");
@@ -152,7 +152,7 @@ $(function(){
 				let schdTag = `
 					<div class="resumeScoreModalCont">
 						<form id="intrSchdUpdateForm">
-							<input type="hidden" name="_method" value="put"/>
+							<input type="hidden" name="_method" value="put" />
 							<div class="intrItemTitle">면접대상자</div>
 							<input type="text" value="${usersNm}" class="intrSchdItem" disabled /> <br />
 							<input type="hidden" name="intrNo" value="${intrNo}" />
@@ -194,17 +194,46 @@ $(function(){
 			type : "post",
 			success : function(resp){
 				if (resp == "OK") {
-					alert("등록 성공")
+					alert("수정 성공")
 				} else {
-					alert("등록 실패")
+					alert("수정 실패")
 				}
 				$('.closeModal').trigger("click");
-				location.reload();
+				$(".intrInfoBtn").eq(1).trigger("click");
 			},
 			error : function(xhr){
 				console.log(xhr.status);
 			}
 		})
+	})
+	
+	/* 면접일정 삭제 */
+	$(document).on("click",".intrSchdDeleteBtn",function(){
+		let intrNo = $(this).data("intrNo");
+		let _method = "delete";
+		
+		if(confirm("면접일정을 삭제하시겠습니까?")){
+			$.ajax({
+				url : `${cPath}/company/recruit/interviewSchdDelete`,
+				data : {
+					"intrNo" : intrNo
+					, "_method" : _method
+				},
+				type : "post",
+				success : function(resp){
+					if (resp == "OK") {
+						alert("삭제 성공")
+					} else {
+						alert("삭제 실패")
+					}
+					$('.closeModal').trigger("click");
+					location.reload();
+				},
+				error : function(xhr){
+					console.log(xhr.status);
+				}
+			})	
+		}
 	})
 	
 	/* 면접유형 - 대면면접 선택 시에만 면접장소 입력칸 생성 */
