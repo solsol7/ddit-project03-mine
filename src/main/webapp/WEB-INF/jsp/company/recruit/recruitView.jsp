@@ -149,7 +149,7 @@
 	data-rproc-end="${currProcedureInfo.rprocEnd }">
 	<div class="wrap_content">
 		<%-- 채용 절차 탭 --%>
-		<div class="area_payment">
+		<div class="area_payment recruit_procedure_view">
 			<div class="area_tab">
 				<c:forEach items="${dataList }" var="data" varStatus="status">
 					<c:if test="${status.index%4==0 }">

@@ -1,15 +1,26 @@
 package kr.or.ddit.users.chat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResizableByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.or.ddit.users.vo.RegionVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
@@ -24,9 +35,38 @@ public class ChatController {
 			@PathVariable String region
 			, HttpSession session
 			, Model model
-	) {
+	) throws Exception {
 		session.setAttribute("region", region);
-		model.addAttribute("messageList",ChatHandler.chatRoom);
+		
+//		ObjectMapper esMapper =    new ObjectMapper();
+//		
+//		log.info("체크응:{}",ChatHandler.chatRoom);
+//		
+//		String  messageList = esMapper.writeValueAsString(ChatHandler.chatRoom);
+//		
+//		log.info("체킁:" + messageList);
+		
+		List<RegionVO>  esList= new   ArrayList<RegionVO>();
+		
+		RegionVO newRegionVO= null;
+		for(RegionVO r : ChatHandler.chatRoom) {
+			newRegionVO = new RegionVO();
+			newRegionVO.setRegion(r.getRegion());
+			newRegionVO.setChatMessage(r.getChatMessage());
+			esList.add(newRegionVO);
+		}
+		
+		ObjectMapper esMapper =    new ObjectMapper();
+//		
+//		log.info("체크응:{}",ChatHandler.chatRoom);
+//		
+		String  messageList = esMapper.writeValueAsString(esList);
+//		
+		log.info("체킁:" + messageList);
+		
+		
+		model.addAttribute("messageList",messageList);
+		
 		return "users/chat/chatRoom";
 	}
 }

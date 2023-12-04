@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/* 메인 */
+.main_content .section_status .box .progress .more{
+	margin-top : 0px !important;
+}
+
 /* 채용 recruit */
 /* 채용공고 목록 - recruitList*/
 
@@ -51,6 +56,10 @@
 }
 
 /*============================================= 채용절차 - recruit-process ============================================= */
+.recruit_procedure_view #list_position{
+	height : 650px;
+}
+
 #recruitListBtn{
 	float : left;
 }

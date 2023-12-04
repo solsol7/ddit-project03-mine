@@ -5,47 +5,45 @@
 <script src="<%=request.getContextPath()%>/resources/js/app/users/chat/chat.js"></script>
 
 <script>
-	$(function(){
-		console.log("${messageList }");
-	})
+let messageList = '${messageList}';
+console.log("변환체킁:",messageList);
 </script>
-
 <div class="chatRoom-content">
 	<div class="menu-area">
 		<button type="button" id="regionChoiceBtn" class="btnSizeXL">지역선택</button>
 		<button type="button" id="disconnectionBtn" class="btnSizeL colorRed disconnectionBtn">나가기</button>
 	</div>
 	<div class="chat-area" style="display:block;" data-tab-idx="1">
-		<div class="chat-message">
-			<c:forEach items="${messageList }" var="chat" >
-				<c:if test="${chat ne null && chat.region eq region}">
-					<c:forEach items="${chat.chatMessage }" var="message">
-						<c:choose>
-							<c:when test='${message.sender == "server"}'>
-								<div class="chtWrap">
-									<div class="message-server">${message.message }</div>
-								</div>
-							</c:when>
-							<c:when test='${message.sender == "홍길동"}'>
-								<div class="chtWrap">
-									<div class="message-right">
-										<div class="message-sender-form">${message.sender }</div>
-										<div class="message-form">${message.message }</div>
-									</div>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<div class="chtWrap">
-									<div class="message-left">
-										<div class="message-sender-form">${message.sender }</div>
-										<div class="message-form">${message.message }</div>
-									</div>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</c:if>
-			</c:forEach>
+		<div class="chat-message" data-region="${region}">
+<%-- 			<c:forEach items="${messageList }" var="chat" > --%>
+<%-- 				<c:if test="${chat.region eq region}"> --%>
+<%-- 					<c:forEach items="${chat.chatMessage }" var="message"> --%>
+<%-- 						<c:choose> --%>
+<%-- 							<c:when test='${message.sender == "server"}'> --%>
+<!-- 								<div class="chtWrap"> -->
+<%-- 									<div class="message-server">${message.message }</div> --%>
+<!-- 								</div> -->
+<%-- 							</c:when> --%>
+<%-- 							<c:when test='${message.sender == "홍길동"}'> --%>
+<!-- 								<div class="chtWrap"> -->
+<!-- 									<div class="message-right"> -->
+<%-- 										<div class="message-sender-form">${message.sender }</div> --%>
+<%-- 										<div class="message-form">${message.message }</div> --%>
+<!-- 									</div> -->
+<!-- 								</div> -->
+<%-- 							</c:when> --%>
+<%-- 							<c:otherwise> --%>
+<!-- 								<div class="chtWrap"> -->
+<!-- 									<div class="message-left"> -->
+<%-- 										<div class="message-sender-form">${message.sender }</div> --%>
+<%-- 										<div class="message-form">${message.message }</div> --%>
+<!-- 									</div> -->
+<!-- 								</div> -->
+<%-- 							</c:otherwise> --%>
+<%-- 						</c:choose> --%>
+<%-- 					</c:forEach> --%>
+<%-- 				</c:if> --%>
+<%-- 			</c:forEach> --%>
 		</div>
 		<div class="myMessage">
 			<input type="text" name="message" class="inpTypo" placeholder="내용을 입력해주세요."
@@ -79,4 +77,3 @@
 		</div>
 	</div>
 </div>
-

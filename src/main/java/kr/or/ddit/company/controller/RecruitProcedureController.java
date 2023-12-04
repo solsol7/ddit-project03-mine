@@ -122,7 +122,7 @@ public class RecruitProcedureController {
 	) {
 		// 채용절차유형에 따라 service에서 실행할 메소드 달라짐
 		
-		PaginationInfo<AProcedureVO> paging = new PaginationInfo<>();
+		PaginationInfo<AProcedureVO> paging = new PaginationInfo<>(5,5);
 		paging.setCurrentPage(currentPage);
 		variousCondition.put("rcrtNo", rcrtNo);
 		variousCondition.put("rprocOrder", rprocOrder);
