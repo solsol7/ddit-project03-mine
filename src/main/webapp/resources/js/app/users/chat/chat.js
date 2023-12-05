@@ -12,17 +12,20 @@ const fSocOpen = ()=>{
 		let jsonMessage = JSON.parse(messageList);
 		
 		let chatCode = '';
+		/* Queue에 저장된 메세지 출력하기 */
 		for(let i=0; i<jsonMessage.length; i++){
 			if(jsonMessage[i].region==region){
 				for(j=0; j<jsonMessage[i].chatMessage.length; j++){
 					if(jsonMessage[i].chatMessage[j].sender=="server"){
+					// 보낸사람이 서버라면 메세지 가운데 찍히게
 					console.log("chatMessage[i]",jsonMessage[i].chatMessage[j]);
 						chatCode += `
 								<div class="chtWrap">
 											<div class="message-server">${jsonMessage[i].chatMessage[j].message }</div>
 										</div>
 							`;
-					}else if(jsonMessage[i].chatMessage[j].sender=="홍길동"){
+					}else if(jsonMessage[i].chatMessage[j].sender==`${chatName}`){
+					// 보낸사람이 본인이라면 오른쪽에 찍히게
 						chatCode += `<div class="chtWrap">
 											<div class="message-right">
 												<div class="message-sender-form">${jsonMessage[i].chatMessage[j].sender }</div>
@@ -31,6 +34,7 @@ const fSocOpen = ()=>{
 										</div>
 							`;
 					}else{
+					// 보낸사람이 다른사람이라면 왼쪽에 찍히게
 						chatCode += `<div class="chtWrap">
 											<div class="message-left">
 												<div class="message-sender-form">${jsonMessage[i].chatMessage[j].sender }</div>
@@ -47,7 +51,7 @@ const fSocOpen = ()=>{
 	/*$(".chat-message").append(code);*/
 
 
-	let message = "홍길동님이 입장했습니다.";
+	let message = `${chatName}님이 입장했습니다.`;
 	let data = {
 		"sender":"server"
 		, "message":message
@@ -58,7 +62,7 @@ const fSocOpen = ()=>{
 }
 
 const fSocMsg = () =>{
-	console.log(event.data);
+	console.log("서버소켓에서 나에게 메세지를 보냈을 때",event.data);
 	let data = JSON.parse(event.data);
 	let sender = data.sender;
 	let message = data.message;
@@ -72,7 +76,7 @@ const fSocMsg = () =>{
 							<div class="message-server">${message}</div>
 						</div>
 						`;
-		}else if(sender=="홍길동"){
+		}else if(sender==`${chatName}`){
 			chatCode +=`<div class="chtWrap">
 							<div class="message-right">
 								<div class="message-sender-form">${sender}</div>
@@ -96,21 +100,14 @@ const fSocMsg = () =>{
 	
 
 
-const fSocClose = () => {
-	console.log()
-	let message = "홍길동님이 퇴장했습니다.";
-	let data = {
-		"sender":"server"
-		, "message":message
-	};
-	webSocket.send(JSON.stringify(data));
+const fSocClose = (e) => {
+	console.log(e);
 }
 
-// 사기를 쪼메,  회사가면 도메인명이 있으니깡, 상관없는뎅, 요긴 도메인이 없으니깡, 일시 땜방
-
+// 도메인이 없어서 임시로 localhost로든 ip로든 테스트할 수 있도록
 let domainName = location.href.split("/")[2];
-
 let webSocket = new WebSocket(`ws://${domainName}/FinalProject/chat`);
+
 //클라이언트 소켓
 webSocket.onopen = fSocOpen; // 연결된 순간 onopen 이벤트 발생
 webSocket.onmessage = fSocMsg;
@@ -125,22 +122,16 @@ keydown = () => {
 }
 
 $(function(){
-	const nameList=["홍길동","이순신","강감찬","성춘향","이몽룡"];
 	
 	let cPath = this.body.dataset.contextPath;
 
 
 	/* 보내기 버튼 클릭했을 때 이벤트 */
 	$("#sendMessage").on("click",function(){
-		/* 임시 이름 만들기 */
-		let rnd = parseInt(Math.random()*4);
-		console.log(rnd);
-		let name = nameList[rnd];
-		console.log(name);
-	
+		
 		let message = $("input[name=message]").val();
 		let data = {
-			"sender":name
+			"sender":`${chatName}`
 			, "message":message
 		};
 		webSocket.send(JSON.stringify(data));

@@ -129,12 +129,12 @@
 								</a>
 							</li>
 							<li>
-								<a href="${pageContext.request.contextPath }/company/recruitListUI" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/company/recruitListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">채용관리</span>
 								</a>
 							</li>
 							<li>
-								<a href="${pageContext.request.contextPath }/company/testListUI" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
+								<a href="${pageContext.request.contextPath }/company/testListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
 									<span class="txt">시험지관리</span>
 								</a>
 							</li>

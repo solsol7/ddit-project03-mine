@@ -1,7 +1,5 @@
 package kr.or.ddit.company.vo;
 
-import java.util.Arrays;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -24,9 +22,6 @@ public class CompanyVO {
 	@NotNull (groups = InsertGroup.class)
 	private long companyNum;
 	
-//	@NotBlank (groups = InsertGroup.class)
-//	private String companyFile;
-	
 	@Size(min = 2)
 	@NotBlank (groups = InsertGroup.class)
 	private String companyDnm;
@@ -40,7 +35,9 @@ public class CompanyVO {
 	
 	private String companyPermission;
 	
-	private String companyFile;  // 파일 업로드 (디비에 파일 이름만 저장)
+	private String companyFile;  // 파일 업로드 
+	
+	private MultipartFile companyImage;
 	
 
 }

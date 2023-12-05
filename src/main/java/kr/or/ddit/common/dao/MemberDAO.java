@@ -69,6 +69,20 @@ public interface MemberDAO {
 	 */
 	public int modifyPw(MemberVO memberVO);
 	
+	/**
+	 * 개인 회원 아이디 찾기
+	 * @param usersVo
+	 * @return
+	 */
+	public MemberVO selectIdFind(MemberVO memberVO);
+	
+	/**
+	 * 기업 회원 아이디 찾기
+	 * @param memberVO
+	 * @return
+	 */
+	public MemberVO companySelectIdFid(MemberVO memberVO);
+	
 	
 	
 	

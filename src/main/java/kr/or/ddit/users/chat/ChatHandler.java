@@ -67,44 +67,7 @@ public class ChatHandler extends TextWebSocketHandler{
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		
-//		/* 지금까지 저장된 메세지 화면에 출력하기 */
-//
-//		// 들어온 사람의 지역과 같은 지역 chatRoom에 저장된 메세지 출력하기
-//		for(RegionVO regionVO : chatRoom) {
-//			String chatRoomRegion = regionVO.getRegion();
-//			String userRegion = String.valueOf(sessionMap.get("region"));
-//			// chatMessage에 저장된 메세지가 있으면
-//			if(chatRoomRegion.equals(userRegion) && regionVO.getChatMessage().size()!=0) {
-//				List<ChatVO> chatList = new ArrayList<>();
-//				for(ChatVO chat : regionVO.getChatMessage()) {
-//					chatList.add(chat);
-//				}
-//				for(ChatVO chat : chatList) {
-//					byte[] dataByte = mapper.writeValueAsBytes(chat);
-//					TextMessage message = new TextMessage(dataByte);
-//					
-//					handleTextMessage(session, message);
-//				}
-//			}
-//		}
-		
-		// 입장 알림 메일
-//		ChatVO data = new ChatVO();
-//		data.setSender("server");
-//		data.setMessage("홍길동님이 입장하셨습니다.");
-		
-//		mapper = new ObjectMapper();
-		
-		
-		// TextMessage 세팅 위해 byte 배열로 받기
-//		byte[] dataByte = mapper.writeValueAsBytes(data);
-		
-		// TextMessage 세팅
-//		TextMessage message = new TextMessage(dataByte);
-		// 메세지 보내는 메소드 호출
-//		handleTextMessage(session,message);
-		
+				
 		// 세션에 저장된 지역 가져오기 위해
 		Map<String, Object> sessionMap = session.getAttributes();
 		// 들어온 사람의 지역과 같은 지역 chatRoom에 참여자 저장, 입장메세지 저장
@@ -143,18 +106,12 @@ public class ChatHandler extends TextWebSocketHandler{
 			
 			for(WebSocketSession webSocketSession : regionVO.getMemberList()) {
 				
-//				if(!webSocketSession.isOpen()) continue;
+				if(!webSocketSession.isOpen()) continue;
+				
 				
 				// 한명의 참여자의 지역과 보낸사람의 지역이 같다면
 				if(userRegion.equals(chatRoomRegion)) {
-					if(!webSocketSession.isOpen()) continue;
-					// 메세지를 보낸게 서버고, 보낸사람이 아니라면
-					if(data.getSender().equals("server") && webSocketSession != session) {
-						webSocketSession.sendMessage(new TextMessage(jsonStr));
-					// 메세지를 서버가 보낸게 아니라면 모든 사용자에게
-					}else if(!data.getSender().equals("server")){
-						webSocketSession.sendMessage(new TextMessage(jsonStr));
-					}
+					webSocketSession.sendMessage(new TextMessage(jsonStr));
 				}
 			}
 			
@@ -171,29 +128,31 @@ public class ChatHandler extends TextWebSocketHandler{
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		// 세션에 저장된 지역 가져오기 위해
 		Map<String, Object> sessionMap = session.getAttributes();
-//				
-//		// 나간 사람의 지역과 같은 지역 chatRoom에서 사용자 지우기
-//		for(RegionVO regionVO : chatRoom) {
-//			String chatRoomRegion = regionVO.getRegion();
-//			String userRegion = String.valueOf(sessionMap.get("region"));
-//			if(chatRoomRegion.equals(userRegion)) {
-//				regionVO.getMemberList().remove(session);
-//			}
-//		}
-//		
-//		// 퇴장메세지 세팅
-//		ChatVO data = new ChatVO();
-//		data.setSender("server");
-//		data.setMessage("홍길동님이 퇴장하셨습니다.");
-//
-//		mapper = new ObjectMapper();
-//		byte[] dataByte = mapper.writeValueAsBytes(data);
-//		
-//		TextMessage message = new TextMessage(dataByte);
-//
-//		// 메세지 보내는 메소드 호출
-//		handleTextMessage(session,message);
-//		
+				
+		// 나간 사람의 지역과 같은 지역 chatRoom에서 사용자 지우기
+		for(RegionVO regionVO : chatRoom) {
+			String chatRoomRegion = regionVO.getRegion();
+			String userRegion = String.valueOf(sessionMap.get("region"));
+			if(chatRoomRegion.equals(userRegion)) {
+				regionVO.getMemberList().remove(session);
+			}
+		}
+		
+		// 퇴장메세지 세팅
+		
+		String chatName = String.valueOf(sessionMap.get("chatName"));
+		ChatVO data = new ChatVO();
+		data.setSender("server");
+		data.setMessage(chatName + "님이 퇴장하셨습니다.");
+
+		mapper = new ObjectMapper();
+		byte[] dataByte = mapper.writeValueAsBytes(data);
+		
+		TextMessage message = new TextMessage(dataByte);
+
+		// 메세지 보내는 메소드 호출
+		handleTextMessage(session,message);
+		
 		// 들어온 사람의 지역과 같은 지역 chatRoom에 참여자 저장, 퇴장메세지 저장
 		for(RegionVO regionVO : chatRoom) {
 			String chatRoomRegion = regionVO.getRegion();

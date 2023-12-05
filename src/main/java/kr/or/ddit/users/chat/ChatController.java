@@ -33,18 +33,19 @@ public class ChatController {
 	@GetMapping("/chatRoom/{region}")
 	public String chatRoomUI(
 			@PathVariable String region
+			, @RequestParam String name
 			, HttpSession session
 			, Model model
 	) throws Exception {
 		session.setAttribute("region", region);
 		
-//		ObjectMapper esMapper =    new ObjectMapper();
-//		
-//		log.info("체크응:{}",ChatHandler.chatRoom);
-//		
-//		String  messageList = esMapper.writeValueAsString(ChatHandler.chatRoom);
-//		
-//		log.info("체킁:" + messageList);
+		String authId = String.valueOf(session.getAttribute("authId"));
+
+		if(authId.equals("null")) {
+			session.setAttribute("chatName", name);
+		}else {
+			session.setAttribute("chatName", authId);
+		}
 		
 		List<RegionVO>  esList= new   ArrayList<RegionVO>();
 		
@@ -57,13 +58,8 @@ public class ChatController {
 		}
 		
 		ObjectMapper esMapper =    new ObjectMapper();
-//		
-//		log.info("체크응:{}",ChatHandler.chatRoom);
-//		
+
 		String  messageList = esMapper.writeValueAsString(esList);
-//		
-		log.info("체킁:" + messageList);
-		
 		
 		model.addAttribute("messageList",messageList);
 		

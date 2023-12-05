@@ -6,7 +6,8 @@
 
 <script>
 let messageList = '${messageList}';
-console.log("변환체킁:",messageList);
+let chatName = '<%=session.getAttribute("chatName")%>';
+console.log("변환:",messageList);
 </script>
 <div class="chatRoom-content">
 	<div class="menu-area">
@@ -15,35 +16,7 @@ console.log("변환체킁:",messageList);
 	</div>
 	<div class="chat-area" style="display:block;" data-tab-idx="1">
 		<div class="chat-message" data-region="${region}">
-<%-- 			<c:forEach items="${messageList }" var="chat" > --%>
-<%-- 				<c:if test="${chat.region eq region}"> --%>
-<%-- 					<c:forEach items="${chat.chatMessage }" var="message"> --%>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test='${message.sender == "server"}'> --%>
-<!-- 								<div class="chtWrap"> -->
-<%-- 									<div class="message-server">${message.message }</div> --%>
-<!-- 								</div> -->
-<%-- 							</c:when> --%>
-<%-- 							<c:when test='${message.sender == "홍길동"}'> --%>
-<!-- 								<div class="chtWrap"> -->
-<!-- 									<div class="message-right"> -->
-<%-- 										<div class="message-sender-form">${message.sender }</div> --%>
-<%-- 										<div class="message-form">${message.message }</div> --%>
-<!-- 									</div> -->
-<!-- 								</div> -->
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<!-- 								<div class="chtWrap"> -->
-<!-- 									<div class="message-left"> -->
-<%-- 										<div class="message-sender-form">${message.sender }</div> --%>
-<%-- 										<div class="message-form">${message.message }</div> --%>
-<!-- 									</div> -->
-<!-- 								</div> -->
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose> --%>
-<%-- 					</c:forEach> --%>
-<%-- 				</c:if> --%>
-<%-- 			</c:forEach> --%>
+			<!-- 메세지 출력되는 곳 -->
 		</div>
 		<div class="myMessage">
 			<input type="text" name="message" class="inpTypo" placeholder="내용을 입력해주세요."

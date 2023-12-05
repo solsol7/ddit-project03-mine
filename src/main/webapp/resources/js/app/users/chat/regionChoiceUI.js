@@ -12,9 +12,20 @@ $(function(){
 
 	/* 지역 선택했을 때 이벤트 */
 	$('.regionBtn').on("click",function(){
-		let region = $(this).attr("id");
-		console.log(region);
-		location.href = `${cPath}/chat/chatRoom/${region}`;
+		let region = $(this).attr("id"); 
+		
+		let name = ``;
+		if(authId != "null"){
+			name = authId;
+		}else if(chatName != "null"){
+			name=chatName;
+		}else{
+			name = prompt("참여할 이름을 입력하세요.");
+		}
+				
+		if(name){
+			location.replace(`${cPath}/chat/chatRoom/${region}?name=${name}`);			
+		}
 	})
 	
 	/* 채팅방에서 지역선택 클릭했을 때 이벤트 */
@@ -27,6 +38,7 @@ $(function(){
 	$("#chatReturnBtn").on("click",function(){
 		$(".chat-area[data-tab-idx=2]").attr("style","display:none");
 		$(".chat-area[data-tab-idx=1]").attr("style","display:block");
+		
 	})
 
 

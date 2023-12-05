@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.ddit.common.dao.MemberDAO">
+<resultMap type="MemberVO" id="MemberMap" autoMapping="true">
+		<id property="memId" column="MEM_ID"/>
+		<association property="users" javaType="UsersVO" autoMapping="true" />
+		<association property="company" javaType="CompanyVO" autoMapping="true" />
+</resultMap>
 
 <!-- 로그인 -->
-<select id="selectUsersForAuth" resultType="MemberVO" parameterType="MemberVO">
-
+<select id="selectUsersForAuth" resultMap="MemberMap" parameterType="MemberVO">
 SELECT 
-	MEM_ID
-	,MEM_PASS
-	,MEM_TEL
-	,MEM_MAIL
-	,MEM_ZIP
-	,MEM_ADDR1
-	,MEM_ADDR2
-	,MEM_DIVISION
-	,MEM_DELETE
+    MEMBER.MEM_ID,
+    MEMBER.MEM_PASS,
+    MEMBER.MEM_TEL,
+    MEMBER.MEM_MAIL,
+    MEMBER.MEM_ZIP,
+    MEMBER.MEM_ADDR1,
+    MEMBER.MEM_ADDR2,
+    MEMBER.MEM_DIVISION,
+    MEMBER.MEM_DELETE,
+    USERS.USERS_NM,
+    COMPANY.COMPANY_DNM
 FROM MEMBER
+LEFT JOIN users ON MEMBER.MEM_ID = users.users_id
+LEFT JOIN company ON MEMBER.MEM_ID = company.company_id
 WHERE MEM_ID =#{memId} AND MEM_PASS=#{memPass} AND MEM_DELETE='N'
-
 </select>
 
 <!-- <select id="selectMember" parameterType="string" resultType="MemberVO"> -->
