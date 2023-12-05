@@ -53,8 +53,10 @@ public class ChatHandler extends TextWebSocketHandler{
 			RegionVO regionVO = new RegionVO();
 			regionVO.setRegion(region);
 			
+			// 빈 memberList 생성
 			regionVO.setMemberList(new ArrayList<>());
 			
+			// 빈 Queue 생성
 			EvictingQueue<ChatVO> chatMessage = EvictingQueue.create(50);
 			regionVO.setChatMessage(chatMessage);
 			

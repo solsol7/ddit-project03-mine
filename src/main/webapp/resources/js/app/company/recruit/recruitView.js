@@ -585,6 +585,7 @@ $(function() {
 					alert("수정 실패")
 				}
 				let confirmStatus = $(searchForm).find(":input[name=aprocPass]").val();
+				// 미확인/합격/불합격 탭 중 현재 있는 탭 클릭 이벤트
 				$('.confirmStatus').children(`[data-confirm-status=${confirmStatus}]`).trigger("click");
 
 			},

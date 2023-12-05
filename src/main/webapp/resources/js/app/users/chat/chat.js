@@ -50,7 +50,7 @@ const fSocOpen = ()=>{
 
 	/*$(".chat-message").append(code);*/
 
-
+	// 입장메세지 보내기
 	let message = `${chatName}님이 입장했습니다.`;
 	let data = {
 		"sender":"server"

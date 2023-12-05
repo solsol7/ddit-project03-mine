@@ -349,14 +349,7 @@ public class RecruitProcedureController {
 			content.createCell(4).setCellValue(applicantList.get(i).getAprocPass());
 		}
 		
-		// 파일 객체를 생성하고 저장될 경로를 지정해준다.
-		File applicantListFolder = new File(uploadFolder.getFile()+"/applicantList");
 		
-		if(!applicantListFolder.exists()) {
-			applicantListFolder.mkdirs();			
-		}
-		
-
 		
 //		String fileName = UUID.randomUUID().toString();
 //		File file = new File(applicantListFolder, fileName+".xlsx");
@@ -400,12 +393,6 @@ public class RecruitProcedureController {
 		}
 		
 		
-		/*
-		response.setContentType("ms-vnd/excel");
-		response.setHeader("Content-Disposition", "attachment;filename=example.xlsx");  //파일이름지정.
-		//response OutputStream에 엑셀 작성
-		workbook.write(response.getOutputStream());
-	*/
 	}
 	
 }

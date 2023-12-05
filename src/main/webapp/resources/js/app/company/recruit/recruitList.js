@@ -153,7 +153,7 @@ $(function(){
 		
 	})
 	
-	/* 페이지 로딩 직후 적성검사 클릭 이벤트 발생 */
+	/* 페이지 로딩 직후 진행중 클릭 이벤트 발생 */
 	$('.recruitListClass').eq(0).trigger('click');
 
 
