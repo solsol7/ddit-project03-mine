@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.company.dao.CompanyMainDAO;
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.RecruitVO;
+import kr.or.ddit.users.vo.NoticeVO;
 
 @Service
 public class CompanyMainServiceImpl implements CompanyMainService{
@@ -34,6 +36,16 @@ public class CompanyMainServiceImpl implements CompanyMainService{
 	public List<RecruitVO> retrieveUnclosedRecruitProcedureList(String authId) {
 		return dao.selectUnclosedRecruitProcedureList(authId);
 	}
-
 	
+	/* 공지사항 제목 조회*/
+	@Override
+	public List<NoticeVO> retrieveNoticeList(String authId) {
+		return dao.selectNoticeList(authId);
+	}
+
+	/* 기업정보 조회*/
+	@Override
+	public List<CompanyVO> retrieveCompanyList(String authId) {
+		return dao.selectCompanyList(authId);
+	}
 }

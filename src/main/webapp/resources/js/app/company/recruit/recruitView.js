@@ -245,14 +245,13 @@ $(function() {
 		}
 	};
 
-	/* 면접 전형 settings */
-	let intrSettings = {
+	/* 면접 전형 지원자목록 settings */
+	let intrApplicantSettings = {
 		url: `${cPath}/company/recruit/ajax/${rcrtNo}/${rprocOrder}`,
 		dataType: "json",
 		success: function(resp) {
 			console.log(resp)
 			applResult = ``;
-			schdResult = ``;
 			if (resp.dataList.length > 0) {
 				$.each(resp.dataList, function(i, v) {
 					applResult += `
@@ -273,6 +272,36 @@ $(function() {
 								</td>
 							</tr>
 						`;
+				}); // $.each 끝
+			} else {
+				applResult += `
+					<tr>
+						<td colspan="5" style="padding: 20">검색 결과가 없습니다.<br>
+	
+						</td>
+					</tr>
+				`;
+			}
+			$('.intrAppl-tbody').html(applResult);
+			$("#paging").html(resp.pagingHTML);
+
+			// 합격상태 초기값 셋팅
+			$('.intrSchd-tbody').find(`option[value=${this.confirmStatus}]`).attr("selected", true);
+		},
+		error: function(xhr) {
+			console.log("상태 : " + xhr.status);
+		}
+	};
+	
+	/* 면접 전형 면접일정관리 settings */
+	let intrScheduleSettings = {
+		url: `${cPath}/company/recruit/ajax/${rcrtNo}/${rprocOrder}`,
+		dataType: "json",
+		success: function(resp) {
+			console.log(resp)
+			schdResult = ``;
+			if (resp.dataList.length > 0) {
+				$.each(resp.dataList, function(i, v) {
 					if(v.interviewVO.intrDate){
 						schdResult += `
 							<tr>
@@ -341,13 +370,6 @@ $(function() {
 					
 				}); // $.each 끝
 			} else {
-				applResult += `
-					<tr>
-						<td colspan="5" style="padding: 20">검색 결과가 없습니다.<br>
-	
-						</td>
-					</tr>
-				`;
 				schdResult += `
 					<tr>
 						<td colspan="7" style="padding: 20">검색 결과가 없습니다.<br>
@@ -357,7 +379,6 @@ $(function() {
 				`;
 			}
 
-			$('.intrAppl-tbody').html(applResult);
 			$('.intrSchd-tbody').html(schdResult);
 			$("#paging").html(resp.pagingHTML);
 
@@ -439,7 +460,13 @@ $(function() {
 		$(".intrInfoBtn").removeClass("inSelect");
 		$(this).addClass("inSelect");
 
+		// 지원자목록 클릭인지 면접일정관리 버튼 클릭인지
+		let intrTabType = $(this).data("intrTabType");
+
 		$(searchForm).find(":input[name=intrStatus]").val("");
+		
+		// 지원자목록 클릭인지 면접일정관리 버튼 클릭인지 셋팅
+		$(searchForm).find(":input[name=intrTabType]").val(intrTabType);
 
 		let idx = $(this).data("intrTabIdx");
 
@@ -530,7 +557,7 @@ $(function() {
 		$(searchForm).submit();
 	})
 
-	/* 페이지 처리 또는 검색버튼 클릭 시 submit 이벤트 */
+	/* 페이지 처리 또는 검색버튼 클릭 또는 합격여부 클릭 시 submit 이벤트 */
 	$(searchForm).on("submit", function(event) {
 		event.preventDefault();
 
@@ -551,9 +578,26 @@ $(function() {
 			$.ajax(techSettings)
 		} else {
 			// 면접 전형일 때
-			intrSettings.data = $("#searchForm").serialize();
-			intrSettings.confirmStatus = $(searchForm).find(":input[name=aprocPass]").val();
-			$.ajax(intrSettings);
+			
+			// 지원자목록 탭인지 면접일정관리 탭인지
+			let intrTabType = $(searchForm).find(":input[name=intrTabType]").val();
+			
+			// 보낼 정보에 지원자목록 탭인지 면접일정관리 탭인지에 대한 정보 추가
+			
+			
+			if(intrTabType == "applicant"){
+				let data = $("#searchForm").serialize(); // 문자열
+				intrApplicantSettings.data = data;
+				intrApplicantSettings.confirmStatus = $(searchForm).find(":input[name=aprocPass]").val();
+				$.ajax(intrApplicantSettings);
+			}else{
+				 $("#searchForm").find(":input[name=intrStatus]").val("NotNull");
+				let data = $("#searchForm").serialize(); // 문자열
+				intrScheduleSettings.data = data;
+				intrScheduleSettings.confirmStatus = $(searchForm).find(":input[name=aprocPass]").val();
+				$.ajax(intrScheduleSettings);
+			}
+			
 		}
 	})
 
@@ -564,6 +608,7 @@ $(function() {
 	$(".aptStatus").eq(0).trigger("click");
 	$(".techStatus").eq(0).trigger("click");
 	$(".techStatus").eq(0).trigger("click");
+	$(".intrInfoBtn").eq(0).trigger("click");
 	$(".intrApplStatus").eq(0).trigger("click");
 	$(".intrSchdStatus").eq(0).trigger("click");
 

@@ -562,9 +562,9 @@
 					<div class="tab_part intrvwForm intr_part">
 						<div class="box_lookup">
 							<button type="button" class="btnSlt intrInfoBtn inSelect"
-								data-intr-tab-idx="1">지원자목록</button>
+								data-intr-tab-idx="1" data-intr-tab-type="applicant">지원자목록</button>
 							<button type="button" class="btnSlt intrInfoBtn"
-								data-intr-tab-idx="2">면접일정관리</button>
+								data-intr-tab-idx="2" data-intr-tab-type="schedule">면접일정관리</button>
 						</div>
 
 						<%-- 리스트 출력 영역 --%>
@@ -690,13 +690,14 @@
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="hidden" readonly name="rprocTypeno" placeholder="rprocTypeno" />
-				<input type="hidden" readonly name="aprocPass" placeholder="aprocPass" />
-				<input type="hidden" readonly name="usersGen" placeholder="usersGen" />
-				<input type="hidden" readonly name="usersNm" placeholder="usersNm" />
-				<input type="hidden" readonly name="sortCategory" placeholder="sortCategory" />
-				<input type="hidden" readonly name="intrStatus" placeholder="intrStatus" />
-				<input type="hidden" readonly name="page" placeholder="page" />
+				<input type="text" readonly name="rprocTypeno" placeholder="rprocTypeno" />
+				<input type="text" readonly name="aprocPass" placeholder="aprocPass" />
+				<input type="text" readonly name="usersGen" placeholder="usersGen" />
+				<input type="text" readonly name="usersNm" placeholder="usersNm" />
+				<input type="text" readonly name="sortCategory" placeholder="sortCategory" />
+				<input type="text" readonly name="intrStatus" placeholder="intrStatus" />
+				<input type="text" readonly name="intrTabType" placeholder="intrTabType" />
+				<input type="text" readonly name="page" placeholder="page" />
 			</form>
 		</div>
 	</div>

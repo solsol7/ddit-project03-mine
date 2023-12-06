@@ -465,6 +465,10 @@
 	</select>
 	
 	
+	<select id="selectInterviewScheduleList">
+	
+	</select>
+	
 	<!-- ==================================채용절차 관리 관련==================================  -->
 	<!-- 합불 여부 저장 -->
 	<update id="updatePassStatus" parameterType="AProcedureVO">

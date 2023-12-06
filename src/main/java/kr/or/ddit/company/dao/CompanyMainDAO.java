@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.RecruitVO;
+import kr.or.ddit.users.vo.NoticeVO;
 
 @Mapper
 public interface CompanyMainDAO {
@@ -27,4 +29,14 @@ public interface CompanyMainDAO {
 	 * 마감된 채용공고 제목 조회
 	 */
 	public List<RecruitVO> selectUnclosedRecruitProcedureList(String authId);
+	
+	/**
+	 * 공지사항 제목 조회
+	 */
+	public List<NoticeVO> selectNoticeList(String authId);
+	
+	/**
+	 * 기업정보 조회
+	 */
+	public List<CompanyVO> selectCompanyList(String authId);
 }

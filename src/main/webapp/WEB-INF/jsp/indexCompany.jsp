@@ -18,42 +18,39 @@
 							    <li>
 							        <a href="/zf_user/help/live/view?idx=109227" class="board_link">
 							            <span class="type">공지</span>
-							            <p class="tit">[사전안내] 기업회원 휴면해제 안내</p>
-							            <span class="date">2023.11.21</span>
+							            <p class="tit">${resultMap.noticeList[0].noticeTitle }</p>
+							            <span class="date">${resultMap.noticeList[0].noticeDate }</span>
+							        </a>
+							    </li>
+							    <li>
+							        <a href="/zf_user/help/live/view?idx=109227" class="board_link">
+							            <span class="type">공지</span>
+							            <p class="tit">${resultMap.noticeList[1].noticeTitle }</p>
+							            <span class="date">${resultMap.noticeList[1].noticeDate }</span>
+							        </a>
+							    </li>
+							    <li>
+							        <a href="/zf_user/help/live/view?idx=109227" class="board_link">
+							            <span class="type">공지</span>
+							            <p class="tit">${resultMap.noticeList[2].noticeTitle }</p>
+							            <span class="date">${resultMap.noticeList[2].noticeDate }</span>
+							        </a>
+							    </li>
+							    <li>
+							        <a href="/zf_user/help/live/view?idx=109227" class="board_link">
+							            <span class="type">공지</span>
+							            <p class="tit">${resultMap.noticeList[3].noticeTitle }</p>
+							            <span class="date">${resultMap.noticeList[3].noticeDate }</span>
+							        </a>
+							    </li>
+							    <li>
+							        <a href="/zf_user/help/live/view?idx=109227" class="board_link">
+							            <span class="type">공지</span>
+							            <p class="tit">${resultMap.noticeList[4].noticeTitle }</p>
+							            <span class="date">${resultMap.noticeList[4].noticeDate }</span>
 							        </a>
 							    </li>
 							
-							    <li>
-							        <a href="/zf_user/help/live/view?idx=109215" class="board_link">
-							            <span class="type">공지</span>
-							            <p class="tit">[SSAFY X 사람인] 사람인 기업회원 대상 SSAFY 채용박람회 신청</p>
-							            <span class="date">2023.11.09</span>
-							        </a>
-							    </li>
-							
-							    <li>
-							        <a href="/zf_user/help/live/view?idx=109208" class="board_link">
-							            <span class="type">공지</span>
-							            <p class="tit">채용광고 재구매 최대 60% 할인</p>
-							            <span class="date">2023.11.07</span>
-							        </a>
-							    </li>
-							    
-							    <li>
-							        <a href="/zf_user/help/live/view?idx=109208" class="board_link">
-							            <span class="type">공지</span>
-							            <p class="tit">채용광고 재구매 최대 60% 할인</p>
-							            <span class="date">2023.11.07</span>
-							        </a>
-							    </li>
-							    
-							    <li>
-							        <a href="/zf_user/help/live/view?idx=109208" class="board_link">
-							            <span class="type">공지</span>
-							            <p class="tit">채용광고 재구매 최대 60% 할인</p>
-							            <span class="date">2023.11.07</span>
-							        </a>
-							    </li>
 							</ul>                  
                         </div>
                    </li>
@@ -74,21 +71,21 @@
 							                        <use xlink:href="#TipBox_tail_side"></use>
 							                    </svg>
 							                </span>
-							                <div class="TipTxt">
-							                    로고를 등록해주세요!
-							                </div>
+<!-- 							                <div class="TipTxt"> -->
+<!-- 							                    로고를 등록해주세요! -->
+<!-- 							                </div> -->
 							            </div>
 							        </div>
-							        <h2 class="name">주식회사 대덕전자</h2>
-							        <span class="member_condition certify"><a href="/zf_user/memcom/certification">인증</a></span>
+							        <h2 class="name">${resultMap.companyList[0].companyNm }</h2>
+							        <span class="member_condition certify">${resultMap.companyList[0].companyPermission }</span>
 							    </div>
 							    <div class="company_name">
 							        <p class="person">
-							            담당자<strong>김담당</strong>
+							            담당자<strong>${resultMap.companyList[0].companyDnm }</strong>
 							        </p>      
 							        <button type="button" class="btn_set">
 							            <span class="blind">설정하기</span>
-							            <span><i class="fa-solid fa-gear"></i> </span>
+							            <span><a href="<%=request.getContextPath()%>/companyMemInfo"><i class="fa-solid fa-gear"></i></a> </span>
 							        </button>
 							    </div>
 							</div>                         

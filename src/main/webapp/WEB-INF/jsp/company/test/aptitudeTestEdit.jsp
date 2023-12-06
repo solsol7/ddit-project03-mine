@@ -21,7 +21,7 @@
 		<div class="test_title">
 			<div class="title_text" style="display:inline-block">제목 :</div>
 			<form:input path="testTitle" class="inpTypo title_input"/>
-			<form:errors path="testTitle" element="span" cssClass="error"/>
+			<form:errors path="testTitle" element="span"  class="errors"/>
 		</div>
 	</div>
 	
@@ -38,7 +38,7 @@
 							
 							<td colspan="2">
 								<form:textarea path="qstnList[${i }].qstnCont" class="inpTypo ques_area"/>
-								<form:errors path="qstnList[${i }].qstnCont" element="span" cssClass="error"/>
+								<form:errors path="qstnList[${i }].qstnCont" element="span" class="errors"/>
 							</td>
 						</tr>
 						<tr class="align_center">
@@ -56,19 +56,19 @@
 								
 								<td>
 									<form:textarea path="qstnList[${i }].itemList[${j }].itemCont" class="inpTypo item_area" />
-									<form:errors path="qstnList[${i }].itemList[${j }].itemCont" element="span" cssClass="error"/>
+									<form:errors path="qstnList[${i }].itemList[${j }].itemCont" element="span"  class="errors"/>
 								</td>
 								<c:choose>
 									<c:when test="${j+1 eq targetTest.qstnList[i].qstnAnswer }">
 										<td>
 											<input class="input_radio" name="qstnList[${i }].qstnAnswer" type="radio"  value="${j+1 }" checked/>
-											<form:errors path="qstnList[${i }].qstnAnswer" element="span" cssClass="error"/>
+											<form:errors path="qstnList[${i }].qstnAnswer" element="span"  class="errors"/>
 										</td>
 									</c:when>
 									<c:otherwise>
 										<td>
 											<input class="input_radio" name="qstnList[${i }].qstnAnswer" value="${j+1 }" type="radio"/>
-											<form:errors path="qstnList[${i }].qstnAnswer" element="span" cssClass="error"/>
+											<form:errors path="qstnList[${i }].qstnAnswer" element="span"  class="errors"/>
 										</td>
 									</c:otherwise>
 								</c:choose>

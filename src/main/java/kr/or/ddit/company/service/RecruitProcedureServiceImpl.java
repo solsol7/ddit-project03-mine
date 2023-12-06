@@ -54,7 +54,7 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 
 	}
 
-	/* 서류전형의 지원자 목록 조회 */
+	/* 지원자 목록 조회 */
 	@Override
 	public void retrieveApplicantList(PaginationInfo<AProcedureVO> paging) {
 		int totalRecord = dao.selectApplicantTotalRecord(paging);
@@ -81,14 +81,15 @@ public class RecruitProcedureServiceImpl implements RecruitProcedureService{
 			dataList = dao.selectTestApplicantList(paging);
 			break;
 		default:
-			totalRecord = dao.selectIntrApplicantTotalRecord(paging);
-			paging.setTotalRecord(totalRecord);
 			// 면접
 			// 지원자목록 - 이름, 생년월일, 성별, 면접일정 등록여부
 			// 면접일정 등록여부 -> 그 지원번호와 채용공고번호와 채용공고순서에 해당하는 레코드가 있으면 등록된것
 			// 면접일정목록 - 이름, 생년월일, 성별, 면접일시, 메일, 알림 건수
 			// 알림건수 -> 면접알림 테이블에 지원번호와 채용공고번호와 채용공고순서에 해당하는 레코드가 있으면 보낸것
+			totalRecord = dao.selectIntrApplicantTotalRecord(paging);
+			paging.setTotalRecord(totalRecord);
 			dataList = dao.selectInterviewApplicantList(paging);
+			
 			break;
 		}
 		

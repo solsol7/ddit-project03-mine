@@ -80,5 +80,34 @@
 		     ]]>
 	</select>
 	
+	<select id="selectNoticeList" resultType="NoticeVO" parameterType="string">
+		SELECT NOTICE_TITLE, TO_CHAR(NOTICE_DATE, 'YYYY.MM.DD') AS NOTICE_DATE
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT NOTICE_TITLE, NOTICE_DATE
+			        FROM
+			            NOTICE
+			        WHERE NOTICE_DELETE = 'N'
+			        ORDER BY NOTICE_DATE DESC
+			    ) A
+			) B
+	</select>
+	
+	<select id="selectCompanyList" resultType="CompanyVO" parameterType="string">
+			SELECT COMPANY_NM, COMPANY_DNM, DECODE(COMPANY_PERMISSION,'Y','승인','N','반려','U','미확인','미확인') COMPANY_PERMISSION
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT COMPANY_NM, COMPANY_DNM, COMPANY_PERMISSION
+			        FROM
+			            COMPANY
+			            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+				        WHERE
+						COMPANY_ID= #{authId}
+						</if>
+			    ) A
+			) B
+	</select>
 	
 </mapper>

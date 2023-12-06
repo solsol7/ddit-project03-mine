@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.or.ddit.company.service.CompanyMainService;
+import kr.or.ddit.company.vo.CompanyVO;
 import kr.or.ddit.company.vo.RecruitVO;
+import kr.or.ddit.users.vo.NoticeVO;
 
 @Controller
 public class CompanyMainController {
@@ -38,6 +40,14 @@ public class CompanyMainController {
 		resultMap.put("unClosedRecruitProcedureCount", unClosedRecruitProcedureCount);
 		resultMap.put("closedRecruitProcedureList", closedRecruitProcedureList);
 		resultMap.put("unclosedRecruitProcedureList", unclosedRecruitProcedureList);
+		
+		/* 공지사항 조회 관련 데이터 */
+		List<NoticeVO> noticeList = service.retrieveNoticeList(authId);
+		resultMap.put("noticeList", noticeList);
+		
+		/* 기업정보 조회 관련 데이터 */
+		List<CompanyVO> companyList = service.retrieveCompanyList(authId);
+		resultMap.put("companyList", companyList);
 		
 		model.addAttribute("resultMap", resultMap);
 		
