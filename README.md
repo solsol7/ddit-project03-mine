@@ -18,6 +18,9 @@
 - **Database** : Oracle DB(11xe)
 - **ORM** : Mybatis
 
+## :video_camera: 프로젝트 영상
+- [내 파트 영상](https://solsol7.tistory.com/133)
+
 ## 📌 나의 기능
 ### 기업회원
 #### 채용 관리
