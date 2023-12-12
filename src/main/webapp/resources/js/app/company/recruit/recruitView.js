@@ -309,7 +309,7 @@ $(function() {
 									<a href="javascript:;" class="resumeImgLink"
 										data-bs-toggle="modal" data-bs-target="#resumeImgModal"
 										data-resatt-no="${v.resattNo}">${v.users.usersNm}</a><br>
-									<buttton type="text" class="btnSizeXS">${v.interviewVO.intrTypeNm}</buttton>
+									<buttton type="text" class="btnSizeXS rcrtBtnStyle">${v.interviewVO.intrTypeNm}</buttton>
 								</td>
 								<td class="usersBir">${v.users.usersBir}</td>
 								<td class="usersGen">${v.users.usersGen == 'F' ? "여" : "남"}</td>
@@ -336,12 +336,16 @@ $(function() {
 												<option value="fail">불합격</option>
 											</select>
 										</td>
+										<td>
+											<buttton type="button" class="btnSizeXS disabled">수정</buttton><br>
+											<buttton type="button" class="btnSizeXS disabled">삭제</buttton>
+										</td>
 									</tr>
 								`;
 						} else {
 							schdResult += `
 										<td>
-											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn"
+											<buttton type="button" class="btnSizeXS colorBlue sendMailBtn mb-1"
 												data-bs-toggle="modal" data-bs-target="#sendMailModal"
 												data-users-nm="${v.users.usersNm}"
 												data-mem-mail="${v.memMail}" data-intr-no="${v.interviewVO.intrNo}">메일발송</buttton><br>
@@ -355,12 +359,12 @@ $(function() {
 											</select>
 										</td>
 										<td>
-											<buttton type="button" class="btnSizeXS colorBlue intrSchdUpdateBtn"
+											<buttton type="button" class="btnSizeXS intrSchdUpdateBtnStyle intrSchdUpdateBtn"
 												data-bs-toggle="modal" data-bs-target="#intrSchdUpdateModal"
 												data-intr-no="${v.interviewVO.intrNo}"
 												data-apl-no="${v.aplNo}" data-users-nm="${v.users.usersNm}"
 												data-mem-mail="${v.memMail}">수정</buttton><br>
-											<buttton type="button" class="btnSizeXS colorBlue intrSchdDeleteBtn"
+											<buttton type="button" class="btnSizeXS colorRed intrSchdDeleteBtn"
 												data-intr-no="${v.interviewVO.intrNo}">삭제</buttton>
 										</td>
 									</tr>

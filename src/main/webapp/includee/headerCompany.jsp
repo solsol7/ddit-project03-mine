@@ -21,45 +21,6 @@
 					<c:when test="${not empty user}">
 						<!-- 로그인 했을 때 시작 -->
 						<div class="loginType">
-							<!-- 알림 -->
-							<div class="wrap_member" >
-								<button class="btn_bell expanded" type="button" aria-label="개인화 메뉴" aria-haspopup="true" aria-expanded="true">
-									<span class="user_name">
-										<i class="fa-regular fa-bell"></i>
-									</span>
-								</button>
-								<div class="layer_member" style="padding:0; border:none;">
-									<div class="top_layer_assist alarm_layer_content">
-			                			<strong class="title">알림</strong>
-			                			<div class="save_list_area alarm_area ScrollBar">
-			                      			<div class="empty_list alarm_area" id="empty_today_list_content"></div>
-					                        <div class="my_activity" id="my-activity"> 
-					                        	<div class="alarm_list">          
-										            <div class="save_list">
-										                <span class="date">10/30(월) 00:00</span>
-										                <ul>
-										                    <li class="activity">
-										                        <button type="button" class="activity_name off"> </button>
-										                        
-										                    </li>
-										                </ul>
-										            </div>
-										            <div class="save_list">
-										                <span class="date">10/23(월) 00:00</span>
-										                <ul>
-										                    <li class="activity">
-										                        <button type="button" class="activity_name off"></button>
-										                        
-										                    </li>
-										                </ul>
-										            </div>
-					
-												</div>
-											</div>
-			                   			 </div>
-			                        </div>
-								</div>
-							</div>
 							<!-- 개인정보 -->
 	                        <div class="wrap_member nav-item dropdown no-arrow">
 	                            <a class="btn_member nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -110,58 +71,33 @@
 					<div class="major recruit">
 						<a class="depth1" href="<%=request.getContextPath()%>/indexCompany"
 							data-nav-track="ga_lead|main-gnb|recruit|recruit"> 
-							<span class="txt">HOME</span>
+							<span class="txt" style="color:#0472d1;">HOME</span>
 						</a>
 					</div>
-<!-- 					<div class="major"> -->
-<!-- 						<a class="depth1" href="/zf_user/jobs/public/home" data-nav-track="ga_lead|main-gnb|recruit|public">  -->
-<!-- 							<span class="txt">공고등록</span> -->
-<!-- 						</a> -->
-<!-- 					</div> -->
 					<div class="major">
-						<a class="depth1" href="javascript:;" data-nav-track="ga_lead|main-gnb|contents|contents"> 
+						<a class="depth1" href="<%=request.getContextPath()%>/recruit/form" data-nav-track="ga_lead|main-gnb|company_info|company_info">
+							<span class="txt">공고등록</span>
+						</a>
+					</div>
+					<div class="major">
+						<a class="depth1" href="<%=request.getContextPath()%>/company/recruitListUI" data-nav-track="ga_lead|main-gnb|company_info|company_info">
 							<span class="txt">채용관리</span>
 						</a>
-						<ul class="depth2">
-							<li>
-								<a href="<%=request.getContextPath()%>/recruit/form" data-nav-track="ga_lead|main-gnb|contents|home"> 
-									<span class="txt">공고등록</span>
-								</a>
-							</li>
-							<li>
-								<a href="${pageContext.request.contextPath }/company/recruitListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
-									<span class="txt">채용관리</span>
-								</a>
-							</li>
-							<li>
-								<a href="${pageContext.request.contextPath }/company/testListUI" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
-									<span class="txt">시험지관리</span>
-								</a>
-							</li>
-						</ul>
 					</div>
-		
 					<div class="major">
-						<a class="depth1" href="/zf_user/company-review" data-nav-track="ga_lead|main-gnb|company_info|company_info">
-							<span class="txt">지원관리</span>
+						<a class="depth1" href="<%=request.getContextPath()%>/company/testListUI" data-nav-track="ga_lead|main-gnb|company_info|company_info">
+							<span class="txt">시험지관리</span>
 						</a>
 					</div>
 					<div class="major">
-						<a class="depth1" href="<%=request.getContextPath()%>/imageAdvrtView" data-nav-track="ga_lead|main-gnb|contents|contents"> 
-							<span class="txt">프로모션</span>
+						<a class="depth1" href="<%=request.getContextPath()%>/imageAdvrtView" data-nav-track="ga_lead|main-gnb|company_info|company_info">
+							<span class="txt">이미지광고</span>
 						</a>
-						<ul class="depth2">
-							<li>
-								<a href="<%=request.getContextPath()%>/imageAdvrtView" data-nav-track="ga_lead|main-gnb|contents|home"> 
-									<span class="txt">이미지광고</span>
-								</a>
-							</li>
-							<li>
-								<a href="<%=request.getContextPath()%>/cmpAdvrtView" target="_blank" data-nav-track="ga_lead|main-gnb|contents|mentoring"> 
-									<span class="txt">기업광고</span>
-								</a>
-							</li>
-						</ul>
+					</div>
+					<div class="major">
+						<a class="depth1" href="<%=request.getContextPath()%>/cmpAdvrtView" data-nav-track="ga_lead|main-gnb|company_info|company_info">
+							<span class="txt">기업광고</span>
+						</a>
 					</div>
 				</div>
 			</div>

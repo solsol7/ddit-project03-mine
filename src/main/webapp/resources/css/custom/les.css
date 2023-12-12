@@ -1,7 +1,9 @@
 @charset "UTF-8";
+/* 메인 */
+/* .main_content .section_status .box .progress .more{ */
+/* 	margin-top : 0px !important; */
+/* } */
 
-input {-webkit-appearance: auto !important;} /* 라디오버튼 보이게 처리 */
- 
 /* 채용 recruit */
 /* 채용공고 목록 - recruitList*/
 
@@ -364,7 +366,7 @@ input {-webkit-appearance: auto !important;} /* 라디오버튼 보이게 처리
 /* 채용과정 - recruitProcedure */
 .recruitViewTbl a:link,.recruitViewTbl a:visited{
 	text-decoration : underline;
-	color: blue;
+	color: #2365f2;
 }
 
 
@@ -747,6 +749,10 @@ input {-webkit-appearance: auto !important;} /* 라디오버튼 보이게 처리
 	font-size : 1.3rem;
 }
 
+.message-sender-form{
+	
+}
+
 .message-server{
 	text-align: center;
 }
@@ -757,4 +763,8 @@ input {-webkit-appearance: auto !important;} /* 라디오버튼 보이게 처리
 
 .message-left{
 	float : left !important; 
+}
+
+.hasDatepicker {
+	border:0;
 }

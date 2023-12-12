@@ -690,14 +690,14 @@
 			<form
 				action="<%=request.getContextPath()%>/company/recruit/ajax/${rcrtNo}/${rprocOrder}"
 				id="searchForm">
-				<input type="text" readonly name="rprocTypeno" placeholder="rprocTypeno" />
-				<input type="text" readonly name="aprocPass" placeholder="aprocPass" />
-				<input type="text" readonly name="usersGen" placeholder="usersGen" />
-				<input type="text" readonly name="usersNm" placeholder="usersNm" />
-				<input type="text" readonly name="sortCategory" placeholder="sortCategory" />
-				<input type="text" readonly name="intrStatus" placeholder="intrStatus" />
-				<input type="text" readonly name="intrTabType" placeholder="intrTabType" />
-				<input type="text" readonly name="page" placeholder="page" />
+				<input type="hidden" readonly name="rprocTypeno" placeholder="rprocTypeno" />
+				<input type="hidden" readonly name="aprocPass" placeholder="aprocPass" />
+				<input type="hidden" readonly name="usersGen" placeholder="usersGen" />
+				<input type="hidden" readonly name="usersNm" placeholder="usersNm" />
+				<input type="hidden" readonly name="sortCategory" placeholder="sortCategory" />
+				<input type="hidden" readonly name="intrStatus" placeholder="intrStatus" />
+				<input type="hidden" readonly name="intrTabType" placeholder="intrTabType" />
+				<input type="hidden" readonly name="page" placeholder="page" />
 			</form>
 		</div>
 	</div>
