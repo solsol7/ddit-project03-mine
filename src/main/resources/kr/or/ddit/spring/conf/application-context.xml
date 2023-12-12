@@ -14,5 +14,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-	<util:properties id="appInfo" location="classpath:kr/or/ddit/appInfo.properties"/>
+	<beans profile="dev">
+		<util:properties id="appInfo" location="classpath:kr/or/ddit/appInfo_dev.properties"/>
+	</beans>
+	<beans profile="stage">
+		<util:properties id="appInfo" location="classpath:kr/or/ddit/appInfo_stage.properties"/>
+	</beans>
 </beans>

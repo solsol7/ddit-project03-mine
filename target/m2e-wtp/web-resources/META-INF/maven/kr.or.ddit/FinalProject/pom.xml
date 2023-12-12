@@ -30,6 +30,12 @@
 				<version>3.4.0</version>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+		        <directory>src/main/resources</directory>
+		        <filtering>true</filtering>
+	      	</resource>
+		</resources>
 	</build>
 	<dependencies>
 		<!-- 스프링 IoC 컨테이너 -->
