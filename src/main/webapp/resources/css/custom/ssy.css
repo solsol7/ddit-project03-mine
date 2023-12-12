@@ -195,7 +195,7 @@
 }
 
 .loginType {
-	width: 186px;
+	width: 130px;
 	display: flex;
 	justify-content: space-around;
 }
@@ -508,7 +508,7 @@
 }
 
 .textAlignCenter {
-	text-align: center;
+	text-align: center !important;
 }
 
 .inputStyle {
@@ -721,3 +721,329 @@
     font-size: 18px;
 }
 
+.boardTxt {
+	float: left;
+}
+
+.boardMore {
+	width: 60px;
+    float: right;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    color: #7c7a7a;
+}
+
+.jstfyCntntCntr {
+	display: flex;
+    justify-content: center;
+}
+
+.cursorPoint {
+	cursor: pointer;
+}
+
+.pl180 {
+	padding-left : 180px;
+}
+
+.lineHeight1 {
+	line-height: 1;
+}
+
+.companyNumStyle {
+	width: 289px !important;
+}
+
+.fileStyle {
+	height: 290px;
+}
+
+.join_cont_wrap .box_file_upload {
+	margin-left: 56px;
+	margin-top: 15px;
+}
+
+.join_cont_wrap .agree_box {
+    border-color: var(--gray70);
+}
+
+.rctRgLst {
+	position: relative;
+    z-index: 1;
+    margin: 56px auto 80px auto !important;
+    width: 1260px;
+}
+
+
+.rctRgLst .title_common {
+    display: inline-block;
+    color: #444;
+    font-size: 32px;
+    font-weight: normal;
+    letter-spacing: -4px;
+    line-height: 36px;
+    vertical-align: top;
+}
+
+.rctRgLst .list_info {
+	justify-content: center;
+}
+
+.rctRgLst .list_select>.InpBox {
+	width: 100% !important;
+}
+
+.rctRgLst .InpBox .searchUI {
+	width: 100%;
+    display: flex;
+}
+
+.rctRgLst .InpBox .searchUI .swselect {
+	width: 100%;
+	height: 50px;
+	border-color: #d1d3e2;
+}
+
+.common_recruilt_list .swselect {
+	width: 100%;
+	height: 50px;
+	border-color: #d1d3e2;
+}
+
+.rctRgLst .inpBoxStyle {
+	width: 100% !important;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.rctRgLst .inpBoxStyle .btn {
+	height: 50px;
+    width: 80px;
+}
+
+.rctRgLst .swText {
+	width: 500px;
+    height: 50px;
+}
+
+.rctRgLst .totalRecord {
+	color: #4e73df;
+    font-weight: 600;
+}
+
+.rctRgLst .list_recruiting .list_body .list_item .notification_info .job_tit .str_tit {
+	max-width: 270px;
+}
+
+.guideStyle {
+	width: 700px !important;
+}
+
+.guideStyle>dd {
+	width: 550px !important;
+}
+
+.wrapRecruitFrm {
+	width: 975px;
+}
+
+.wrapRecruitFrm .lbl {
+	padding: 12px 14px;
+    color: var(--gray100) !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    letter-spacing: -1px !important;
+    border-radius: 63px;
+    background-color: var(--gray30);
+    margin-top: 10px;
+    cursor: auto;
+}
+
+.clsChaStyle {
+	padding: 12px 14px;
+    color: var(--gray100) !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    letter-spacing: -1px !important;
+    border-radius: 63px;
+    background-color: var(--gray30);
+    margin-top: 10px;
+    cursor: auto;
+    text-align: center;
+    border: none !important;
+}
+
+.borderNone {
+	border: none !important;
+}
+
+.proAddBtnStyle {
+	margin-top: 10px;
+    width: 423px;
+    height: 45px !important;
+    font-weight: 600;
+}
+
+.proaddStyle {
+    margin-top: 13px;
+}
+
+.proaddStyle .TypoBox {
+	margin-left: 15px;
+    margin-top: 5px;
+}
+
+.aaStyle {
+	width: 460px;
+}
+
+.proaddStyle>span {
+/* 	display: flex; */
+}
+
+.proSelectStyle {
+	width: 160px;
+}
+
+.formTypeStyle {
+	z-index: 1;
+	height: 50px;
+    margin-top: 10px;
+    display: flex;
+    border: 1px solid #fff;
+    padding-top: 10px !important;
+}
+
+.formTypeStyle .proSelectStyle {
+	width: 160px !important;
+}
+
+.proDelBtnStyle {
+	margin-top: 20px;
+    height: 48px !important;
+    width: 84px !important;
+    background: #F44336 !important;
+    border: none !important;
+}
+
+
+.boardListWrap, .bdDtlWrap {
+	width: 1000px;
+    margin: 0 auto;
+}
+
+.cmpLgo {
+	display: block;
+    overflow: hidden;
+    margin: 0 auto 12px;
+    width: 70px;
+    height: 70px;
+    border: 1px solid var(--gray40);
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.noDataStyle {
+	width: 300px;
+    height: 250px;
+    margin-top: 77px;
+    margin-left: 300px;	
+}
+
+
+.cpnyEmtyInfo {
+	font-size: 15px;
+    color: #878787;
+}
+
+.cmpyNmStyle {
+	display: flex;
+    margin-top: 0;
+    width: 210px !important;
+    height: 86px;
+    border: 1px solid var(--gray30);
+    border-radius: 12px;
+    box-sizing: border-box !important;
+    background: var(--white);
+    align-items: center;
+    justify-content: center;
+
+}
+
+.cmpyNmStyle img {
+	max-width: 143px;
+    height: auto;
+    max-height: 54px;
+}
+
+.listItemStyle {
+	border-bottom: none !important;
+}
+
+.inpSelStyle {
+	height: inherit;
+}
+
+.inpSelStyle select {
+	height: 36px;
+}
+
+.cmpyDtlCnt {
+	height: 940px;
+	background: #f4f6fa !important;
+}
+
+.rcrtBtnStyle {
+	display: inline-block;
+    padding: 0 5px 3px;
+    height: 22px;
+    border: 1px solid #2696ef;
+    border-radius: 11px;
+    box-sizing: border-box;
+    color: #2696ef;
+    font-size: 12px;
+    letter-spacing: -1px;
+    line-height: 21px;
+    text-align: center;
+    background-color: #effaff;
+    margin-top: 5px;
+}
+
+.colorDarkBlue{
+	background: #4e73df !important;	
+}
+
+.intrSchdUpdateBtnStyle {
+	background: #fff;
+    border: 1px solid #2365f2;
+    color: #2365f2;
+    margin-bottom: 5px;
+}
+
+.applyBtnStyle {
+	border: 1px solid var(--coral110);
+    color: var(--coral110);
+    width: 140px;
+    height: 38px;
+    font-size: 14px !important;
+    letter-spacing: -1px;
+    line-height: 36px;
+    background: var(--white);
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.vewTblSTyle td {
+	font-size: 17px;
+}
+
+.listPosition {
+	height: 620px !important;
+}
+
+.txtRed {
+	color:#F44336 !important
+}
