@@ -6,6 +6,7 @@
 
 <script>
 let messageList = '${messageList}';
+let authId = "<%=session.getAttribute("authId")%>";
 let chatName = '<%=session.getAttribute("chatName")%>';
 console.log("변환:",messageList);
 </script>

@@ -22,7 +22,7 @@ $(function(){
 		}else{
 			name = prompt("참여할 이름을 입력하세요.");
 		}
-				
+		console.log(name);
 		if(name){
 			location.replace(`${cPath}/chat/chatRoom/${region}?name=${name}`);			
 		}
