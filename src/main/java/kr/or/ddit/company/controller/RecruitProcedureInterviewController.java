@@ -114,7 +114,7 @@ public class RecruitProcedureInterviewController {
 
 	
 	/* 면접일정 메일 전송 컨트롤러 */
-	@GetMapping(value ="/recruit/interview/mail",produces = "application/json;charset=utf-8")
+	@GetMapping(value ="/recruit/interview/mail")
 	@ResponseBody
 	public String sendIntrSchdMail(
 			//String toMail,HttpServletRequest request

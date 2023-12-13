@@ -1,5 +1,6 @@
 package kr.or.ddit.company.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -20,10 +21,28 @@ public class RecruitProcedureInterviewServiceImpl implements RecruitProcedureInt
 	/* 면접일정 등록 */
 	@Override
 	public ServiceResult createInterviewSchd(InterviewSchdVO interviewSchdVO) {
+		// 면접일정 등록
 		int rowcnt = dao.insertInterviewSchd(interviewSchdVO);
+		
+		boolean successFlag = true;
 		
 		ServiceResult result = null;
 		if(rowcnt > 0) {
+			Map<String, String> paramMap = new HashMap<>();
+			paramMap.put("intrNo", interviewSchdVO.getIntrNo());
+			
+			// 알람 카운트
+			int mailCnt = dao.insertIntrMail(paramMap);
+			if(mailCnt > 0) {
+				successFlag &= true;
+			}else {
+				successFlag &= false;
+			}
+		}else {
+			successFlag = false;
+		}
+		
+		if(successFlag) {
 			result = ServiceResult.OK;
 		}else {
 			result = ServiceResult.FAIL;
