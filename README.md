@@ -1,5 +1,6 @@
 # SpringFramework-Project-내 일을 JOB자
 
+* 기업 아이디 : lg001/ 비밀번호 : java
 
 ## 🖥️ 프로젝트 소개
 사람인을 참고하여 만든 구인구직-채용연계 사이트입니다
